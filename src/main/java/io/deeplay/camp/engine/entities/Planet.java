@@ -3,16 +3,17 @@ package io.deeplay.camp.engine.entities;
 public class Planet {
     private final int points;
     private final PlanetState state;
-    private final int[] coordinates;
+    private final Cell cell;
 
-    public Planet(int points, PlanetState state, int[] coordinates) {
+    public Planet(int points, PlanetState state, Cell cell) {
         this.points = points;
-        this.coordinates = coordinates;
+        this.cell = cell;
         this.state = state;
     }
-    public Planet(int points, int[] coordinates) {
+
+    public Planet(int points, Cell cell) {
         this.points = points;
-        this.coordinates = coordinates;
+        this.cell = cell;
         this.state = PlanetState.FREE;
     }
 
@@ -20,8 +21,8 @@ public class Planet {
         return points;
     }
 
-    public int[] getCoordinates() {
-        return coordinates;
+    public Cell getCell() {
+        return cell;
     }
 
     //Ship newShip, не придумали механизм, как отрабатывать с кораблем
@@ -32,18 +33,19 @@ public class Planet {
                 return true;
             }
         },
-        CAPTURED{
+        CAPTURED {
             @Override
             public boolean isCaptureable() {
                 return false;
             }
         },
-        FREE{
+        FREE {
             @Override
             public boolean isCaptureable() {
                 return true;
             }
         };
+
         public abstract boolean isCaptureable();
     }
 }
