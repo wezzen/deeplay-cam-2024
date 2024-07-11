@@ -20,17 +20,17 @@ public class Field {
         for (int i = 0; i < size; i++) {
             for (int j = 0; j <= i; j++) {
                 if (random.nextInt(2) == 1) {
-                    board[i][j].generatePlanet();
+                    board[i][j]=new Cell(i,j,true);
+                    if (i != j) {
+                        board[j][i]=new Cell(j,i,true);
+                    }
+                }
+                board[i][j]= new Cell(i,j,false);
+                if (i != j) {
+                    board[j][i]= new Cell(j,i,false);
                 }
             }
         }
 
-        for (int i = 0; i < size; i++) {
-            for (int j = i + 1; j < size; j++) {
-                board[i][j] = board[j][i];
-            }
-        }
-
     }
-    //Заглушка
 }

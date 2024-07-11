@@ -9,9 +9,14 @@ public class Cell {
     Planet planet;
     boolean isPlanet;
 
-    public void generatePlanet() {
+    public Cell(int x, int y, boolean isPlanet) {
         Random random = new Random();
-        isPlanet = true;
-        planet = new Planet(random.nextInt(10));
+        this.isPlanet = isPlanet;
+        if (isPlanet) {
+            planet = new Planet(random.nextInt(10));
+        }
+
+        this.x = x;
+        this.y = y;
     }
 }
