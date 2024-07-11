@@ -28,22 +28,22 @@ public class Planet {
     public enum PlanetState {
         IS_OCCUPIED {
             @Override
-            public boolean isСaptureable() {
+            public boolean isCaptureable() {
                 return true;
             }
         },
         CAPTURED{
             @Override
-            public boolean isСaptureable() {
+            public boolean isCaptureable() {
                 return false;
             }
         },
         FREE{
             @Override
-            public boolean isСaptureable() {
+            public boolean isCaptureable() {
                 return true;
             }
         };
-        public abstract boolean isСaptureable();
+        public abstract boolean isCaptureable();
     }
 }
