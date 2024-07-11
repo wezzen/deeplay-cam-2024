@@ -3,16 +3,30 @@ package io.deeplay.camp.engine.entities;
 import java.util.Collection;
 import java.util.Objects;
 
+/**
+ * Класс – представлние для Корабля
+ */
 public abstract class Ship {
+    /**
+     * Корабль имеет:
+     * 1) атакующие очки
+     * 2) Тип
+     * 3) флот, для контроля принадлежности к нему
+     * 4) хэшкод для распознования корабля
+     */
     int attackPoints;
     final ShipType shipType;
-    private final boolean isFirstIncome; //Пока не могу про принадлежность этого поля что-то сказать
-    private final int cachedHashCode;
+    private final Fleet fleetIncome;
 
-    protected Ship(ShipType shipType, boolean isFirstMove) {
+    protected Ship(ShipType shipType, Fleet fleetIncome) {
         this.shipType = shipType;
-        this.isFirstIncome = isFirstMove;
-        this.cachedHashCode = hashCode();
+        this.fleetIncome = fleetIncome;
+        attackPoints = shipType.value;
+    }
+    public Ship(ShipType shipType) {
+        this.shipType = shipType;
+        this.fleetIncome = null;
+        attackPoints = shipType.value;
     }
 
     public int getAttackPoints() {
@@ -23,29 +37,12 @@ public abstract class Ship {
         return shipType;
     }
 
-    public boolean isFirstIncome() {
-        return isFirstIncome;
+    public Fleet fleetIncome() {
+        return this.fleetIncome;
     }
-
-    public abstract int locationBonus();
 
     public abstract Ship replenishFleet(Fleet fleet);
-
-    public abstract Collection<Move> calculateLegalReplenish(final Field field);
-
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Ship ship = (Ship) o;
-        return attackPoints == ship.attackPoints && isFirstIncome == ship.isFirstIncome && cachedHashCode == ship.cachedHashCode && shipType == ship.shipType;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(attackPoints, shipType, isFirstIncome, cachedHashCode);
-    }
+    public abstract Collection<Move> calculateLegalReplenish();
 
     public enum ShipType {
         BASIC(100, "Basic");

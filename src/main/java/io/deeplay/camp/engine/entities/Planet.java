@@ -1,45 +1,88 @@
 package io.deeplay.camp.engine.entities;
 
-public class Planet {
-    private final int points;
-    private final PlanetState state;
+import java.util.Arrays;
+import java.util.Objects;
 
-    public Planet(int points, PlanetState state) {
+/**
+ * Класс – представление для Планет
+ */
+public class Planet {
+    /**
+     * Плнета имеет:
+     * 1) Очки за захват пленеты
+     * 2) Защищающую силу
+     * 3) Владельца, если он есть
+     * 4) Расположение
+     */
+    private final int points;
+    protected int armor;
+    private final Player owner;
+    private final int[] coordinates;
+
+    /**
+     * Конструктор при наличии владельца
+     * @param points
+     * @param armor
+     * @param owner
+     * @param coordinates
+     */
+    public Planet(int points, int armor, Player owner, int[] coordinates) {
         this.points = points;
-        this.state = state;
+        this.armor = armor;
+        this.owner = owner;
+        this.coordinates = coordinates;
     }
 
-    public Planet(int points) {
+    /**
+     * Конструктор без владельца
+     * @param points
+     * @param armor
+     * @param coordinates
+     */
+    public Planet(int points, int armor, int[] coordinates) {
         this.points = points;
-        this.state = PlanetState.FREE;
+        this.armor = armor;
+        this.coordinates = coordinates;
+        this.owner = null;
+    }
+
+    public int getArmor() {
+        return armor;
     }
 
     public int getPoints() {
-        return points;
+        return this.points;
     }
 
 
-    //Ship newShip, не придумали механизм, как отрабатывать с кораблем
-    public enum PlanetState {
-        IS_OCCUPIED {
-            @Override
-            public boolean isCaptureable() {
-                return true;
-            }
-        },
-        CAPTURED {
-            @Override
-            public boolean isCaptureable() {
-                return false;
-            }
-        },
-        FREE {
-            @Override
-            public boolean isCaptureable() {
-                return true;
-            }
-        };
+    public Player getOwner() {
+        return owner;
+    }
 
-        public abstract boolean isCaptureable();
+    public int[] getCoordinates() {
+        return coordinates;
+    }
+
+    /**
+     * Метод для контроля и обновления защитной силы планеты после захвата
+     * @param fleet флот, захвативший планету
+     */
+    public void setControlledArmor(Fleet fleet) {
+        this.armor += fleet.getFleetPower();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Planet planet = (Planet) o;
+        return points == planet.points && armor == planet.armor && Objects.equals(owner, planet.owner) && Arrays.equals(coordinates, planet.coordinates);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(points, armor, owner);
+        result = 31 * result + Arrays.hashCode(coordinates);
+        return result;
     }
 }
