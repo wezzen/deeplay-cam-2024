@@ -16,7 +16,7 @@ public class FieldTest {
 
     @Test
     void testFieldSize() {
-        assertEquals(5, field.size, "Field size = 5");
+        assertEquals(5, field.getSize(), "Field size = 5");
     }
 
     @Test

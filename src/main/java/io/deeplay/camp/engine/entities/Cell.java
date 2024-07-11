@@ -1,23 +1,23 @@
 package io.deeplay.camp.engine.entities;
 
-import java.util.Random;
-
+/**
+*Класс клетки поля
+* */
 public class Cell {
-    private int x;
-    private int y;
+    private final int x;
+    private final int y;
 
-    Planet planet;
-    boolean isPlanet;
+    private final Planet planet;
 
-    public Cell(int x, int y, boolean isPlanet) {
-        Random random = new Random();
-        this.isPlanet = isPlanet;
-        if (isPlanet) {
-            planet = new Planet(random.nextInt(10));
-        }
-
+    public Cell(final int x,final int y, Planet planet) {
+        this.planet= planet;
         this.x = x;
         this.y = y;
+    }
+    public Cell(final int x,final int y) {
+        this.x = x;
+        this.y = y;
+        this.planet=null;
     }
 
     public int getX() {
@@ -32,7 +32,4 @@ public class Cell {
         return planet;
     }
 
-    public boolean isPlanet() {
-        return isPlanet;
-    }
 }
