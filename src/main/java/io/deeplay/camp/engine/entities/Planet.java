@@ -18,8 +18,10 @@ public class Planet {
         return points;
     }
 
+    public PlanetState getState() {
+        return state;
+    }
 
-    //Ship newShip, не придумали механизм, как отрабатывать с кораблем
     public enum PlanetState {
         IS_OCCUPIED {
             @Override

@@ -19,4 +19,20 @@ public class Cell {
         this.x = x;
         this.y = y;
     }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public Planet getPlanet() {
+        return planet;
+    }
+
+    public boolean isPlanet() {
+        return isPlanet;
+    }
 }
