@@ -32,7 +32,7 @@ class FieldTest {
         for (int i = 0; i < field.getSize(); i++) {
             for (int j = 0; j < i; j++) {
                 if(field.getBoard()[i][j].planet!=null){
-                    assertNotNull(field.getBoard()[field.getSize()-1-i][field.getSize()-1-j].planet);
+                    assertEquals(field.getBoard()[i][j].planet.points,field.getBoard()[j][i].planet.points);
                 }
             }
         }
