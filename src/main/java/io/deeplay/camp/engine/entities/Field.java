@@ -9,7 +9,7 @@ public class Field {
 
 
     private final int size;
-    Cell[][] board;
+    private Cell[][] board;
 
     public void updateField() {
     }
@@ -34,17 +34,22 @@ public class Field {
         for (int i = 0; i < size; i++) {
             for (int j = 0; j <= i; j++) {
                 if (random.nextInt(2) == 1) {
-                    board[i][j] = new Cell(i, j, new Planet(random.nextInt(10)));
+                    int temp = random.nextInt(10);
+                    board[i][j] = new Cell(i, j, new Planet(temp));
                     if (i != j) {
-                        board[j][i] = new Cell(j, i, new Planet(random.nextInt(10)));
+                        board[size-1-i][size-1-j] = new Cell(j, i, new Planet(temp));
                     }
-                }
-                board[i][j] = new Cell(i, j);
-                if (i != j) {
-                    board[j][i] = new Cell(j, i);
+                } else {
+                    board[i][j] = new Cell(i, j);
+                    if (i != j) {
+                        board[size-1-i][size-1-j] = new Cell(j, i);
+                    }
                 }
             }
         }
+    }
 
+    public Cell[][] getBoard() {
+        return board;
     }
 }
