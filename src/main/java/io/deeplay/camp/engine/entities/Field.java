@@ -37,12 +37,12 @@ public class Field {
                     int temp = random.nextInt(10);
                     board[i][j] = new Cell(i, j, new Planet(temp));
                     if (i != j) {
-                        board[size-1-i][size-1-j] = new Cell(j, i, new Planet(temp));
+                        board[size - 1 - i][size - 1 - j] = new Cell(j, i, new Planet(temp));
                     }
                 } else {
                     board[i][j] = new Cell(i, j);
                     if (i != j) {
-                        board[size-1-i][size-1-j] = new Cell(j, i);
+                        board[size - 1 - i][size - 1 - j] = new Cell(j, i);
                     }
                 }
             }
