@@ -1,5 +1,6 @@
 package io.deeplay.camp.engine.entities;
 
+import io.deeplay.camp.engine.entities.Field;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,8 +22,8 @@ class FieldTest {
 
     @Test
     void testFieldIsGenerated() {
-        assertNotNull(field.board, "Field board not be null");
-        assertEquals(5, field.board.length, "Field board size = 5x5");
-        assertEquals(5, field.board[0].length, "Field board size = 5x5");
+        assertNotNull(field.getBoard(), "Field board not be null");
+        assertEquals(5, field.getBoard().length, "Field board size = 5x5");
+        assertEquals(5, field.getBoard()[0].length, "Field board size = 5x5");
     }
 }

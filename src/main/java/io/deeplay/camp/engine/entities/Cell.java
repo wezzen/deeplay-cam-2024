@@ -20,4 +20,7 @@ public class Cell {
         this.planet = null;
     }
 
+    public String toString() {
+        return "[" + x + ", " + y + "]";
+    }
 }

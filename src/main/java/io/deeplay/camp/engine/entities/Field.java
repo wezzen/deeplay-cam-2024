@@ -23,6 +23,10 @@ public class Field {
         return size;
     }
 
+    public Cell[][] getBoard() {
+        return board;
+    }
+
     /**
      * Простая генерация зеркальной карты
      *
