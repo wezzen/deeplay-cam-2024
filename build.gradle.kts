@@ -8,6 +8,8 @@ allprojects {
     apply(plugin = "jacoco")
     apply(plugin = "net.ltgt.errorprone")
 
+
+
     repositories {
         mavenCentral()
     }
@@ -20,21 +22,22 @@ allprojects {
     dependencies {
         // оставлю ссылки, возможно понадобится изменения
         //Slf4j
-// https://mvnrepository.com/artifact/org.slf4j/slf4j-api
         implementation ("org.slf4j:slf4j-api:2.0.13")
         //logback-classic
-// https://mvnrepository.com/artifact/ch.qos.logback/logback-classic
         implementation ("ch.qos.logback:logback-classic:1.5.6")
         //JUnit
         testImplementation(platform("org.junit:junit-bom:5.10.0"))
         testImplementation("org.junit.jupiter:junit-jupiter")
 
         errorprone("com.google.errorprone:error_prone_core:2.28.0")
+
+
     }
 
     tasks.test {
         useJUnitPlatform()
         finalizedBy(tasks.jacocoTestReport)
+
     }
 
     tasks.jacocoTestReport {
