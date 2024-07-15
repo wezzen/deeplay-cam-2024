@@ -10,4 +10,9 @@ class MainTest {
         Assertions.assertDoesNotThrow(Main::new);
     }
 
+    @Test
+    void mainInvokeTest() {
+        Assertions.assertDoesNotThrow(() -> Main.main(null));
+    }
+
 }
