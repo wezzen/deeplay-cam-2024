@@ -1,5 +1,7 @@
 package io.deeplay.camp.engine.entities;
 
+import java.util.Objects;
+
 /**
  * Класс – представлние для Корабля
  */
@@ -12,12 +14,18 @@ public class Ship {
      */
     int attackPoints;
     final ShipType shipType;
-    private final Fleet fleetAffiliation;
+
+    public void setFleetAffiliation(Fleet fleetAffiliation) {
+        this.fleetAffiliation = fleetAffiliation;
+        fleetAffiliation.updateShipList(this, true);
+    }
+
+    private Fleet fleetAffiliation;
 
     protected Ship(ShipType shipType, Fleet fleetAffiliation) {
         this.shipType = shipType;
         this.fleetAffiliation = fleetAffiliation;
-        attackPoints = shipType.shipPower;
+        this.attackPoints = shipType.shipPower;
     }
 
     /**
@@ -40,6 +48,19 @@ public class Ship {
 
     public Fleet fleetAffiliation() {
         return this.fleetAffiliation;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Ship ship = (Ship) o;
+        return attackPoints == ship.attackPoints && shipType == ship.shipType && Objects.equals(fleetAffiliation, ship.fleetAffiliation);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(attackPoints, shipType, fleetAffiliation);
     }
 
     /**

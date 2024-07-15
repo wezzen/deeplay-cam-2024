@@ -1,5 +1,7 @@
 package io.deeplay.camp.engine.entities;
 
+import java.util.Objects;
+
 /**
  * Класс планеты
  */
@@ -38,6 +40,19 @@ public class Planet {
      */
     public void setOwner(Player player){
         this.owner = player;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Planet planet = (Planet) o;
+        return points == planet.points && Objects.equals(owner, planet.owner);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(points, owner);
     }
 }
 

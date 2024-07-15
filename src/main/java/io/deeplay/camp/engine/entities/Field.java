@@ -1,5 +1,7 @@
 package io.deeplay.camp.engine.entities;
 
+import java.util.Arrays;
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -50,5 +52,20 @@ public class Field {
             }
         }
 
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Field field = (Field) o;
+        return size == field.size && Arrays.equals(board, field.board);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(size);
+        result = 31 * result + Arrays.hashCode(board);
+        return result;
     }
 }
