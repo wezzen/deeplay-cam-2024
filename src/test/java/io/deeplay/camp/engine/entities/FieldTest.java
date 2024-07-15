@@ -31,9 +31,7 @@ class FieldTest {
     void testFieldSymmetry() {
         for (int i = 0; i < field.getSize(); i++) {
             for (int j = 0; j < i; j++) {
-                if(field.getBoard()[i][j].planet!=null){
-                    assertEquals(field.getBoard()[i][j].planet.points,field.getBoard()[j][i].planet.points);
-                }
+                assertEquals(field.getBoard()[i][j].planet, field.getBoard()[j][i].planet);
             }
         }
     }
