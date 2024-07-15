@@ -1,6 +1,7 @@
 package io.deeplay.camp.engine.entities;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Класс-представление сущности Флот
@@ -41,7 +42,7 @@ public class Fleet {
      * Класс для обновления силы флота, если организуем новый флот
      * @param shipList
      */
-    public void actualFleetPower(ArrayList<Ship> shipList) {
+    public void actualFleetPower(ArrayList<Ship> shipList) {//Написать в геттер, чтобы мы не тянули пустую, убрать фложенное поле
         int totalPower = 0;
         for (Ship ship : shipList) {
             totalPower += ship.getAttackPoints();
@@ -107,6 +108,19 @@ public class Fleet {
     }
     public void setFleetPosition(Cell position) {
         this.fleetPosition = position;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Fleet fleet = (Fleet) o;
+        return fleetPower == fleet.fleetPower && Objects.equals(shipList, fleet.shipList) && Objects.equals(fleetPosition, fleet.fleetPosition);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(shipList, fleetPosition, fleetPower);
     }
 }
 
