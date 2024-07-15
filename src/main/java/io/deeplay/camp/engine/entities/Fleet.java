@@ -13,7 +13,7 @@ public class Fleet {
      * 2) fleetPower - для хранения суммы сил всех кораблей флота
      * 3) fleetPosition - для клетки - расположения
      */
-    private final ArrayList<Ship> shipList;
+    private ArrayList<Ship> shipList;
     private Cell fleetPosition;
     private int fleetPower;
 
