@@ -1,8 +1,6 @@
 package io.deeplay.camp.engine.entities;
 
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Класс игрового поля
@@ -27,6 +25,23 @@ public class Field {
 
     public Cell[][] getBoard() {
         return board;
+    }
+
+    /**
+     * Метод для нахождения всех планет на поле.
+     *
+     * @return список клеток, содержащих планеты.
+     */
+    public List<Cell> getAllPlanets() {
+        List<Cell> planets = new ArrayList<>();
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if (board[i][j].getPlanet() != null) {
+                    planets.add(board[i][j]);
+                }
+            }
+        }
+        return planets;
     }
 
     /**
