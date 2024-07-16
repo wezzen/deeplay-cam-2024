@@ -17,7 +17,7 @@ public class Player {
      * controlledPlanet - список захваченых планет
      * legalMoves - коллекция ходов для всех флотов в распоряжении
      */
-    private final long id;
+    public final long id;
     private final String name;
     private int totalGamePoints;
     protected ArrayList<Fleet> fleetList;
@@ -29,11 +29,6 @@ public class Player {
         this.name = name;
         this.totalGamePoints = 0;
     }
-
-    public long getId() {
-        return id;
-    }
-
     public String getName() {
         return name;
     }
