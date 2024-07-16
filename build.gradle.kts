@@ -20,7 +20,6 @@ allprojects {
     }
 
     dependencies {
-        // оставлю ссылки, возможно понадобится изменения
         //Slf4j
         implementation ("org.slf4j:slf4j-api:2.0.13")
         //logback-classic
