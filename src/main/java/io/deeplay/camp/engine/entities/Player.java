@@ -56,6 +56,7 @@ public class Player {
 
     /**
      * Метод актуализирует количество очков игрока, пересчитывая их за захваченные планеты
+     *
      * @return totalPoints
      */
     public int getCurrentGamePoints() {
@@ -70,6 +71,7 @@ public class Player {
      * Метод фильтрует коллекцию ходов moves с помощью стрима stream(), оставляя только те ходы,
      * у которых координаты назначения совпадают с заданной клеткой.
      * Использует метод collect для сбора отфильтрованных ходов в неизменяемый список
+     *
      * @param cell
      * @param moves
      * @return
@@ -97,3 +99,4 @@ public class Player {
     public int hashCode() {
         return Objects.hash(id, name, totalGamePoints, fleetList, controlledPlanet, legalMoves);
     }
+}

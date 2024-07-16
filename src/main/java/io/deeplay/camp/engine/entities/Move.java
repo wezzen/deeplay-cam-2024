@@ -46,7 +46,9 @@ public record Move(Cell startPosition, Cell endPosition, MoveType moveType) {
 
         public abstract boolean isDone();
     }
+
     @Override
     public String toString() {
         return "Start position = " + startPosition.toString() + " end position = " + endPosition.toString();
     }
+}
