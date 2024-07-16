@@ -47,7 +47,7 @@ class PlayerTest {
     @Test
     public void testPlayerConstructor() {
         Player player = new Player(1L, "Player1");
-        assertEquals(1L, player.getId());
+        assertEquals(1L, player.id);
         assertEquals("Player1", player.getName());
         assertEquals(0, player.getTotalGamePoints());
     }
