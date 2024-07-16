@@ -33,7 +33,6 @@ public class Planet {
     public Player getOwner() {
         return owner;
     }
-
     /**
      * Метод присвоения планеты игроку
      * @param player

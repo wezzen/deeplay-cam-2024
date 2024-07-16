@@ -50,4 +50,3 @@ public record Move(Cell startPosition, Cell endPosition, MoveType moveType) {
     public String toString() {
         return "Start position = " + startPosition.toString() + " end position = " + endPosition.toString();
     }
-}

@@ -123,4 +123,3 @@ public class Fleet {
         return Objects.hash(shipList, fleetPosition, fleetPower);
     }
 }
-
