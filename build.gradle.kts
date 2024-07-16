@@ -18,8 +18,14 @@ allprojects {
     }
 
     dependencies {
+        //Slf4j
+        implementation ("org.slf4j:slf4j-api:2.0.13")
+        //logback-classic
+        implementation ("ch.qos.logback:logback-classic:1.5.6")
+        //JUnit
         testImplementation(platform("org.junit:junit-bom:5.10.0"))
         testImplementation("org.junit.jupiter:junit-jupiter")
+
         errorprone("com.google.errorprone:error_prone_core:2.28.0")
     }
 
