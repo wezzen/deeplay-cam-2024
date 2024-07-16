@@ -10,6 +10,7 @@ public class Field {
 
     private final int size;
     private Cell[][] board;
+    public final List<Cell> planetsOnField = new ArrayList<>();
 
     public void updateField() {
     }
@@ -25,23 +26,6 @@ public class Field {
 
     public Cell[][] getBoard() {
         return board;
-    }
-
-    /**
-     * Метод для нахождения всех планет на поле.
-     *
-     * @return список клеток, содержащих планеты.
-     */
-    public List<Cell> getAllPlanets() {
-        List<Cell> planets = new ArrayList<>();
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                if (board[i][j].getPlanet() != null) {
-                    planets.add(board[i][j]);
-                }
-            }
-        }
-        return planets;
     }
 
     /**
