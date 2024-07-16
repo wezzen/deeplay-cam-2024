@@ -46,7 +46,7 @@ public class Game {
         executeMove(player, move);
     }
 
-    private void executeMove(Player player, Move move) {
+    public void executeMove(Player player, Move move) {
         // Перемещение флота
         // Реализую логику для выполнения хода
         // Это может быть перемещение флота, атака на планету и т.д.
@@ -76,7 +76,7 @@ public class Game {
         // Обновляем состояние игры, на основе перемещения
     }
 
-    private void updateGameState(){
+    public void updateGameState(){
         boolean allPlanetsCaptured = true;
         Player winningPlayer = null;
 
