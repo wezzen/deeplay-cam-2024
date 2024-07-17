@@ -1,6 +1,6 @@
 package io.deeplay.camp.engine.entities;
 
-import java.util.Random;
+import java.util.*;
 
 /**
  * Класс игрового поля
@@ -10,6 +10,7 @@ public class Field {
 
     private final int size;
     private Cell[][] board;
+    public final List<Cell> planetsOnField = new ArrayList<>();
 
     public void updateField() {
     }
@@ -21,6 +22,10 @@ public class Field {
 
     public int getSize() {
         return size;
+    }
+
+    public Cell[][] getBoard() {
+        return board;
     }
 
     /**
@@ -50,7 +55,18 @@ public class Field {
         }
     }
 
-    public Cell[][] getBoard() {
-        return board;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Field field = (Field) o;
+        return size == field.size && Arrays.equals(board, field.board);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(size);
+        result = 31 * result + Arrays.hashCode(board);
+        return result;
     }
 }
