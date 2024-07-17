@@ -22,7 +22,6 @@ public class Fleet {
         this.fleetPosition = fleetPosition;
         updateFleetPower();
     }
-
     /**
      * Метод для актуализации значения силы Флота для случая,
      * когда у нас пополнение листа или перераспределение кораблей
