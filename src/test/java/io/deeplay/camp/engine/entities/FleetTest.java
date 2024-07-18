@@ -24,12 +24,14 @@ class FleetTest {
     void getFleetPower() {
         assertEquals(100, fleet.getFleetPower());
     }
+
     @Test
     void actualFleetPower0() {
         Ship basicShip = new Ship(Ship.ShipType.BASIC);
         fleet.actualFleetPower(basicShip);
         assertEquals(200, fleet.getFleetPower());
     }
+
     @Test
     void actualFleetPower1() {
         Ship basicShip = new Ship(Ship.ShipType.BASIC);
@@ -47,6 +49,7 @@ class FleetTest {
         fleet.updateShipList(basicShip, true);
         assertEquals(tryShip, fleet.getShipList());
     }
+
     @Test
     public void testFleetCreation() {
         assertNotNull(fleet);
@@ -78,6 +81,7 @@ class FleetTest {
         assertEquals(3, fleet.getShipList().size());
         assertEquals(300, fleet.getFleetPower());
     }
+
     @Test
     void getShipList() {
         ArrayList<Ship> tryShip = new ArrayList<>();
@@ -98,6 +102,7 @@ class FleetTest {
         fleet.setFleetPosition(new Cell(2, 2));
         assertNotEquals(position, fleet.getFleetPosition());
     }
+
     @Test
     public void testUpdateShipListWithSingleShip() {
         Ship newShip = new Ship(Ship.ShipType.BASIC);
@@ -114,12 +119,14 @@ class FleetTest {
         assertEquals(0, fleet.getShipList().size());
         assertEquals(0, fleet.getFleetPower());
     }
+
     @Test
     public void testSetFleetPosition() {
         Cell newPosition = new Cell(10, 10);
         fleet.setFleetPosition(newPosition);
         assertEquals(newPosition, fleet.getFleetPosition());
     }
+
     @Test
     public void testEqualsAndHashCode() {
         ArrayList<Ship> otherShipList = new ArrayList<>(Arrays.asList(

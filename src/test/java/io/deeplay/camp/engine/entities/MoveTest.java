@@ -42,11 +42,13 @@ class MoveTest {
         assertEquals(move.hashCode(), sameMove.hashCode());
         assertNotEquals(move.hashCode(), differentMove.hashCode());
     }
+
     Cell startPosition = new Cell(0, 0);
     Cell toPosition = new Cell(1, 1);
     Cell endPosition = new Cell(2, 2);
     private final Move moveOrdinary = new Move(startPosition, toPosition, Move.MoveType.ORDINARY);
     private final Move moveCapture = new Move(toPosition, endPosition, Move.MoveType.CAPTURE);
+
     @Test
     void testToString1() {
         assertEquals("Start position = [0, 0] end position = [1, 1]", moveOrdinary.toString());
