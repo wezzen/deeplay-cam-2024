@@ -1,6 +1,7 @@
 package io.deeplay.camp.engine.entities;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Класс-представление сущности Флот
@@ -33,12 +34,14 @@ public class Fleet {
         }
         this.fleetPower = totalPower;
     }
+
     public int getFleetPower() {
         return fleetPower;
     }
 
     /**
      * Класс для обновления силы флота, если организуем новый флот
+     *
      * @param shipList
      */
     public void actualFleetPower(ArrayList<Ship> shipList) {
@@ -51,6 +54,7 @@ public class Fleet {
 
     /**
      * Класс для обновления силы флота, если добавим корабль во флот
+     *
      * @param ship
      */
     public void actualFleetPower(Ship ship) {
@@ -61,40 +65,40 @@ public class Fleet {
 
     /**
      * Изменение флота. Обьединение флотов
+     *
      * @param fleet
      * @param increasePower
      */
     public void updateShipList(Fleet fleet, boolean increasePower) {
         if (increasePower) {
             this.shipList.addAll(fleet.getShipList());
-        }
-        else this.shipList.removeAll(fleet.getShipList());
+        } else this.shipList.removeAll(fleet.getShipList());
         this.updateFleetPower();
     }
 
     /**
      * Изменение флота. Добавление набора кораблей
+     *
      * @param newShipList
      * @param increasePower
      */
     public void updateShipList(ArrayList<Ship> newShipList, boolean increasePower) {
         if (increasePower) {
             this.shipList.addAll(newShipList);
-        }
-        else this.shipList.removeAll(newShipList);
+        } else this.shipList.removeAll(newShipList);
         this.updateFleetPower();
     }
 
     /**
      * Изменение флота. Добавление корабля
+     *
      * @param ship
      * @param increasePower
      */
     public void updateShipList(Ship ship, boolean increasePower) {
         if (increasePower) {
             this.shipList.add(ship);
-        }
-        else this.shipList.remove(ship);
+        } else this.shipList.remove(ship);
         this.updateFleetPower();
     }
 
@@ -105,8 +109,23 @@ public class Fleet {
     public Cell getFleetPosition() {
         return fleetPosition;
     }
+
     public void setFleetPosition(Cell position) {
         this.fleetPosition = position;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Fleet fleet = (Fleet) o;
+        return Objects.equals(shipList, fleet.shipList) &&
+                Objects.equals(fleetPosition, fleet.fleetPosition);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(shipList, fleetPosition);
     }
 }
 

@@ -30,6 +30,7 @@ public class Ship {
 
     /**
      * Конструткор для корабля, которому еще не присвоили флот
+     *
      * @param shipType
      */
     public Ship(ShipType shipType) {
@@ -65,7 +66,7 @@ public class Ship {
 
     /**
      * Набор всевозможных кораблей в игре
-     *
+     * <p>
      * Все корабли имеют:
      * 1) Очки атаки
      * 2) Имя стрингой
@@ -75,13 +76,15 @@ public class Ship {
         private final int shipPower;
         private final String shipName;
 
-        ShipType (int shipPower, String shipName) {
+        ShipType(int shipPower, String shipName) {
             this.shipPower = shipPower;
             this.shipName = shipName;
         }
+
         public int getShipPower() {
             return this.shipPower;
         }
+
         @Override
         public String toString() {
             return this.shipName;

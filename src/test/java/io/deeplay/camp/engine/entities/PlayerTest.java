@@ -26,6 +26,7 @@ class PlayerTest {
         Ship ship = new Ship(Ship.ShipType.BASIC);
         Cell position = new Cell(0, 0);
         ArrayList<Ship> shipList = new ArrayList<>();
+        shipList.add(ship);
 
         fleet1 = new Fleet(shipList, position);
         fleet2 = new Fleet(shipList, position);
@@ -98,6 +99,7 @@ class PlayerTest {
         Player player2 = new Player(1L, "Player1");
         assertEquals(player1.hashCode(), player2.hashCode());
     }
+
     @Test
     public void testCalculateAttacksOnTile2() {
         Cell targetCell = new Cell(5, 5);

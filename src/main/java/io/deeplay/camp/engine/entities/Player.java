@@ -29,6 +29,7 @@ public class Player {
         this.name = name;
         this.totalGamePoints = 0;
     }
+
     public String getName() {
         return name;
     }

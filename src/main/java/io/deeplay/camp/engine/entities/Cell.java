@@ -9,7 +9,7 @@ public class Cell {
     public final int x;
     public final int y;
     public final Planet planet;
-    public final Fleet fleet;
+    private Fleet fleet;
 
     public Cell(final int x, final int y, final Planet planet) {
         this.planet = planet;
@@ -24,6 +24,7 @@ public class Cell {
         this.y = y;
         this.fleet = null;
     }
+
     public Cell(final int x, final int y, Fleet fleet) {
         this.planet = null;
         this.x = x;
@@ -31,6 +32,7 @@ public class Cell {
         this.fleet = fleet;
     }
 
+    @Override
     public String toString() {
         return "[" + x + ", " + y + "]";
     }
@@ -51,5 +53,13 @@ public class Cell {
 
     public Planet getPlanet() {
         return planet;
+    }
+
+    public Fleet getFleet() {
+        return fleet;
+    }
+
+    public void setFleet(Fleet fleet) {
+        this.fleet = fleet;
     }
 }
