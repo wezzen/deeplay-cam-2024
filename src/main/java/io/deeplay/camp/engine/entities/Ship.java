@@ -65,10 +65,12 @@ public class Ship {
      * <p>
      * Все корабли имеют:
      * 1) Очки атаки
-     * 2) Имя стрингой
+     * 2) Имя корабля
      */
     public enum ShipType {
-        BASIC(100, "Basic");
+        BASIC(100, "Basic"),
+        MEDIUM(150, "Medium"),
+        POWERFUL(200, "Powerful");
 
         private final int shipPower;
         private final String shipName;
@@ -76,10 +78,6 @@ public class Ship {
         ShipType(int shipPower, String shipName) {
             this.shipPower = shipPower;
             this.shipName = shipName;
-        }
-
-        public int getShipPower() {
-            return this.shipPower;
         }
 
         @Override
