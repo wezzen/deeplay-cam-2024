@@ -28,11 +28,7 @@ public class Fleet {
      * когда у нас пополнение листа или перераспределение кораблей
      */
     private void updateFleetPower() {
-        int totalPower = 0;
-        for (Ship ship : shipList) {
-            totalPower += ship.getAttackPoints();
-        }
-        this.fleetPower = totalPower;
+        this.fleetPower = shipList.stream().mapToInt(Ship::getAttackPoints).sum();
     }
 
     public int getFleetPower() {
@@ -115,6 +111,29 @@ public class Fleet {
     //не делаю final из-за взаимной зависимости, возможно позже надо будет сетить в клетку
     public void setFleetPosition(Cell position) {
         this.fleetPosition = position;
+    }
+
+    /**
+     * Метод, который обыгрывает столкновение флотов
+     *
+     * @param enemyFleet флот соперника
+     * @param us игрок
+     * @param enemy игрок
+     * @return флот, который победил в столкновении
+     */
+    public Fleet fleetsClash(Fleet enemyFleet, Player us, Player enemy) {
+        Fleet winner;
+        Player looser;
+
+        if (this.fleetPower > enemyFleet.fleetPower) {
+            winner = this;
+            looser = enemy;
+        } else {
+            winner = enemyFleet;
+            looser = us;
+        }
+        looser.removeFleet(looser == us ? this:enemyFleet);
+        return winner;
     }
 
     @Override
