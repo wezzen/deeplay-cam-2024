@@ -14,15 +14,14 @@ public class Ship {
      */
     int attackPoints;
     final ShipType shipType;
-
-    public void setFleetAffiliation(Fleet fleetAffiliation) {
-        this.fleetAffiliation = fleetAffiliation;
-        fleetAffiliation.updateShipList(this, true);
-    }
-
     private Fleet fleetAffiliation;
 
-    protected Ship(ShipType shipType, final Fleet fleetAffiliation) {
+    public void setFleetAffiliation(final Fleet fleetAffiliation) {
+        this.fleetAffiliation = fleetAffiliation;
+        this.fleetAffiliation.updateShipList(this, true);
+    }
+
+    public Ship(ShipType shipType, final Fleet fleetAffiliation) {
         this.shipType = shipType;
         this.fleetAffiliation = fleetAffiliation;
         this.attackPoints = shipType.shipPower;
@@ -50,10 +49,9 @@ public class Ship {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Ship ship = (Ship) o;
+        if (!(o instanceof Ship ship)) return false;
         return attackPoints == ship.attackPoints && shipType == ship.shipType && Objects.equals(fleetAffiliation, ship.fleetAffiliation);
     }
 
