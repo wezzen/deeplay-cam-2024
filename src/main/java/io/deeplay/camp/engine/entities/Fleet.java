@@ -119,21 +119,13 @@ public class Fleet {
      * @param enemyFleet флот соперника
      * @param us игрок
      * @param enemy игрок
-     * @return флот, который победил в столкновении
      */
-    public Fleet fleetsClash(Fleet enemyFleet, Player us, Player enemy) {
-        Fleet winner;
-        Player looser;
-
+    public void fleetsClash(Fleet enemyFleet, Player us, Player enemy) {
         if (this.fleetPower > enemyFleet.fleetPower) {
-            winner = this;
-            looser = enemy;
+            enemy.removeFleet(enemyFleet);
         } else {
-            winner = enemyFleet;
-            looser = us;
+            us.removeFleet(this);
         }
-        looser.removeFleet(looser == us ? this:enemyFleet);
-        return winner;
     }
 
     @Override

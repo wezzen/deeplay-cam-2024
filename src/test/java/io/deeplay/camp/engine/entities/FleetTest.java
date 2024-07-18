@@ -142,4 +142,32 @@ class FleetTest {
         assertEquals(fleet.hashCode(), sameFleet.hashCode());
         assertNotEquals(fleet.hashCode(), differentFleet.hashCode());
     }
+
+    @Test
+    public void testFleetsClash() {
+        // Создаем корабли
+        Ship ship1 = new Ship(Ship.ShipType.BASIC);
+        Ship ship2 = new Ship(Ship.ShipType.MEDIUM);
+        Ship ship3 = new Ship(Ship.ShipType.POWERFUL);
+
+        // Создаем флоты
+        Fleet fleet1 = new Fleet(Arrays.asList(ship1, ship2), new Cell(0, 0));
+        Fleet fleet2 = new Fleet(List.of(ship3), new Cell(1, 1));
+
+        // Создаем игроков
+        Player player1 = new Player(1, "Player1");
+        Player player2 = new Player(2, "Player2");
+
+        // Добавляем флоты игрокам
+        player1.addFleet(fleet1);
+        player2.addFleet(fleet2);
+
+        // Выполняем столкновение флотов
+        fleet1.fleetsClash(fleet2, player1, player2);
+
+        // Проверяем, что проигравший флот удален из списка флотов проигравшего игрока
+        assertFalse(player2.getFleetList().contains(fleet2));
+        // Проверяем, что победивший флот остался в списке флотов победившего игрока
+        assertTrue(player1.getFleetList().contains(fleet1));
+    }
 }

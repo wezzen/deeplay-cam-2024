@@ -28,6 +28,9 @@ public class Player {
         this.id = id;
         this.name = name;
         this.totalGamePoints = 0;
+        this.fleetList = new ArrayList<>();
+        this.controlledPlanet = new ArrayList<>();
+        this.legalMoves = new ArrayList<>();
     }
 
     public String getName() {
@@ -73,6 +76,13 @@ public class Player {
     }
 
     /**
+     * Метод для удаления флота из общего списка
+     *
+     * @param fleet флот, который мы добавляем/создаем
+     */
+    public void addFleet(Fleet fleet) {this.fleetList.add(fleet);}
+
+    /**
      * Метод фильтрует коллекцию ходов moves с помощью стрима stream(), оставляя только те ходы,
      * у которых координаты назначения совпадают с заданной клеткой.
      * Использует метод collect для сбора отфильтрованных ходов в неизменяемый список
@@ -89,7 +99,7 @@ public class Player {
     }
 
     @Override
-    public boolean equals(final Object o) {
+    public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Player player = (Player) o;
