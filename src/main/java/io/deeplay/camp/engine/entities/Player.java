@@ -20,8 +20,8 @@ public class Player {
     public final long id;
     private final String name;
     private int totalGamePoints;
-    protected ArrayList<Fleet> fleetList;
-    protected ArrayList<Planet> controlledPlanet;
+    protected List<Fleet> fleetList;
+    protected List<Planet> controlledPlanet;
     protected Collection<Move> legalMoves;
 
     public Player(final long id, final String name) {
@@ -34,11 +34,11 @@ public class Player {
         return name;
     }
 
-    public ArrayList<Fleet> getFleetList() {
+    public List<Fleet> getFleetList() {
         return fleetList;
     }
 
-    public ArrayList<Planet> getControlledPlanet() {
+    public List<Planet> getControlledPlanet() {
         return controlledPlanet;
     }
 
@@ -80,7 +80,7 @@ public class Player {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Player player = (Player) o;

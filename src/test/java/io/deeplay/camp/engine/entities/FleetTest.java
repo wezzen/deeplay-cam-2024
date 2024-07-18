@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -12,7 +13,7 @@ class FleetTest {
     private Fleet fleet;
     private Ship ship = new Ship(Ship.ShipType.BASIC);
     Cell position = new Cell(0, 0);
-    ArrayList<Ship> shipList = new ArrayList<>();
+    List<Ship> shipList = new ArrayList<>();
 
     @BeforeEach
     void setUp() {

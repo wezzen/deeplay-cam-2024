@@ -35,7 +35,7 @@ public class Planet {
     }
 
     /**
-     * @return если захвачена true, если свободна false
+     * *return если захвачена true, если свободна false
      */
     public boolean isCaptured() {
         return owner != null;
@@ -51,10 +51,9 @@ public class Planet {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Planet planet = (Planet) o;
+        if (!(o instanceof Planet planet)) return false;
         return points == planet.points && Objects.equals(owner, planet.owner);
     }
 

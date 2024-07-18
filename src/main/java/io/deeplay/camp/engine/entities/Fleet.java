@@ -14,7 +14,7 @@ public class Fleet {
      * 2) fleetPower - для хранения суммы сил всех кораблей флота
      * 3) fleetPosition - для клетки - расположения
      */
-    private final List<Ship> shipList;
+    private List<Ship> shipList;
     private Cell fleetPosition;
     private int fleetPower;
 
@@ -43,14 +43,14 @@ public class Fleet {
     /**
      * Класс для обновления силы флота, если организуем новый флот
      *
-     * @param shipList корабли которые мы добавляем во флот
+     * @param addedShipList корабли которые мы добавляем во флот
      */
-    public void actualFleetPower(List<Ship> shipList) {
+    public void actualFleetPower(final List<Ship> addedShipList) {
         int totalPower = 0;
-        for (Ship ship : shipList) {
+        for (Ship ship : addedShipList) {
             totalPower += ship.getAttackPoints();
-            shipList.add(ship);
         }
+        shipList = new ArrayList<>(addedShipList);
         this.fleetPower = totalPower;
     }
 
@@ -59,7 +59,7 @@ public class Fleet {
      *
      * @param ship добавляемый корабль
      */
-    public void actualFleetPower(Ship ship) {
+    public void actualFleetPower(final Ship ship) {
         int totalPower = fleetPower;
         totalPower += ship.getAttackPoints();
         this.fleetPower = totalPower;
@@ -72,7 +72,7 @@ public class Fleet {
      * @param fleet         флот
      * @param increasePower флаг на то, добавляем или удаляем
      */
-    public void updateShipList(Fleet fleet, boolean increasePower) {
+    public void updateShipList(final Fleet fleet, final boolean increasePower) {
         if (increasePower) {
             this.shipList.addAll(fleet.getShipList());
         } else this.shipList.removeAll(fleet.getShipList());
@@ -85,7 +85,7 @@ public class Fleet {
      * @param newShipList   флот
      * @param increasePower флаг на то, добавляем или удаляем
      */
-    public void updateShipList(List<Ship> newShipList, boolean increasePower) {
+    public void updateShipList(final List<Ship> newShipList, final boolean increasePower) {
         if (increasePower) {
             this.shipList.addAll(newShipList);
         } else this.shipList.removeAll(newShipList);
@@ -98,7 +98,7 @@ public class Fleet {
      * @param ship          корабль
      * @param increasePower флаг на то, добавляем или удаляем
      */
-    public void updateShipList(Ship ship, boolean increasePower) {
+    public void updateShipList(final Ship ship, final boolean increasePower) {
         if (increasePower) {
             this.shipList.add(ship);
         } else this.shipList.remove(ship);
@@ -113,15 +113,15 @@ public class Fleet {
         return fleetPosition;
     }
 
+    //не делаю final из за взаимной зависимости, возможно позже надо будет сетить в клетку
     public void setFleetPosition(Cell position) {
         this.fleetPosition = position;
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Fleet fleet = (Fleet) o;
+        if (!(o instanceof Fleet fleet)) return false;
         return Objects.equals(shipList, fleet.shipList) &&
                 Objects.equals(fleetPosition, fleet.fleetPosition);
     }

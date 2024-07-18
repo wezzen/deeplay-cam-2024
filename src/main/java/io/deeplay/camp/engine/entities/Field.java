@@ -56,7 +56,7 @@ public class Field {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (!(o instanceof Field field)) return false;
         return size == field.size && Arrays.deepEquals(board, field.board);

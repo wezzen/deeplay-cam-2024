@@ -39,10 +39,9 @@ public class Cell {
 
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Cell cell = (Cell) o;
+        if (!(o instanceof Cell cell)) return false;
         return x == cell.x && y == cell.y && Objects.equals(planet, cell.planet) && Objects.equals(fleet, cell.fleet);
     }
 
@@ -55,7 +54,7 @@ public class Cell {
         return fleet;
     }
 
-    public void setFleet(Fleet fleet) {
+    public void setFleet(final Fleet fleet) {
         this.fleet = fleet;
     }
 }
