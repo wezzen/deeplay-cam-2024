@@ -12,9 +12,9 @@ public class Player {
     /**
      * Хранит в себе переменные:
      * name - имя игрока
-     * id - иентификатор
+     * id - идентификатор
      * fleetList - список флотов в распоряжении
-     * controlledPlanet - список захваченых планет
+     * controlledPlanet - список захваченных планет
      * legalMoves - коллекция ходов для всех флотов в распоряжении
      */
     public final long id;

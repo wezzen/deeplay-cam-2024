@@ -18,6 +18,6 @@ public interface GameEvents {
 
     public void gameEnded(); //Конец игры
 
-    public Game endGameSession(Player winer); //Заверешение игровой сессии
+    public Game endGameSession(Player winer); //Завершение игровой сессии
 
 }
