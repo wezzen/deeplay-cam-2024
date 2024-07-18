@@ -33,7 +33,7 @@ public class Field {
      *
      * @param size размер поля
      */
-    private void generateField(int size) {
+    private void generateField(final int size) {
         Random random = new Random();
         board = new Cell[size][size];
         for (int i = 0; i < size; i++) {
@@ -58,15 +58,14 @@ public class Field {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Field field = (Field) o;
-        return size == field.size && Arrays.equals(board, field.board);
+        if (!(o instanceof Field field)) return false;
+        return size == field.size && Arrays.deepEquals(board, field.board);
     }
 
     @Override
     public int hashCode() {
         int result = Objects.hash(size);
-        result = 31 * result + Arrays.hashCode(board);
+        result = 31 * result + Arrays.deepHashCode(board);
         return result;
     }
 }

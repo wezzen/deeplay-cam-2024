@@ -25,7 +25,7 @@ public class Cell {
         this.fleet = null;
     }
 
-    public Cell(final int x, final int y, Fleet fleet) {
+    public Cell(final int x, final int y, final Fleet fleet) {
         this.planet = null;
         this.x = x;
         this.y = y;
@@ -49,10 +49,6 @@ public class Cell {
     @Override
     public int hashCode() {
         return Objects.hash(x, y, planet, fleet);
-    }
-
-    public Planet getPlanet() {
-        return planet;
     }
 
     public Fleet getFleet() {

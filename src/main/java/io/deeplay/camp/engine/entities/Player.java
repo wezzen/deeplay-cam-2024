@@ -24,7 +24,7 @@ public class Player {
     protected ArrayList<Planet> controlledPlanet;
     protected Collection<Move> legalMoves;
 
-    public Player(long id, String name) {
+    public Player(final long id, final String name) {
         this.id = id;
         this.name = name;
         this.totalGamePoints = 0;
@@ -68,19 +68,15 @@ public class Player {
      * у которых координаты назначения совпадают с заданной клеткой.
      * Использует метод collect для сбора отфильтрованных ходов в неизменяемый список
      *
-     * @param cell
-     * @param moves
-     * @return
+     * @param cell  клетка попадания
+     * @param moves колекция всех ходов
+     * @return колекция ходов в переданую клетку
      */
     Collection<Move> calculateAttacksOnTile(final Cell cell,
                                             final Collection<Move> moves) {
         return moves.stream()
-                .filter(move -> equals(move.endPosition(), cell)) //Либо move.getDestinationCoordinate() == tile
+                .filter(move -> move.endPosition().equals(cell)) //Либо move.getDestinationCoordinate() == tile
                 .collect(collectingAndThen(Collectors.toList(), Collections::unmodifiableList));
-    }
-
-    private boolean equals(Object o, Object a) {
-        return o.equals(a);
     }
 
     @Override

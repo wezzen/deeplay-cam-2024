@@ -5,20 +5,21 @@ import io.deeplay.camp.engine.entities.domain.GameTypes;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Контроллер
  */
 public class Game {
     private final Field field;
-    private final ArrayList<Player> players;
+    private final List<Player> players;
     private GameStates currentState;
     private GameTypes gameType;
-    private ArrayList<Move> allGameMoves;
+    private List<Move> allGameMoves;
 
     //Пока что не придумал куда и как пихать цикл обновление счетчика
 
-    public Game(Field field, ArrayList<Player> players, GameTypes gameType) {
+    public Game(final Field field, final List<Player> players, final GameTypes gameType) {
         this.field = field;
         this.players = players;
         this.gameType = gameType;
@@ -56,7 +57,7 @@ public class Game {
         this.gameType = gameType;
     }
 
-    public ArrayList<Player> getPlayers() {
+    public List<Player> getPlayers() {
         return players;
     }
 

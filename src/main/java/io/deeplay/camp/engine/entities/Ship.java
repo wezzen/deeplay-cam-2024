@@ -22,7 +22,7 @@ public class Ship {
 
     private Fleet fleetAffiliation;
 
-    protected Ship(ShipType shipType, Fleet fleetAffiliation) {
+    protected Ship(ShipType shipType, final Fleet fleetAffiliation) {
         this.shipType = shipType;
         this.fleetAffiliation = fleetAffiliation;
         this.attackPoints = shipType.shipPower;
@@ -31,12 +31,10 @@ public class Ship {
     /**
      * Конструткор для корабля, которому еще не присвоили флот
      *
-     * @param shipType
+     * @param shipType тип корабля
      */
-    public Ship(ShipType shipType) {
-        this.shipType = shipType;
-        this.fleetAffiliation = null;
-        attackPoints = shipType.shipPower;
+    public Ship(final ShipType shipType) {
+        this(shipType, null);
     }
 
     public int getAttackPoints() {

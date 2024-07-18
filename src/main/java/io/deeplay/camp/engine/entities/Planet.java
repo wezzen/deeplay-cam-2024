@@ -34,6 +34,9 @@ public class Planet {
         return owner;
     }
 
+    /**
+     * @return если захвачена true, если свободна false
+     */
     public boolean isCaptured() {
         return owner != null;
     }
@@ -43,7 +46,7 @@ public class Planet {
      *
      * @param player игрок
      */
-    public void setOwner(Player player) {
+    public void setOwner(final Player player) {
         this.owner = player;
     }
 
