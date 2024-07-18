@@ -1,6 +1,7 @@
 package io.deeplay.camp.engine.entities;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -13,11 +14,11 @@ public class Fleet {
      * 2) fleetPower - для хранения суммы сил всех кораблей флота
      * 3) fleetPosition - для клетки - расположения
      */
-    private final ArrayList<Ship> shipList;
+    private final List<Ship> shipList;
     private Cell fleetPosition;
     private int fleetPower;
 
-    public Fleet(ArrayList<Ship> shipList, Cell fleetPosition) {
+    public Fleet(final List<Ship> shipList, final Cell fleetPosition) {
         this.shipList = shipList;
         this.fleetPosition = fleetPosition;
         updateFleetPower();
@@ -42,32 +43,34 @@ public class Fleet {
     /**
      * Класс для обновления силы флота, если организуем новый флот
      *
-     * @param shipList
+     * @param shipList корабли которые мы добавляем во флот
      */
-    public void actualFleetPower(ArrayList<Ship> shipList) {
+    public void actualFleetPower(List<Ship> shipList) {
         int totalPower = 0;
         for (Ship ship : shipList) {
             totalPower += ship.getAttackPoints();
+            shipList.add(ship);
         }
         this.fleetPower = totalPower;
     }
 
     /**
-     * Класс для обновления силы флота, если добавим корабль во флот
+     * метод для обновления силы флота, если добавим корабль во флот
      *
-     * @param ship
+     * @param ship добавляемый корабль
      */
     public void actualFleetPower(Ship ship) {
         int totalPower = fleetPower;
         totalPower += ship.getAttackPoints();
         this.fleetPower = totalPower;
+        shipList.add(ship);
     }
 
     /**
      * Изменение флота. Обьединение флотов
      *
-     * @param fleet
-     * @param increasePower
+     * @param fleet         флот
+     * @param increasePower флаг на то, добавляем или удаляем
      */
     public void updateShipList(Fleet fleet, boolean increasePower) {
         if (increasePower) {
@@ -79,10 +82,10 @@ public class Fleet {
     /**
      * Изменение флота. Добавление набора кораблей
      *
-     * @param newShipList
-     * @param increasePower
+     * @param newShipList   флот
+     * @param increasePower флаг на то, добавляем или удаляем
      */
-    public void updateShipList(ArrayList<Ship> newShipList, boolean increasePower) {
+    public void updateShipList(List<Ship> newShipList, boolean increasePower) {
         if (increasePower) {
             this.shipList.addAll(newShipList);
         } else this.shipList.removeAll(newShipList);
@@ -92,8 +95,8 @@ public class Fleet {
     /**
      * Изменение флота. Добавление корабля
      *
-     * @param ship
-     * @param increasePower
+     * @param ship          корабль
+     * @param increasePower флаг на то, добавляем или удаляем
      */
     public void updateShipList(Ship ship, boolean increasePower) {
         if (increasePower) {
@@ -102,7 +105,7 @@ public class Fleet {
         this.updateFleetPower();
     }
 
-    public ArrayList<Ship> getShipList() {
+    public List<Ship> getShipList() {
         return shipList;
     }
 
