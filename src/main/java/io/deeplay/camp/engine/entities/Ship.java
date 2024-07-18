@@ -28,7 +28,7 @@ public class Ship {
     }
 
     /**
-     * Конструткор для корабля, которому еще не присвоили флот
+     * Конструктор для корабля, которому еще не присвоили флот
      *
      * @param shipType тип корабля
      */
@@ -69,6 +69,7 @@ public class Ship {
      */
     public enum ShipType {
         BASIC(100, "Basic");
+
         private final int shipPower;
         private final String shipName;
 
