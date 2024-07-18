@@ -41,7 +41,7 @@ public class Fleet {
     }
 
     /**
-     * Класс для обновления силы флота, если организуем новый флот
+     * Метод для обновления силы флота, если организуем новый флот
      *
      * @param addedShipList корабли которые мы добавляем во флот
      */
@@ -50,12 +50,12 @@ public class Fleet {
         for (Ship ship : addedShipList) {
             totalPower += ship.getAttackPoints();
         }
-        shipList = new ArrayList<>(addedShipList);
+        updateShipList(addedShipList, true);
         this.fleetPower = totalPower;
     }
 
     /**
-     * метод для обновления силы флота, если добавим корабль во флот
+     * Метод для обновления силы флота, если добавим корабль во флот
      *
      * @param ship добавляемый корабль
      */
@@ -113,7 +113,7 @@ public class Fleet {
         return fleetPosition;
     }
 
-    //не делаю final из за взаимной зависимости, возможно позже надо будет сетить в клетку
+    //не делаю final из-за взаимной зависимости, возможно позже надо будет сетить в клетку
     public void setFleetPosition(Cell position) {
         this.fleetPosition = position;
     }
