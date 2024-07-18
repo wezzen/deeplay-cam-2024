@@ -3,9 +3,9 @@ package io.deeplay.camp.engine.entities;
 import java.util.Arrays;
 
 /**
- * Класс - ход, как record
- * Чтобы не закладывать еще не продуманную логику.
- * Record обеспесчивает из коробки все требуемые методы (и даже больше)
+ * Класс - ход, как record,
+ * чтоб не закладывать, еще не продуманную, логику.
+ * Record обеспечивает из коробки все требуемые методы (и даже больше)
  */
 public record Move(Cell startPosition, Cell endPosition, MoveType moveType) {
     /**
