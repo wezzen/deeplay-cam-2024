@@ -109,7 +109,7 @@ public class Fleet {
     }
 
     //не делаю final из-за взаимной зависимости, возможно позже надо будет сетить в клетку
-    public void setFleetPosition(final Cell position) {
+    public void setFleetPosition(Cell position) {
         this.fleetPosition = position;
     }
 
