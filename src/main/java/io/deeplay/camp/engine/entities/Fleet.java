@@ -109,7 +109,7 @@ public class Fleet {
     }
 
     //не делаю final из-за взаимной зависимости, возможно позже надо будет сетить в клетку
-    public void setFleetPosition(Cell position) {
+    public void setFleetPosition(final Cell position) {
         this.fleetPosition = position;
     }
 
@@ -120,7 +120,7 @@ public class Fleet {
      * @param us игрок
      * @param enemy игрок
      */
-    public void fleetsClash(Fleet enemyFleet, Player us, Player enemy) {
+    public void fleetsClash(final Fleet enemyFleet, final Player us, final Player enemy) {
         if (this.fleetPower > enemyFleet.fleetPower) {
             enemy.removeFleet(enemyFleet);
         } else {
