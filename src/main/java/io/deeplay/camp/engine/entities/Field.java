@@ -12,12 +12,16 @@ public class Field {
     private Cell[][] board;
     public final List<Cell> planetsOnField = new ArrayList<>();
 
-    public void updateField() {
-    }
-
     public Field(final int size) {
         this.size = size;
         generateField(size);
+    }
+
+    public void updateField(Move move) {
+        Fleet fleet = move.startPosition().getFleet();
+        move.startPosition().setFleet(null);
+        move.endPosition().setFleet(fleet);
+        fleet.setFleetPosition(move.endPosition());
     }
 
     public int getSize() {

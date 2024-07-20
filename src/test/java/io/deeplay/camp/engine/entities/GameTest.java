@@ -77,4 +77,25 @@ class GameTest {
         game.setCurrentState(GameStates.DEFAULT);
         assertFalse(game.isGameOver());
     }
+    @Test
+    void testAddValidMove() {
+        Game game = new Game(field, players, GameTypes.HumanVsBot);
+        Move move = new Move(new Cell(0, 0, new Fleet(new ArrayList<>(), new Cell(0, 0))), new Cell(1, 1), Move.MoveType.ORDINARY);
+        Move.MoveStatus status = game.addMove(move);
+        assertEquals(Move.MoveStatus.DONE, status);
+        assertNotNull(game.getAllGameMoves());
+        assertEquals(1, game.getAllGameMoves().size());
+        assertEquals(move, game.getAllGameMoves().get(0));
+    }
+
+    @Test
+    void testAddInvalidMove() {
+        Game game = new Game(field, players, GameTypes.HumansHuman);
+        Move move = new Move(new Cell(9, 9, new Fleet(new ArrayList<>(), new Cell(9, 9))), new Cell(10, 10), Move.MoveType.ORDINARY);
+        Move.MoveStatus status = game.addMove(move);
+        assertEquals(Move.MoveStatus.ILLEGAL_MOVE, status);
+        assertNotNull(game.getAllGameMoves());
+        assertEquals(0, game.getAllGameMoves().size());
+    }
+
 }

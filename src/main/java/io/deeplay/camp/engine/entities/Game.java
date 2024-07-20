@@ -2,9 +2,9 @@ package io.deeplay.camp.engine.entities;
 
 import io.deeplay.camp.engine.entities.domain.GameStates;
 import io.deeplay.camp.engine.entities.domain.GameTypes;
+import io.deeplay.camp.engine.entities.utill.Movement;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -24,7 +24,7 @@ public class Game {
         this.players = players;
         this.gameType = gameType;
         this.currentState = GameStates.DEFAULT;
-        this.allGameMoves = null;
+        this.allGameMoves = new ArrayList<>();
     }
 
     public void startGame() {
@@ -64,4 +64,19 @@ public class Game {
     public void setCurrentState(GameStates currentState) {
         this.currentState = currentState;
     }
+
+    public Move.MoveStatus addMove(Move move) {
+        if (Movement.isValidMove(move, field)) {
+            allGameMoves.add(move);
+            field.updateField(move);
+            return Move.MoveStatus.DONE;
+        } else {
+            return Move.MoveStatus.ILLEGAL_MOVE;
+        }
+    }
+
+    public List<Move> getAllGameMoves() {
+        return allGameMoves;
+    }
+
 }
