@@ -1,6 +1,7 @@
-package io.deeplay.camp.engine.entities.domain;
+package io.deeplay.camp.engine.domain;
 
-import io.deeplay.camp.engine.entities.*;
+import io.deeplay.camp.engine.entities.Game;
+import io.deeplay.camp.engine.entities.Player;
 
 import java.util.List;
 

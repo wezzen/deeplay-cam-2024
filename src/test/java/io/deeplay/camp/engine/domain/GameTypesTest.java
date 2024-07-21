@@ -1,4 +1,4 @@
-package io.deeplay.camp.engine.entities.domain;
+package io.deeplay.camp.engine.domain;
 
 import org.junit.jupiter.api.Test;
 
