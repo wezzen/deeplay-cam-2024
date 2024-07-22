@@ -1,6 +1,5 @@
 package io.deeplay.camp.engine.entities;
 
-import io.deeplay.camp.engine.entities.Field;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

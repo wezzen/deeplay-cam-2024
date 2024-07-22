@@ -1,4 +1,4 @@
-package io.deeplay.camp.engine.entities.domain;
+package io.deeplay.camp.engine.domain;
 
 /**
  * Перечисление состояний игры
