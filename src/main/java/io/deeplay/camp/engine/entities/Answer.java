@@ -17,7 +17,7 @@ public class Answer {
      * @param move действие игрока
      * @throws IllegalArgumentException если move является null
      */
-    public Answer(Move move) {
+    public Answer(final Move move) {
         this(move, LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
     }
 
@@ -28,7 +28,7 @@ public class Answer {
      * @param responseTime время ответа в формате строки
      * @throws IllegalArgumentException если move или responseTime являются null
      */
-    public Answer(Move move, String responseTime) {
+    public Answer(final Move move, final String responseTime) {
         if (move == null) {
             throw new IllegalArgumentException("Move cannot be null.");
         }
