@@ -1,10 +1,8 @@
 package io.deeplay.camp.engine.entities;
 
-import io.deeplay.camp.engine.entities.domain.GameStates;
-import io.deeplay.camp.engine.entities.domain.GameTypes;
+import io.deeplay.camp.engine.domain.GameStates;
+import io.deeplay.camp.engine.domain.GameTypes;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**
