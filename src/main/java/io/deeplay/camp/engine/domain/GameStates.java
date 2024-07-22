@@ -11,7 +11,7 @@ package io.deeplay.camp.engine.domain;
  */
 public enum GameStates {
     /**
-     * Ожидание для неисполненного (isDone == false) хода игры
+     * Ожидание для неисполненного хода игры
      */
     CHECK,
     /**
