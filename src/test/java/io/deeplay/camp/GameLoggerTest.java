@@ -1,13 +1,8 @@
 package io.deeplay.camp;
 
-import io.deeplay.camp.engine.entities.Field;
-import io.deeplay.camp.engine.entities.Game;
-import io.deeplay.camp.engine.entities.Player;
-import io.deeplay.camp.engine.entities.domain.GameTypes;
+import io.deeplay.camp.engine.domain.GameTypes;
+import io.deeplay.camp.engine.entities.*;
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class GameLoggerTest {
@@ -25,24 +20,20 @@ public class GameLoggerTest {
         gameLogger.connectingPlayer(player);
     }
 
-    @Test
-    public void gameLobbyTest() {
-        gameLogger.gameLobby();
-    }
+
 
     @Test
     public void gameStartedTest() {
-        gameLogger.gameStarted();
+        gameLogger.gameStarted(new Field(5));
     }
 
     @Test
     public void getPlayerActionTest() {
-        Field field = new Field(5);
         Player player = new Player(1, "Test");
-        List<Player> playerList = new ArrayList<>();
-        playerList.add(player);
-        Game game = new Game(field, playerList, GameTypes.HumanVsBot);
-        gameLogger.getPlayerAction(game);
+        Cell startPositionSM = new Cell(1, 1);
+        Cell endPositionSM = new Cell(5, 5);
+        Move move = new Move(startPositionSM, endPositionSM, Move.MoveType.ORDINARY);
+        gameLogger.getPlayerAction(move,player);
     }
 
     @Test
