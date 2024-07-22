@@ -53,6 +53,10 @@ public class Game {
         return gameType;
     }
 
+    public Field getField() {
+        return field;
+    }
+
     public void setGameType(GameTypes gameType) {
         this.gameType = gameType;
     }
