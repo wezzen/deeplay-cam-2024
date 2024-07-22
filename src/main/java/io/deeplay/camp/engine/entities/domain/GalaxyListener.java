@@ -6,7 +6,7 @@ import io.deeplay.camp.engine.entities.*;
 /**
  * Интерфейс игровых событий
  */
-public interface GameEvents {
+public interface GalaxyListener {
     /**
      * Инициализация игровой сессии
      *
