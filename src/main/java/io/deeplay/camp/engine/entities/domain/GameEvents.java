@@ -10,47 +10,41 @@ public interface GameEvents {
     /**
      * Инициализация игровой сессии
      *
-     * @param game     игра
      * @param gameId   создаем идентификатор сессии
      * @param gameType выбираем тип игры
      */
-    public void startGameSession(Game game, String gameId, GameTypes gameType);
+    public void startGameSession(String gameId, GameTypes gameType);
 
     /**
      * Подключаем игроков
      *
-     * @param game          игра
      * @param waitingPlayer игрок на входе в игру
      */
-    public void connectingPlayer(Game game, Player waitingPlayer);
+    public void connectingPlayer(Player waitingPlayer);
 
     /**
      * Начало игры
-     *
-     * @param game созданная игра
      */
-    public void gameStarted(Game game);
+    public void gameStarted(Field field);
 
     /**
      * Любое игровое событие
      *
-     * @param game игра, которая происходит
+     * @param move   ход
+     * @param player игрок
      */
-    public void getPlayerAction(Game game);
+    public void getPlayerAction(Move move, Player player);
 
     /**
      * Конец игры
      *
-     * @param game   игра
      * @param winner Победитель в игре
      */
-    public void gameEnded(Game game, Player winner);
+    public void gameEnded(Player winner);
 
     /**
      * Завершение игровой сессии
-     *
-     * @param game игра
      */
-    public void endGameSession(Game game);
+    public void endGameSession();
 
 }
