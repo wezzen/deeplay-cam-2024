@@ -2,7 +2,6 @@ package io.deeplay.camp.engine.entities.domain;
 
 import io.deeplay.camp.engine.entities.*;
 
-import java.util.List;
 
 /**
  * Интерфейс игровых событий
@@ -10,45 +9,48 @@ import java.util.List;
 public interface GameEvents {
     /**
      * Инициализация игровой сессии
-     * @param gameId создаем идентификатор сессии
+     *
+     * @param game     игра
+     * @param gameId   создаем идентификатор сессии
      * @param gameType выбираем тип игры
      */
-    public void startGameSession(String gameId, GameTypes gameType);
+    public void startGameSession(Game game, String gameId, GameTypes gameType);
 
     /**
      * Подключаем игроков
+     *
+     * @param game          игра
      * @param waitingPlayer игрок на входе в игру
      */
-    public void connectingPlayer(Player waitingPlayer);
-
-    /**
-     * Состояние ожидания для всех видов игроков, включая наблюдателей
-     * @return список всех видов игроков, которых мы тянем в игру
-     */
-    public List<Player> gameLobby();
+    public void connectingPlayer(Game game, Player waitingPlayer);
 
     /**
      * Начало игры
-     * @return созданная игра
+     *
+     * @param game созданная игра
      */
-    public Game gameStarted();
+    public void gameStarted(Game game);
 
     /**
      * Любое игровое событие
+     *
      * @param game игра, которая происходит
-     * @return флажок, для контроля завершенности игры
      */
-    public boolean getPlayerAction(Game game);
+    public void getPlayerAction(Game game);
 
     /**
      * Конец игры
+     *
+     * @param game   игра
      * @param winner Победитель в игре
      */
-    public void gameEnded(Player winner);
+    public void gameEnded(Game game, Player winner);
 
     /**
      * Завершение игровой сессии
+     *
+     * @param game игра
      */
-    public void endGameSession();
+    public void endGameSession(Game game);
 
 }
