@@ -1,7 +1,5 @@
 package io.deeplay.camp.engine.entities;
 
-import io.deeplay.camp.engine.entities.Cell;
-import io.deeplay.camp.engine.entities.Planet;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
