@@ -24,6 +24,7 @@ public class Fleet extends GalaxyEntity {
         this.fleetPosition = fleetPosition;
         updateFleetPower();
         owner = player;
+        owner.addFleet(this);
     }
 
     /**
@@ -53,6 +54,8 @@ public class Fleet extends GalaxyEntity {
      *
      * @param fleet         флот
      * @param increasePower флаг на то, добавляем или удаляем
+     *                      <p>
+     *                                           todo разделение на разные методы
      */
     public void updateShipList(final Fleet fleet, final boolean increasePower) {
         if (increasePower) {
@@ -61,6 +64,10 @@ public class Fleet extends GalaxyEntity {
             this.shipList.removeAll(fleet.getShipList());
         }
         this.updateFleetPower();
+    }
+
+    public void addShipsIntoFleet(List<Ship> ships) {
+
     }
 
     /**
