@@ -30,6 +30,10 @@ public class Field {
         return board;
     }
 
+    public void setBoard(Cell[][] board) {
+        this.board = board;
+    }
+
     public List<Planet> getPlanets() {
         return planets;
     }
@@ -87,11 +91,9 @@ public class Field {
      * @return Player, который является владельцем всех планет на поле
      */
     public Player isWinner() {
-        Player winner;
         if (isGameOver()) {
-            return winner = planets.getFirst().getOwner();
-        }
-        else return null;
+            return planets.getFirst().getOwner();
+        } else throw new IllegalCallerException("победитель не существует");
     }
 
     @Override
