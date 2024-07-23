@@ -7,7 +7,7 @@ public class GalaxyEntity {
     private final long id;
 
     public GalaxyEntity() {
-        this.id = idGenerator.incrementAndGet();
+        this.id = idGenerator.getAndIncrement();
     }
 
     public long getId() {
