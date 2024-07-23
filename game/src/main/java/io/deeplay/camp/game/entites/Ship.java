@@ -8,7 +8,6 @@ import java.util.Objects;
 public class Ship {
     /**
      * Корабль имеет:
-     *
      * 1) Тип
      * 2) флот, для контроля принадлежности к нему
      */
@@ -23,7 +22,7 @@ public class Ship {
     /**
      * Конструктор для корабля
      *
-     * @param shipType тип инициализируемого корабля
+     * @param shipType         тип инициализируемого корабля
      * @param fleetAffiliation флот, к которому относится корабль
      */
     public Ship(final ShipType shipType, final Fleet fleetAffiliation) {

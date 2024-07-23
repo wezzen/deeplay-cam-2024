@@ -2,6 +2,7 @@ package io.deeplay.camp.game.entities;
 
 import io.deeplay.camp.game.entites.Cell;
 import io.deeplay.camp.game.entites.Fleet;
+import io.deeplay.camp.game.entites.Player;
 import io.deeplay.camp.game.entites.Ship;
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +13,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ShipTest {
     private ArrayList<Ship> shipList = new ArrayList<>();
-    private Fleet fleet = new Fleet(shipList, new Cell(0, 0));
+    private Player player = new Player(1, "test");
+    private Fleet fleet = new Fleet(shipList, new Cell(0, 0), player);
     private Ship basicShip = new Ship(Ship.ShipType.BASIC, fleet);
     private Ship mediumShip = new Ship(Ship.ShipType.MEDIUM, fleet);
     private Ship powerfulShip = new Ship(Ship.ShipType.POWERFUL, fleet);
@@ -22,18 +24,22 @@ class ShipTest {
     void getAttackPoint0() {
         assertEquals(100, Ship.ShipType.BASIC.getShipPower());
     }
+
     @Test
     void getAttackPoints1() {
         assertEquals(150, Ship.ShipType.MEDIUM.getShipPower());
     }
+
     @Test
     void getAttackPoints2() {
         assertEquals(200, Ship.ShipType.POWERFUL.getShipPower());
     }
+
     @Test
     void getAttackPoints3() {
         assertEquals(100, basicShip.getShipType().getShipPower());
     }
+
     @Test
     void getShipType0() {
         assertEquals(Ship.ShipType.BASIC, basicShip.getShipType());
@@ -70,7 +76,7 @@ class ShipTest {
 
     @Test
     public void testShipConstructorWithTypeAndFleet() {
-        Fleet mockFleet = new Fleet(shipList, new Cell(0, 0));  // Предположим, что у нас есть mock объект Fleet
+        Fleet mockFleet = new Fleet(shipList, new Cell(0, 0), player);  // Предположим, что у нас есть mock объект Fleet
         Ship ship = new Ship(Ship.ShipType.BASIC, mockFleet);
         assertEquals(Ship.ShipType.BASIC, ship.getShipType());
         assertEquals(100, ship.getShipType().getShipPower());
@@ -79,14 +85,14 @@ class ShipTest {
 
     @Test
     public void testSetFleetAffiliation() {
-        Fleet mockFleet = new Fleet(new ArrayList<>(), new Cell(0, 0));
-        Ship ship = new Ship(Ship.ShipType.BASIC,mockFleet);
+        Fleet mockFleet = new Fleet(new ArrayList<>(), new Cell(0, 0), player);
+        Ship ship = new Ship(Ship.ShipType.BASIC, mockFleet);
         assertEquals(mockFleet, ship.fleetAffiliation());
     }
 
     @Test
     public void testShipConstructorWithTypeAndFleet1() {
-        Fleet mockFleet = new Fleet(shipList, new Cell(0, 0));
+        Fleet mockFleet = new Fleet(shipList, new Cell(0, 0), player);
         Ship ship1 = new Ship(Ship.ShipType.BASIC, mockFleet);
         Ship ship2 = new Ship(Ship.ShipType.MEDIUM, mockFleet);
         Ship ship3 = new Ship(Ship.ShipType.POWERFUL, mockFleet);
