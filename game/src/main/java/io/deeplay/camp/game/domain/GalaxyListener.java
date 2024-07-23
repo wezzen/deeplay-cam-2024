@@ -15,38 +15,38 @@ public interface GalaxyListener {
      * @param gameId   создаем идентификатор сессии
      * @param gameType выбираем тип игры
      */
-    public void startGameSession(String gameId, GameTypes gameType);
+    void startGameSession(String gameId, GameTypes gameType);
 
     /**
      * Подключаем игроков
      *
-     * @param waitingPlayer игрок на входе в игру
+     * @param waitingPlayerName игрок на входе в игру
      */
-    public void connectingPlayer(Player waitingPlayer);
+    void connectingPlayer(String waitingPlayerName);
 
     /**
      * Начало игры
      */
-    public void gameStarted(Field field);
+    void gameStarted(Field field);
 
     /**
      * Любое игровое событие
      *
-     * @param move   ход
-     * @param player игрок
+     * @param move       ход
+     * @param playerName игрок
      */
-    public void getPlayerAction(Move move, Player player);
+    void getPlayerAction(Move move, String playerName);
 
     /**
      * Конец игры
      *
      * @param winner Победитель в игре
      */
-    public void gameEnded(Player winner);
+    void gameEnded(String winner);
 
     /**
      * Завершение игровой сессии
      */
-    public void endGameSession();
+    void endGameSession();
 
 }
