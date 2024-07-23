@@ -6,7 +6,7 @@ import java.util.Objects;
 /**
  * Класс-представление сущности Флот
  */
-public class Fleet {
+public class Fleet extends GalaxyEntity {
     /**
      * Флот хранит в себе переменные:
      * 1) shipList - для хранения актуального набора кораблей
@@ -16,11 +16,14 @@ public class Fleet {
     private List<Ship> shipList;
     private Cell fleetPosition;
     private int fleetPower;
+    private final Player owner;
 
-    public Fleet(final List<Ship> shipList, final Cell fleetPosition) {
+    public Fleet(final List<Ship> shipList, final Cell fleetPosition, final Player player) {
+        super();
         this.shipList = shipList;
         this.fleetPosition = fleetPosition;
         updateFleetPower();
+        owner = player;
     }
 
     /**
@@ -107,8 +110,8 @@ public class Fleet {
      * Метод, который обыгрывает столкновение флотов
      *
      * @param enemyFleet флот соперника
-     * @param us игрок
-     * @param enemy игрок
+     * @param us         игрок
+     * @param enemy      игрок
      */
     public void fleetsClash(final Fleet enemyFleet, final Player us, final Player enemy) {
         if (this.fleetPower > enemyFleet.fleetPower) {
