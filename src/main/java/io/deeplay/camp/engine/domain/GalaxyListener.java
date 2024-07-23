@@ -1,47 +1,45 @@
-package io.deeplay.camp.engine.entities.domain;
+package io.deeplay.camp.engine.domain;
 
-import io.deeplay.camp.engine.entities.*;
+import io.deeplay.camp.engine.entities.Field;
+import io.deeplay.camp.engine.entities.Move;
+import io.deeplay.camp.engine.entities.Player;
 
-import java.util.List;
 
 /**
  * Интерфейс игровых событий
  */
-public interface GameEvents {
+public interface GalaxyListener {
     /**
      * Инициализация игровой сессии
-     * @param gameId создаем идентификатор сессии
+     *
+     * @param gameId   создаем идентификатор сессии
      * @param gameType выбираем тип игры
      */
     public void startGameSession(String gameId, GameTypes gameType);
 
     /**
      * Подключаем игроков
+     *
      * @param waitingPlayer игрок на входе в игру
      */
     public void connectingPlayer(Player waitingPlayer);
 
     /**
-     * Состояние ожидания для всех видов игроков, включая наблюдателей
-     * @return список всех видов игроков, которых мы тянем в игру
-     */
-    public List<Player> gameLobby();
-
-    /**
      * Начало игры
-     * @return созданная игра
      */
-    public Game gameStarted();
+    public void gameStarted(Field field);
 
     /**
      * Любое игровое событие
-     * @param game игра, которая происходит
-     * @return флажок, для контроля завершенности игры
+     *
+     * @param move   ход
+     * @param player игрок
      */
-    public boolean getPlayerAction(Game game);
+    public void getPlayerAction(Move move, Player player);
 
     /**
      * Конец игры
+     *
      * @param winner Победитель в игре
      */
     public void gameEnded(Player winner);

@@ -3,7 +3,7 @@ package io.deeplay.camp.engine.entities;
 import java.util.Objects;
 
 /**
- * Класс – представлние для Корабля
+ * Класс – представление для Корабля
  */
 public class Ship {
     /**
