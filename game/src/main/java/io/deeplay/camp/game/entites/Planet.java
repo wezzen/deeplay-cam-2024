@@ -15,6 +15,7 @@ public class Planet {
      */
     public final int points;
     private Player owner;
+    private Cell cell = null;
 
     /**
      * Конструктор для генерации на поле
@@ -24,6 +25,15 @@ public class Planet {
     public Planet(final int points) {
         this.points = points;
         this.owner = null;
+    }
+
+    public void setCell(Cell cell) throws RuntimeException {
+        if (this.cell == null) {
+            this.cell = cell;
+        } else {
+            throw
+                    new RuntimeException("Поле уже присвоено");
+        }
     }
 
     public int getPoints() {
