@@ -40,10 +40,13 @@ public class Field {
             for (int j = 0; j <= i; j++) {
                 if (random.nextInt(2) == 1) {
                     int temp = random.nextInt(10);
-                    board[i][j] = new Cell(i, j, new Planet(temp));
+                    Planet newPlanet = new Planet(temp);
+                    board[i][j] = new Cell(i, j, newPlanet);
+                    newPlanet.setCell(board[i][j]);
                     if (i != j) {
-                        board[j][i] = new Cell(j, i, new Planet(temp));
-
+                        Planet newPlanet2 = new Planet(temp);
+                        board[j][i] = new Cell(j, i, newPlanet2);
+                        newPlanet2.setCell(board[j][i]);
                     }
                 } else {
                     board[i][j] = new Cell(i, j);
