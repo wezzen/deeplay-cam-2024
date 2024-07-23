@@ -1,9 +1,6 @@
 package io.deeplay.camp.game.entites;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Класс-представление сущности Флот
@@ -51,22 +48,48 @@ public class Fleet extends GalaxyEntity {
     }
 
 
-//    public void addShipsIntoFleet(List<Ship> ships) {
-//        this.shipList.addAll(ships);
-//        updateFleetPower();
-//    }
+    public void addShipsIntoFleet(List<Ship> ships) {
+        for (Ship ship : ships) {
+            ship.setFleetAffiliation(this);
+        }
+        updateFleetPower();
+    }
 
     public void addShipIntoFleet(Ship ship) {
         this.shipList.add(ship);
+        ship.fleetAffiliation();
         updateFleetPower();
     }
 
     public Map<Ship.ShipType, Integer> getShipsByShipType() {
-        return null;
+        Map<Ship.ShipType, Integer> result = new HashMap<>();
+
+        for (Ship ship : shipList) {
+            Ship.ShipType shipType = ship.getShipType();
+            result.put(shipType, result.getOrDefault(shipType, 0) + 1);
+        }
+
+        return result;
     }
 
     public void removeShipsFromFleet(Map<Ship.ShipType, Integer> shipsToRemove) {
+        for (Map.Entry<Ship.ShipType, Integer> entry : shipsToRemove.entrySet()) {
+            Ship.ShipType shipType = entry.getKey();
+            int countToRemove = entry.getValue();
 
+            Iterator<Ship> iterator = shipList.iterator();
+            while (iterator.hasNext() && countToRemove > 0) {
+                Ship ship = iterator.next();
+                if (ship.getShipType() == shipType) {
+                    iterator.remove();
+                    countToRemove--;
+                }
+            }
+
+            if (countToRemove > 0) {
+                throw new IllegalArgumentException("Неверное количество кораблей для удаления");
+            }
+        }
     }
 
     public List<Ship> getShipList() {

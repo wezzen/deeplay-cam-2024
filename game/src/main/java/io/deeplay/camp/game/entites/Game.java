@@ -11,12 +11,13 @@ import java.util.Map;
  * Контроллер
  */
 public class Game implements GalaxyListener {
+    private final static int NUM_PLAYERS = 2;
+
     private final Field field;
     private GameTypes gameType;
     private List<Move> allGameMoves;
-    public final Player[] players = new Player[2];
+    public final Player[] players = new Player[NUM_PLAYERS];
     private final Map<String, Player> playerNames;
-    private final static int numPlayers = 2;
     private int nextPlayerToAct;
     private String id;
 
@@ -77,7 +78,7 @@ public class Game implements GalaxyListener {
         if (!playerNames.containsKey(playerName)) {
             throw new IllegalArgumentException("Отсутствует игрок:" + playerName);
         }
-        nextPlayerToAct = (nextPlayerToAct + 1) % numPlayers;
+        nextPlayerToAct = (nextPlayerToAct + 1) % NUM_PLAYERS;
 
         //todo проверка валидности хода
     }
