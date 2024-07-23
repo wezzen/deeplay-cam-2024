@@ -10,13 +10,15 @@ public class Field {
 
     private final int size;
     private Cell[][] board;
-    public final List<Cell> planetsOnField = new ArrayList<>();
+
+    private final List<Planet> planets;
 
     public void updateField() {
     }
 
     public Field(final int size) {
         this.size = size;
+        this.planets = new ArrayList<>();
         generateField(size);
     }
 
@@ -26,6 +28,10 @@ public class Field {
 
     public Cell[][] getBoard() {
         return board;
+    }
+
+    public List<Planet> getPlanets() {
+        return planets;
     }
 
     /**
@@ -43,10 +49,12 @@ public class Field {
                     Planet newPlanet = new Planet(temp);
                     board[i][j] = new Cell(i, j, newPlanet);
                     newPlanet.setCell(board[i][j]);
+                    planets.add(newPlanet);
                     if (i != j) {
                         Planet newPlanet2 = new Planet(temp);
                         board[j][i] = new Cell(j, i, newPlanet2);
                         newPlanet2.setCell(board[j][i]);
+                        planets.add(newPlanet2);
                     }
                 } else {
                     board[i][j] = new Cell(i, j);
@@ -56,6 +64,34 @@ public class Field {
                 }
             }
         }
+    }
+
+    /**
+     * Проверка, принадлежат ли все планеты одному игроку.
+     *
+     * @return true, если все планеты принадлежат одному игроку, иначе false.
+     */
+    public boolean isGameOver() {
+        Player owner = planets.getFirst().getOwner();
+        for (Planet planet : planets) {
+            if (!planet.getOwner().equals(owner)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Выявление победителя сессии
+     *
+     * @return Player, который является владельцем всех планет на поле
+     */
+    public Player isWinner() {
+        Player winner;
+        if (isGameOver()) {
+            return winner = planets.getFirst().getOwner();
+        }
+        else return null;
     }
 
     @Override
