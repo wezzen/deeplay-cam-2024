@@ -15,7 +15,7 @@ public class Game implements GalaxyListener {
     private GameTypes gameType;
     private List<Move> allGameMoves;
     public Player[] players = new Player[2];
-    Map<String, Player> playerNames;
+    private Map<String, Player> playerNames;
     private String nextPlayerToAct;
     private String id;
 
@@ -26,21 +26,19 @@ public class Game implements GalaxyListener {
     }
 
 
-    private void executeTurn(Player player) {
-    }
-
-
-    public void updateGameState() {
-    }
-
-
     public GameTypes getGameType() {
         return gameType;
     }
 
-    public void setGameType(GameTypes gameType) {
-        this.gameType = gameType;
+
+    public String getId() {
+        return id;
     }
+
+    public String getNextPlayerToAct() {
+        return nextPlayerToAct;
+    }
+
 
     public boolean isGameOver() {
         return field.isGameOver();

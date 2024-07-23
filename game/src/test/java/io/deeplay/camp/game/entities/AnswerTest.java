@@ -42,7 +42,7 @@ public class AnswerTest {
             }
         }
 
-        assertEquals(true, isValid);
+        assertTrue(isValid);
     }
 
     @Test

@@ -1,6 +1,8 @@
 package io.deeplay.camp.game.entites;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -18,6 +20,15 @@ public class Fleet extends GalaxyEntity {
     private int fleetPower;
     private final Player owner;
 
+    public Fleet(final Cell fleetPosition, final Player player) {
+        super();
+        shipList = new ArrayList<>();
+        this.fleetPosition = fleetPosition;
+        owner = player;
+        owner.addFleet(this);
+    }
+
+    //возможно вообще убрать этот конструктор? если мы всегда создаем корабль с флотом в конструкторе и там же его и добавляем во флот
     public Fleet(final List<Ship> shipList, final Cell fleetPosition, final Player player) {
         super();
         this.shipList = shipList;
@@ -39,65 +50,23 @@ public class Fleet extends GalaxyEntity {
         return fleetPower;
     }
 
-    /**
-     * Метод для обновления силы флота, если добавим корабль во флот
-     *
-     * @param ship добавляемый корабль
-     */
-    public void actualFleetPower(final Ship ship) {
-        shipList.add(ship);
+
+//    public void addShipsIntoFleet(List<Ship> ships) {
+//        this.shipList.addAll(ships);
+//        updateFleetPower();
+//    }
+
+    public void addShipIntoFleet(Ship ship) {
+        this.shipList.add(ship);
         updateFleetPower();
     }
 
-    /**
-     * Изменение флота. Объединение флотов
-     *
-     * @param fleet         флот
-     * @param increasePower флаг на то, добавляем или удаляем
-     *                      <p>
-     *                                           todo разделение на разные методы
-     */
-    public void updateShipList(final Fleet fleet, final boolean increasePower) {
-        if (increasePower) {
-            this.shipList.addAll(fleet.getShipList());
-        } else {
-            this.shipList.removeAll(fleet.getShipList());
-        }
-        this.updateFleetPower();
+    public Map<Ship.ShipType, Integer> getShipsByShipType() {
+        return null;
     }
 
-    public void addShipsIntoFleet(List<Ship> ships) {
+    public void removeShipsFromFleet(Map<Ship.ShipType, Integer> shipsToRemove) {
 
-    }
-
-    /**
-     * Изменение флота. Добавление набора кораблей
-     *
-     * @param newShipList   флот
-     * @param increasePower флаг на то, добавляем или удаляем
-     */
-    public void updateShipList(final List<Ship> newShipList, final boolean increasePower) {
-        if (increasePower) {
-            this.shipList.addAll(newShipList);
-        } else {
-            this.shipList.removeAll(newShipList);
-        }
-        this.updateFleetPower();
-    }
-
-    /**
-     * Изменение флота. Добавление корабля
-     *
-     * @param ship          корабль
-     * @param increasePower флаг на то, добавляем или удаляем
-     */
-    public void updateShipList(final Ship ship, final boolean increasePower) {
-        if (increasePower) {
-            this.shipList.add(ship);
-        } else {
-            this.shipList.remove(ship);
-        }
-        this.updateFleetPower();
     }
 
     public List<Ship> getShipList() {
