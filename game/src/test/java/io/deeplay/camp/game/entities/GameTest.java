@@ -52,7 +52,7 @@ class GameTest {
         move = new Move(startPositionSM, endPositionSM, Move.MoveType.ORDINARY);
         game.connectingPlayer("testPlayer");
         game.connectingPlayer("secondPlayer");
-        game.gameStarted(field2, "testPlayer");
+        game.gameStarted(field2);
         assertEquals(game.getNextPlayerToAct(), "testPlayer");
         game.getPlayerAction(move, "testPlayer");
     }

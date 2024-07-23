@@ -14,9 +14,10 @@ public class Game implements GalaxyListener {
     private final Field field;
     private GameTypes gameType;
     private List<Move> allGameMoves;
-    public Player[] players = new Player[2];
-    private Map<String, Player> playerNames;
-    private String nextPlayerToAct;
+    public final Player[] players = new Player[2];
+    private final Map<String, Player> playerNames;
+    private final static int numPlayers = 2;
+    private int nextPlayerToAct;
     private String id;
 
     public Game(final Field field) {
@@ -36,7 +37,7 @@ public class Game implements GalaxyListener {
     }
 
     public String getNextPlayerToAct() {
-        return nextPlayerToAct;
+        return players[nextPlayerToAct].getName();
     }
 
 
@@ -67,12 +68,8 @@ public class Game implements GalaxyListener {
     }
 
     @Override
-    public void gameStarted(Field field, String firstPlayerName) {
+    public void gameStarted(Field field) {
         this.field.setBoard(field.getBoard());
-        if (!playerNames.containsKey(firstPlayerName)) {
-            throw new IllegalArgumentException("Отсутствует игрок:" + firstPlayerName);
-        }
-        nextPlayerToAct = firstPlayerName;
     }
 
     @Override
@@ -80,13 +77,7 @@ public class Game implements GalaxyListener {
         if (!playerNames.containsKey(playerName)) {
             throw new IllegalArgumentException("Отсутствует игрок:" + playerName);
         }
-
-        for (String name : playerNames.keySet()) {
-            if (!name.equals(playerName)) {
-                nextPlayerToAct = name;
-                break;
-            }
-        }
+        nextPlayerToAct = (nextPlayerToAct + 1) % numPlayers;
 
         //todo проверка валидности хода
     }
