@@ -27,7 +27,7 @@ public interface GalaxyListener {
     /**
      * Начало игры
      */
-    void gameStarted(Field field, String firstPlayerName);
+    void gameStarted(Field field);
 
     /**
      * Любое игровое событие
