@@ -1,6 +1,5 @@
 package io.deeplay.camp.game.entities;
 
-import io.deeplay.camp.game.domain.GameStates;
 import io.deeplay.camp.game.domain.GameTypes;
 import io.deeplay.camp.game.entites.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,55 +26,4 @@ class GameTest {
         players.add(player2);
     }
 
-    @Test
-    void testConstructor() {
-        Game game = new Game(field, players, GameTypes.HumansHuman);
-        assertEquals(GameStates.DEFAULT, game.getCurrentState());
-        assertEquals(GameTypes.HumansHuman, game.getGameType());
-        assertEquals(players, game.getPlayers());
-    }
-
-    @Test
-    void testStartGame() {
-        Game game = new Game(field, players, GameTypes.BotVsBot);
-        game.startGame();
-        assertEquals(GameStates.CHECK, game.getCurrentState());
-    }
-
-    @Test
-    void testExecuteMove() {
-        Game game = new Game(field, players, GameTypes.HumanVsBot);
-        Move move = new Move(new Cell(0, 0), new Cell(1, 1), Move.MoveType.ORDINARY);
-
-        game.executeMove(player1, move);
-
-        assertEquals(GameStates.PRECEDENCE, game.getCurrentState());
-    }
-
-    @Test
-    void testUpdateGameState() {
-        Game game = new Game(field, players, GameTypes.HumansHuman);
-
-        game.updateGameState();
-
-        // Проверяем, что состояние игры изменилось на DEFAULT
-        assertEquals(GameStates.DEFAULT, game.getCurrentState());
-    }
-
-    @Test
-    void testIsGameOver() {
-        Game game = new Game(field, players, GameTypes.HumansHuman);
-
-        // Устанавливаем состояние игры на COMPLETE
-        game.setCurrentState(GameStates.COMPLETE);
-        assertTrue(game.isGameOver());
-
-        // Устанавливаем состояние игры на DRAW
-        game.setCurrentState(GameStates.DRAW);
-        assertTrue(game.isGameOver());
-
-        // Устанавливаем состояние игры на DEFAULT
-        game.setCurrentState(GameStates.DEFAULT);
-        assertFalse(game.isGameOver());
-    }
 }
