@@ -24,7 +24,7 @@ public class Answer {
     /**
      * Конструктор, который инициализирует ответ с заданным временем.
      *
-     * @param move действие игрока
+     * @param move         действие игрока
      * @param responseTime время ответа в формате строки
      * @throws IllegalArgumentException если move или responseTime являются null
      */

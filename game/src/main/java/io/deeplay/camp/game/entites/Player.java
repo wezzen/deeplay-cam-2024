@@ -80,7 +80,9 @@ public class Player {
      *
      * @param fleet флот, который мы добавляем/создаем
      */
-    public void addFleet(Fleet fleet) {this.fleetList.add(fleet);}
+    public void addFleet(Fleet fleet) {
+        this.fleetList.add(fleet);
+    }
 
     /**
      * Метод фильтрует коллекцию ходов moves с помощью стрима stream(), оставляя только те ходы,

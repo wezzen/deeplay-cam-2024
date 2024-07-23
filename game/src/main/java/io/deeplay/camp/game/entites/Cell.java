@@ -39,7 +39,7 @@ public class Cell {
 
     @Override
     public int hashCode() {
-        return Objects.hash(x, y, planet, fleet);
+        return Objects.hash(x, y, planet);
     }
 
     public Fleet getFleet() {

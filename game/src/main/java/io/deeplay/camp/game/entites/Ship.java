@@ -16,7 +16,7 @@ public class Ship {
 
     public void setFleetAffiliation(final Fleet fleetAffiliation) {
         this.fleetAffiliation = fleetAffiliation;
-        this.fleetAffiliation.updateShipList(this, true);
+        this.fleetAffiliation.addShipIntoFleet(this);
     }
 
     /**
