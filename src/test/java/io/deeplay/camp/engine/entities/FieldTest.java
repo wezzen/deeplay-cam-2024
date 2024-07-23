@@ -3,8 +3,6 @@ package io.deeplay.camp.engine.entities;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -36,18 +34,5 @@ class FieldTest {
                 assertEquals(field.getBoard()[i][j].planet, field.getBoard()[j][i].planet);
             }
         }
-    }
-
-    @Test
-    void testUpdateFieldMovesFleet() {
-        Cell start = new Cell(0, 0);
-        Fleet fleet = new Fleet(new ArrayList<>(), start);
-        start.setFleet(fleet);
-        Cell end = new Cell(1, 1);
-        Move move = new Move(start, end, Move.MoveType.ORDINARY);
-        field.updateField(move);
-        assertNull(start.getFleet());
-        assertEquals(fleet, end.getFleet());
-        assertEquals(end, fleet.getFleetPosition());
     }
 }

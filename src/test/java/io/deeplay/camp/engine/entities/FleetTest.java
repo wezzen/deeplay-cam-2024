@@ -66,7 +66,7 @@ class FleetTest {
         newShipList.add(new Ship(Ship.ShipType.BASIC));
 
         Fleet newFleet = new Fleet(newShipList, new Cell(6, 6));
-        fleet.updateShipList(newFleet, true);
+        fleet.updateShipList(newFleet, new Player(0, "zero"), true);
 
         assertEquals(3, fleet.getShipList().size());
         assertEquals(300, fleet.getFleetPower());
@@ -163,7 +163,7 @@ class FleetTest {
         player2.addFleet(fleet2);
 
         // Выполняем столкновение флотов
-        fleet1.fleetsClash(fleet2, player1, player2);
+        fleet1.isFleetsClash(fleet2, player1, player2);
 
         // Проверяем, что проигравший флот удален из списка флотов проигравшего игрока
         assertFalse(player2.getFleetList().contains(fleet2));

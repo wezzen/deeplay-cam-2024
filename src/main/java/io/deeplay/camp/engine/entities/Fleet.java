@@ -67,10 +67,11 @@ public class Fleet {
      * @param fleet         флот
      * @param increasePower флаг на то, добавляем или удаляем
      */
-    public void updateShipList(final Fleet fleet, final boolean increasePower) {
+    public void updateShipList(final Fleet fleet, Player player, final boolean increasePower) {
         if (increasePower) {
             this.shipList.addAll(fleet.getShipList());
         } else this.shipList.removeAll(fleet.getShipList());
+        player.removeFleet(fleet);
         this.updateFleetPower();
     }
 
@@ -120,11 +121,13 @@ public class Fleet {
      * @param us игрок
      * @param enemy игрок
      */
-    public void fleetsClash(final Fleet enemyFleet, final Player us, final Player enemy) {
+    public boolean isFleetsClash(final Fleet enemyFleet, final Player us, final Player enemy) {
         if (this.fleetPower > enemyFleet.fleetPower) {
             enemy.removeFleet(enemyFleet);
+            return true;
         } else {
             us.removeFleet(this);
+            return false;
         }
     }
 

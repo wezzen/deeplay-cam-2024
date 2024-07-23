@@ -1,5 +1,6 @@
-package io.deeplay.camp.engine.entities;
+package io.deeplay.camp.engine.entities.move;
 
+import io.deeplay.camp.engine.entities.Cell;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

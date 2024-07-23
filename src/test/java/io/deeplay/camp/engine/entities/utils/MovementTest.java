@@ -1,6 +1,7 @@
-package io.deeplay.camp.engine.entities.utill;
+package io.deeplay.camp.engine.entities.utils;
 
 import io.deeplay.camp.engine.entities.*;
+import io.deeplay.camp.engine.entities.move.Move;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

@@ -17,11 +17,7 @@ public class Field {
         generateField(size);
     }
 
-    public void updateField(Move move) {
-        Fleet fleet = move.startPosition().getFleet();
-        move.startPosition().setFleet(null);
-        move.endPosition().setFleet(fleet);
-        fleet.setFleetPosition(move.endPosition());
+    public void updateField() {
     }
 
     public int getSize() {

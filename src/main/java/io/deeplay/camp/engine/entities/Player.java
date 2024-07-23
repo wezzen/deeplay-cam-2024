@@ -1,5 +1,7 @@
 package io.deeplay.camp.engine.entities;
 
+import io.deeplay.camp.engine.entities.move.Move;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -32,7 +34,9 @@ public class Player {
         this.controlledPlanet = new ArrayList<>();
         this.legalMoves = new ArrayList<>();
     }
-
+    public boolean hasFleet(Fleet fleet) {
+        return fleetList.contains(fleet);
+    }
     public String getName() {
         return name;
     }

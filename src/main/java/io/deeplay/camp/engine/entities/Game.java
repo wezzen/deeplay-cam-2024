@@ -2,7 +2,7 @@ package io.deeplay.camp.engine.entities;
 
 import io.deeplay.camp.engine.entities.domain.GameStates;
 import io.deeplay.camp.engine.entities.domain.GameTypes;
-import io.deeplay.camp.engine.entities.utill.Movement;
+import io.deeplay.camp.engine.entities.move.Move;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,14 +65,22 @@ public class Game {
         this.currentState = currentState;
     }
 
-    public Move.MoveStatus addMove(Move move) {
-        if (Movement.isValidMove(move, field)) {
-            allGameMoves.add(move);
-            field.updateField(move);
-            return Move.MoveStatus.DONE;
+    public Move.MoveStatus makeMove(Move move, Player player, Player enemy) {
+        allGameMoves.add(move);
+
+        Fleet endFleet = move.endPosition().getFleet();
+        Fleet startFleet = move.startPosition().getFleet();
+
+        if (player.hasFleet(endFleet)) {
+            endFleet.updateShipList(startFleet, player, true);
+        } else if (enemy.hasFleet(endFleet) && startFleet.isFleetsClash(endFleet, player, enemy)) {
+            move.endPosition().setFleet(startFleet);
         } else {
-            return Move.MoveStatus.ILLEGAL_MOVE;
+            move.endPosition().setFleet(startFleet);
         }
+
+        move.startPosition().setFleet(null);
+        return Move.MoveStatus.DONE;
     }
 
     public List<Move> getAllGameMoves() {

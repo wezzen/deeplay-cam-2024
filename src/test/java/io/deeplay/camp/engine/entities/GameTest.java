@@ -2,10 +2,12 @@ package io.deeplay.camp.engine.entities;
 
 import io.deeplay.camp.engine.entities.domain.GameStates;
 import io.deeplay.camp.engine.entities.domain.GameTypes;
+import io.deeplay.camp.engine.entities.move.Move;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -15,6 +17,8 @@ class GameTest {
     private Player player1;
     private Player player2;
     private ArrayList<Player> players;
+    private static final int FLEET_POWER_JOIN = 200;
+    private static final int FLEET_POWER_ATTACK = 100;
 
     @BeforeEach
     void setUp() {
@@ -78,10 +82,10 @@ class GameTest {
         assertFalse(game.isGameOver());
     }
     @Test
-    void testAddValidMove() {
+    void testMakeValidMove() {
         Game game = new Game(field, players, GameTypes.HumanVsBot);
         Move move = new Move(new Cell(0, 0, new Fleet(new ArrayList<>(), new Cell(0, 0))), new Cell(1, 1), Move.MoveType.ORDINARY);
-        Move.MoveStatus status = game.addMove(move);
+        Move.MoveStatus status = game.makeMove(move, player1, player2);
         assertEquals(Move.MoveStatus.DONE, status);
         assertNotNull(game.getAllGameMoves());
         assertEquals(1, game.getAllGameMoves().size());
@@ -89,13 +93,50 @@ class GameTest {
     }
 
     @Test
-    void testAddInvalidMove() {
-        Game game = new Game(field, players, GameTypes.HumansHuman);
-        Move move = new Move(new Cell(9, 9, new Fleet(new ArrayList<>(), new Cell(9, 9))), new Cell(10, 10), Move.MoveType.ORDINARY);
-        Move.MoveStatus status = game.addMove(move);
-        assertEquals(Move.MoveStatus.ILLEGAL_MOVE, status);
+    void testMakeValidMoveJoinFleets() {
+        Game game = new Game(field, players, GameTypes.HumanVsBot);
+        Ship ship = new Ship(Ship.ShipType.BASIC);
+        List<Ship> shipList = new ArrayList<>();
+        shipList.add(ship);
+        Cell startCell = field.getBoard()[0][0];
+        Cell endCell = field.getBoard()[0][2];
+        Fleet fleet = new Fleet(shipList, startCell);
+        Fleet fleet2 = new Fleet(shipList, endCell);
+        startCell.setFleet(fleet);
+        endCell.setFleet(fleet2);
+        player1.addFleet(fleet);
+        player1.addFleet(fleet2);
+        Move move = new Move(startCell, endCell, Move.MoveType.ORDINARY);
+        Move.MoveStatus status = game.makeMove(move, player1, player2);
+        assertEquals(Move.MoveStatus.DONE, status);
+        assertEquals(1, game.getAllGameMoves().size());
+        assertEquals(move, game.getAllGameMoves().get(0));
+        assertEquals(FLEET_POWER_JOIN, move.endPosition().getFleet().getFleetPower());
+        assertNull(move.startPosition().getFleet());
+    }
+
+    @Test
+    void testMakeValidMoveAttackFleets() {
+        Game game = new Game(field, players, GameTypes.HumanVsBot);
+        Ship ship = new Ship(Ship.ShipType.BASIC);
+        List<Ship> shipList = new ArrayList<>();
+        shipList.add(ship);
+        Cell startCell = field.getBoard()[0][0];
+        Cell endCell = field.getBoard()[0][2];
+        Fleet fleet = new Fleet(shipList, startCell);
+        Fleet fleet2 = new Fleet(shipList, endCell);
+        startCell.setFleet(fleet);
+        endCell.setFleet(fleet2);
+        player1.addFleet(fleet);
+        player2.addFleet(fleet2);
+        Move move = new Move(startCell, endCell, Move.MoveType.ORDINARY);
+        Move.MoveStatus status = game.makeMove(move, player1, player2);
+        assertEquals(Move.MoveStatus.DONE, status);
         assertNotNull(game.getAllGameMoves());
-        assertEquals(0, game.getAllGameMoves().size());
+        assertEquals(1, game.getAllGameMoves().size());
+        assertEquals(move, game.getAllGameMoves().get(0));
+        assertEquals(FLEET_POWER_ATTACK, move.endPosition().getFleet().getFleetPower());
+        assertNull(move.startPosition().getFleet());
     }
 
 }

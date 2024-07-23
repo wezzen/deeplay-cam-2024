@@ -1,8 +1,8 @@
-package io.deeplay.camp.engine.entities.utill;
+package io.deeplay.camp.engine.entities.utils;
 
 import io.deeplay.camp.engine.entities.Cell;
 import io.deeplay.camp.engine.entities.Field;
-import io.deeplay.camp.engine.entities.Move;
+import io.deeplay.camp.engine.entities.move.Move;
 
 
 public final class Movement {
@@ -10,7 +10,6 @@ public final class Movement {
     public static boolean isValidMove(final Move move, final Field field) {
         return isPositionValid(move.endPosition(), field.getSize()) &&
                 isOrdinaryMove(move) &&
-                isCellAvailable(move) &&
                 isPositionChanged(move) &&
                 isFleetPresent(move);
     }
@@ -22,10 +21,6 @@ public final class Movement {
     private static boolean isPositionValid(final Cell newPosition,final int fieldSize) {
         return newPosition.x >= 0 && newPosition.x < fieldSize && newPosition.y >= 0 && newPosition.y < fieldSize;
     }
-    // проверка - флот, не перетрет другой флот
-    private static boolean isCellAvailable(final Move move) {
-        return move.endPosition().getFleet() == null;
-    }
     // проверка - начальная и конечная позиция отличается
     private static boolean isPositionChanged(final Move move) {
         return !move.startPosition().equals(move.endPosition());
@@ -35,4 +30,3 @@ public final class Movement {
         return move.startPosition().getFleet() != null;
     }
 }
-// Проверка, что флот на начальной позиции принадлежит тому игроку, что сейчас ходит

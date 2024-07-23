@@ -1,4 +1,6 @@
-package io.deeplay.camp.engine.entities;
+package io.deeplay.camp.engine.entities.move;
+
+import io.deeplay.camp.engine.entities.Cell;
 
 /**
  * Класс - ход, как record,
