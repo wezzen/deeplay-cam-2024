@@ -12,31 +12,23 @@ public class Cell {
     private Fleet fleet;
 
     public Cell(final int x, final int y, final Planet planet) {
-        this.planet = planet;
         this.x = x;
         this.y = y;
+        this.planet = planet;
         this.fleet = null;
     }
 
     public Cell(final int x, final int y) {
-        this.planet = null;
         this.x = x;
         this.y = y;
+        this.planet = null;
         this.fleet = null;
-    }
-
-    public Cell(final int x, final int y, final Fleet fleet) {
-        this.planet = null;
-        this.x = x;
-        this.y = y;
-        this.fleet = fleet;
     }
 
     @Override
     public String toString() {
         return "[" + x + ", " + y + "]";
     }
-
 
     @Override
     public boolean equals(final Object o) {
