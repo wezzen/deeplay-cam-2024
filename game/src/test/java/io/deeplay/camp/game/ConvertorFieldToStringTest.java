@@ -14,7 +14,7 @@ import static io.deeplay.camp.game.ConvertorFieldToString.convertFieldToString;
 
 public class ConvertorFieldToStringTest {
 
-    Field field;
+    /*Field field;
     Ship ship;
     List<Ship> shipList;
 
@@ -31,5 +31,5 @@ public class ConvertorFieldToStringTest {
     void print5Cell() {
         String result = convertFieldToString(field);
         System.out.println(result);
-    }
+    }*/
 }

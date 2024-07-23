@@ -8,11 +8,10 @@ import java.util.Objects;
 public class Ship {
     /**
      * Корабль имеет:
-     * 1) атакующие очки
-     * 2) Тип
-     * 3) флот, для контроля принадлежности к нему
+     *
+     * 1) Тип
+     * 2) флот, для контроля принадлежности к нему
      */
-    int attackPoints;
     final ShipType shipType;
     private Fleet fleetAffiliation;
 
@@ -21,23 +20,15 @@ public class Ship {
         this.fleetAffiliation.updateShipList(this, true);
     }
 
-    public Ship(ShipType shipType, final Fleet fleetAffiliation) {
-        this.shipType = shipType;
-        this.fleetAffiliation = fleetAffiliation;
-        this.attackPoints = shipType.shipPower;
-    }
-
     /**
-     * Конструктор для корабля, которому еще не присвоили флот
+     * Конструктор для корабля
      *
-     * @param shipType тип корабля
+     * @param shipType тип инициализируемого корабля
+     * @param fleetAffiliation флот, к которому относится корабль
      */
-    public Ship(final ShipType shipType) {
-        this(shipType, null);
-    }
-
-    public int getAttackPoints() {
-        return attackPoints;
+    public Ship(final ShipType shipType, final Fleet fleetAffiliation) {
+        this.shipType = shipType;
+        setFleetAffiliation(fleetAffiliation);
     }
 
     public ShipType getShipType() {
@@ -49,16 +40,18 @@ public class Ship {
     }
 
     @Override
-    public boolean equals(final Object o) {
+    public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Ship ship)) return false;
-        return attackPoints == ship.attackPoints && shipType == ship.shipType && Objects.equals(fleetAffiliation, ship.fleetAffiliation);
+        if (o == null || getClass() != o.getClass()) return false;
+        Ship ship = (Ship) o;
+        return shipType == ship.shipType && Objects.equals(fleetAffiliation, ship.fleetAffiliation);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(attackPoints, shipType, fleetAffiliation);
+        return Objects.hash(shipType, fleetAffiliation);
     }
+
 
     /**
      * Набор всевозможных кораблей в игре
@@ -80,10 +73,13 @@ public class Ship {
             this.shipName = shipName;
         }
 
+        public int getShipPower() {
+            return this.shipPower;
+        }
+
         @Override
         public String toString() {
             return this.shipName;
         }
     }
 }
-

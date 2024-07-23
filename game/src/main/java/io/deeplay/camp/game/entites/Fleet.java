@@ -28,25 +28,11 @@ public class Fleet {
      * когда у нас пополнение листа или перераспределение кораблей
      */
     private void updateFleetPower() {
-        this.fleetPower = shipList.stream().mapToInt(Ship::getAttackPoints).sum();
+        this.fleetPower = shipList.stream().mapToInt(ship -> ship.getShipType().getShipPower()).sum();
     }
 
     public int getFleetPower() {
         return fleetPower;
-    }
-
-    /**
-     * Метод для обновления силы флота, если организуем новый флот
-     *
-     * @param addedShipList корабли которые мы добавляем во флот
-     */
-    public void actualFleetPower(final List<Ship> addedShipList) {
-        int totalPower = 0;
-        for (Ship ship : addedShipList) {
-            totalPower += ship.getAttackPoints();
-        }
-        updateShipList(addedShipList, true);
-        this.fleetPower = totalPower;
     }
 
     /**
@@ -55,14 +41,12 @@ public class Fleet {
      * @param ship добавляемый корабль
      */
     public void actualFleetPower(final Ship ship) {
-        int totalPower = fleetPower;
-        totalPower += ship.getAttackPoints();
-        this.fleetPower = totalPower;
         shipList.add(ship);
+        updateFleetPower();
     }
 
     /**
-     * Изменение флота. Обьединение флотов
+     * Изменение флота. Объединение флотов
      *
      * @param fleet         флот
      * @param increasePower флаг на то, добавляем или удаляем
@@ -70,7 +54,9 @@ public class Fleet {
     public void updateShipList(final Fleet fleet, final boolean increasePower) {
         if (increasePower) {
             this.shipList.addAll(fleet.getShipList());
-        } else this.shipList.removeAll(fleet.getShipList());
+        } else {
+            this.shipList.removeAll(fleet.getShipList());
+        }
         this.updateFleetPower();
     }
 
@@ -83,7 +69,9 @@ public class Fleet {
     public void updateShipList(final List<Ship> newShipList, final boolean increasePower) {
         if (increasePower) {
             this.shipList.addAll(newShipList);
-        } else this.shipList.removeAll(newShipList);
+        } else {
+            this.shipList.removeAll(newShipList);
+        }
         this.updateFleetPower();
     }
 
@@ -96,7 +84,9 @@ public class Fleet {
     public void updateShipList(final Ship ship, final boolean increasePower) {
         if (increasePower) {
             this.shipList.add(ship);
-        } else this.shipList.remove(ship);
+        } else {
+            this.shipList.remove(ship);
+        }
         this.updateFleetPower();
     }
 
@@ -141,4 +131,3 @@ public class Fleet {
         return Objects.hash(shipList, fleetPosition);
     }
 }
-
