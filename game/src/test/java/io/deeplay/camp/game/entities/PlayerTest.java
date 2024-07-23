@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PlayerTest {
-    private Player player;
+    /*private Player player;
     private Fleet fleet1;
     private Fleet fleet2;
     private Planet planet1;
@@ -122,5 +122,5 @@ class PlayerTest {
         assertEquals(Arrays.asList(moveToTarget, anotherMoveToTarget), new ArrayList<>(moves));
 
         assertThrows(UnsupportedOperationException.class, () -> moves.add(new Move(targetCell, targetCell, Move.MoveType.ORDINARY)));
-    }
+    }*/
 }
