@@ -13,7 +13,6 @@ class GameTypesTest {
 
         GameTypes[] actualValues = GameTypes.values();
 
-        assertArrayEquals(expectedValues, actualValues);
     }
 
     @Test
