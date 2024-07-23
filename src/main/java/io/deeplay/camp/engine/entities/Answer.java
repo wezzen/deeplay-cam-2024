@@ -1,5 +1,7 @@
 package io.deeplay.camp.engine.entities;
 
+import io.deeplay.camp.engine.entities.move.Move;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;

@@ -17,9 +17,6 @@ public class Field {
         generateField(size);
     }
 
-    public void updateField() {
-    }
-
     public int getSize() {
         return size;
     }

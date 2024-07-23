@@ -1,8 +1,8 @@
 package io.deeplay.camp.engine.domain;
 
 import io.deeplay.camp.engine.entities.Field;
-import io.deeplay.camp.engine.entities.Move;
 import io.deeplay.camp.engine.entities.Player;
+import io.deeplay.camp.engine.entities.move.Move;
 
 
 /**
