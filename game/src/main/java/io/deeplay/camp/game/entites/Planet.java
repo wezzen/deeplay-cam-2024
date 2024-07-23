@@ -5,7 +5,7 @@ import java.util.Objects;
 /**
  * Класс планеты
  */
-public class Planet {
+public class Planet extends GalaxyEntity {
     /**
      * Планета имеет:
      * 1) Очки за захват планеты
@@ -23,17 +23,17 @@ public class Planet {
      * @param points очки базовой защиты
      */
     public Planet(final int points) {
+        super();
         this.points = points;
         this.owner = null;
     }
 
-    public void setCell(Cell cell) throws RuntimeException {
-        if (this.cell == null) {
-            this.cell = cell;
-        } else {
+    public void setCell(final Cell cell) throws RuntimeException {
+        if (this.cell != null) {
             throw
-                    new RuntimeException("Поле уже присвоено");
+                    new IllegalArgumentException("Поле уже присвоено");
         }
+        this.cell = cell;
     }
 
     public int getPoints() {
