@@ -88,11 +88,7 @@ class FleetTest {
         ArrayList<Ship> newShipList = new ArrayList<>();
         newShipList.add(new Ship(Ship.ShipType.BASIC, fleet));
         newShipList.add(new Ship(Ship.ShipType.BASIC, fleet));
-        try {
-            fleet.addShipsIntoFleet(newShipList);
-        } catch (IllegalArgumentException e) {
-            assertEquals("корабль уже существует во флоте", e.getMessage());
-        }
+        assertThrows(IllegalArgumentException.class, () -> fleet.addShipsIntoFleet(newShipList));
     }
 
     @Test
