@@ -150,9 +150,12 @@ public class Fleet extends GalaxyEntity {
         return Objects.equals(shipList, fleet.shipList) &&
                 Objects.equals(fleetPosition, fleet.fleetPosition);
     }
-
     @Override
     public int hashCode() {
         return Objects.hash(shipList, fleetPosition);
+    }
+
+    public Player getOwner() {
+        return owner;
     }
 }
