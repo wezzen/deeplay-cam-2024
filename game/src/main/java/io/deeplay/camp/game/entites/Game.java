@@ -85,7 +85,6 @@ public class Game implements GalaxyListener {
 
     @Override
     public void gameEnded(String winner) {
-
     }
 
     @Override
