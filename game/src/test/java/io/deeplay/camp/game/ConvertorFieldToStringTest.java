@@ -2,15 +2,14 @@ package io.deeplay.camp.game;
 
 
 import io.deeplay.camp.game.entites.Field;
-import io.deeplay.camp.game.entites.Fleet;
 import io.deeplay.camp.game.entites.Ship;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import static io.deeplay.camp.game.ConvertorFieldToString.convertFieldToString;
+import static io.deeplay.camp.game.service.ConvertorFieldToString.convertFieldToString;
+
 
 public class ConvertorFieldToStringTest {
 
