@@ -25,10 +25,12 @@ public class Fleet extends GalaxyEntity {
         owner.addFleet(this);
     }
 
-    //возможно вообще убрать этот конструктор? если мы всегда создаем корабль с флотом в конструкторе и там же его и добавляем во флот
-    public Fleet(final List<Ship> shipList, final Cell fleetPosition, final Player player) {
+    public Fleet(final List<Ship> AnotherShipList, final Cell fleetPosition, final Player player) {
         super();
-        this.shipList = shipList;
+        this.shipList = new ArrayList<>();
+        for (Ship ship : AnotherShipList) {
+            ship.setFleetAffiliation(this);
+        }
         this.fleetPosition = fleetPosition;
         updateFleetPower();
         owner = player;
@@ -72,7 +74,8 @@ public class Fleet extends GalaxyEntity {
         return result;
     }
 
-    public void removeShipsFromFleet(Map<Ship.ShipType, Integer> shipsToRemove) {
+    public List<Ship> removeShipsFromFleet(Map<Ship.ShipType, Integer> shipsToRemove) {
+        List<Ship> result = new ArrayList<>();
         for (Map.Entry<Ship.ShipType, Integer> entry : shipsToRemove.entrySet()) {
             Ship.ShipType shipType = entry.getKey();
             int countToRemove = entry.getValue();
@@ -81,6 +84,7 @@ public class Fleet extends GalaxyEntity {
             while (iterator.hasNext() && countToRemove > 0) {
                 Ship ship = iterator.next();
                 if (ship.getShipType() == shipType) {
+                    result.add(ship);
                     iterator.remove();
                     countToRemove--;
                 }
@@ -90,6 +94,7 @@ public class Fleet extends GalaxyEntity {
                 throw new IllegalArgumentException("Неверное количество кораблей для удаления");
             }
         }
+        return result;
     }
 
     public List<Ship> getShipList() {
