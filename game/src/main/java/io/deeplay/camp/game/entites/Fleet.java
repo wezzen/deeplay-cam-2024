@@ -37,6 +37,16 @@ public class Fleet extends GalaxyEntity {
         owner.addFleet(this);
     }
 
+
+    public boolean checkShipExsist(Ship checkedShip) {
+        for (Ship ship : shipList) {
+            if (checkedShip.getId() == ship.getId()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * Метод для актуализации значения силы Флота для случая,
      * когда у нас пополнение листа или перераспределение кораблей
@@ -51,6 +61,13 @@ public class Fleet extends GalaxyEntity {
 
 
     public void addShipsIntoFleet(List<Ship> ships) {
+
+        for (Ship ship : ships) {
+            if (checkShipExsist(ship)) {
+                throw new IllegalArgumentException("корабль уже существует во флоте");
+            }
+        }
+
         for (Ship ship : ships) {
             ship.setFleetAffiliation(this);
         }
@@ -58,6 +75,9 @@ public class Fleet extends GalaxyEntity {
     }
 
     public void addShipIntoFleet(Ship ship) {
+        if (checkShipExsist(ship)) {
+            throw new IllegalArgumentException("корабль уже существует во флоте");
+        }
         this.shipList.add(ship);
         ship.fleetAffiliation();
         updateFleetPower();

@@ -5,7 +5,7 @@ import java.util.Objects;
 /**
  * Класс – представление для Корабля
  */
-public class Ship {
+public class Ship extends GalaxyEntity {
     /**
      * Корабль имеет:
      * 1) Тип
@@ -26,6 +26,7 @@ public class Ship {
      * @param fleetAffiliation флот, к которому относится корабль
      */
     public Ship(final ShipType shipType, final Fleet fleetAffiliation) {
+        super();
         this.shipType = shipType;
         setFleetAffiliation(fleetAffiliation);
     }
