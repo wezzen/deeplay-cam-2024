@@ -8,10 +8,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 //todo переделать тесты
 class FleetTest {
@@ -68,10 +69,10 @@ class FleetTest {
         ArrayList<Ship> newShipList = new ArrayList<>();
         newShipList.add(new Ship(Ship.ShipType.BASIC, fleet));
         newShipList.add(new Ship(Ship.ShipType.BASIC, fleet));
+        fleet.addShipsIntoFleet(newShipList);
 
-
-        assertEquals(3, fleet.getShipList().size());
-        assertEquals(300, fleet.getFleetPower());
+        assertEquals(5, fleet.getShipList().size());
+        assertEquals(500, fleet.getFleetPower());
     }
 
     @Test
@@ -118,6 +119,27 @@ class FleetTest {
         Cell newPosition = new Cell(10, 10);
         fleet.setFleetPosition(newPosition);
         assertEquals(newPosition, fleet.getFleetPosition());
+    }
+
+    @Test
+    void getShipsByShipTypeTest() {
+        Map<Ship.ShipType, Integer> shipTypeIntegerMap = fleet.getShipsByShipType();
+        assertEquals(shipTypeIntegerMap.get(Ship.ShipType.BASIC), 1);
+    }
+
+    @Test
+    void removeShipsFromFleetTest() {
+        Map<Ship.ShipType, Integer> shipTypeIntegerMap = fleet.getShipsByShipType();
+        Ship ship1 = new Ship(Ship.ShipType.BASIC, fleet);
+        Ship ship2 = new Ship(Ship.ShipType.BASIC, fleet);
+
+        List<Ship> result = fleet.removeShipsFromFleet(shipTypeIntegerMap);
+
+        assertEquals(2, fleet.getShipList().size());
+        assertEquals(200, fleet.getFleetPower());
+
+        assertEquals(result.size(), 1);
+
     }
 
     //todo посмотреть что с переопределением хэшкода сейчас StackOverflow хотя Objects.hash должен исключать такое(?)
