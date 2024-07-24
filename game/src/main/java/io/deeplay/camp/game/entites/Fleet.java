@@ -66,9 +66,6 @@ public class Fleet extends GalaxyEntity {
             if (checkShipExist(ship)) {
                 throw new IllegalArgumentException("корабль уже существует во флоте");
             }
-        }
-
-        for (Ship ship : ships) {
             ship.setFleetAffiliation(this);
         }
         updateFleetPower();
