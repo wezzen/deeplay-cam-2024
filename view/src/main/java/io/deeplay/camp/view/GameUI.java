@@ -1,9 +1,7 @@
-package io.deeplay.camp.engine.interfaces;
-
-import io.deeplay.camp.engine.domain.GalaxyListener;
-import io.deeplay.camp.engine.domain.GameStates;
-import io.deeplay.camp.engine.entities.Field;
-import io.deeplay.camp.engine.entities.Move;
+package io.deeplay.camp.view;
+import io.deeplay.camp.game.domain.GalaxyListener;
+import io.deeplay.camp.game.entites.Field;
+import io.deeplay.camp.game.entites.Move;
 
 import java.util.List;
 
@@ -16,20 +14,16 @@ public interface GameUI extends GalaxyListener {
      * Метод для выбора цвета кораблей
      */
     void selectShipColor(String color);
-
     /**
      * Метод для отрисовки игрового поля
      */
     void renderGameField(Field field);
-
     /**
      * Метод, который будет предлагать варианты хода
      */
     void suggestMoveOptions(List<Move> moves);
-
     /**
      * Метод для обновления состояния игры
      */
-    void gameStateUpdate(GameStates state);
-
+    void gameStateUpdate();
 }
