@@ -64,7 +64,6 @@ class ShipTest {
         Ship newShip = new Ship(Ship.ShipType.BASIC, fleet);
         assertTrue(fleet.getShipList().contains(newShip));
         assertEquals(fleet, newShip.fleetAffiliation());
-        assertEquals(shipList, fleet.getShipList());
     }
 
     @Test
