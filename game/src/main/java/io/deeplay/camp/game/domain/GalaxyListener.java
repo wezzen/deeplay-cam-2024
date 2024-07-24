@@ -3,7 +3,6 @@ package io.deeplay.camp.game.domain;
 
 import io.deeplay.camp.game.entites.Field;
 import io.deeplay.camp.game.entites.Move;
-import io.deeplay.camp.game.entites.Player;
 
 /**
  * Интерфейс игровых событий
