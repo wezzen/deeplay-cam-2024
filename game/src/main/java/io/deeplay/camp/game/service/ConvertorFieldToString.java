@@ -1,4 +1,4 @@
-package io.deeplay.camp.game;
+package io.deeplay.camp.game.service;
 
 
 import io.deeplay.camp.game.entites.Cell;
@@ -6,7 +6,7 @@ import io.deeplay.camp.game.entites.Field;
 
 public class ConvertorFieldToString {
 
-    static String convertFieldToString(Field field) {
+    public static String convertFieldToString(Field field) {
         StringBuilder result = new StringBuilder();
         Cell[][] board = field.getBoard();
 
