@@ -2,6 +2,7 @@ package io.deeplay.camp.game.entites;
 
 import io.deeplay.camp.game.domain.GalaxyListener;
 import io.deeplay.camp.game.domain.GameTypes;
+import io.deeplay.camp.game.utils.ValidationMove;
 
 import java.util.HashMap;
 import java.util.List;
@@ -81,6 +82,14 @@ public class Game implements GalaxyListener {
         nextPlayerToAct = (nextPlayerToAct + 1) % NUM_PLAYERS;
 
         //todo проверка валидности хода
+        if (move.moveType() == Move.MoveType.ORDINARY) {
+            if (ValidationMove.isValidOrdinaryMove(move, field, players[nextPlayerToAct])) {
+                allGameMoves.add(move);
+                move.makeMove(players[nextPlayerToAct]);
+            }
+        } else {
+            //todo проверка атаки
+        }
     }
 
     @Override
