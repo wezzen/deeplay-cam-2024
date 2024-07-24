@@ -58,7 +58,7 @@ class FleetTest {
     }
 
     @Test
-    public void testFleetCreation() {
+    void testFleetCreation() {
         assertNotNull(fleet);
         assertEquals(position, fleet.getFleetPosition());
         assertEquals(1, fleet.getShipList().size());
@@ -66,7 +66,7 @@ class FleetTest {
     }
 
     @Test
-    public void testUpdateShipListWithFleet() {
+    void testUpdateShipListWithFleet() {
         Cell secondCell = new Cell(1, 1);
         Fleet secondFleet = new Fleet(secondCell, player);
         ArrayList<Ship> newShipList = new ArrayList<>();
@@ -81,6 +81,18 @@ class FleetTest {
 
         assertEquals(3, fleet.getShipList().size());
         assertEquals(300, fleet.getFleetPower());
+    }
+
+    @Test
+    void testUpdateShipWithSameShip() {
+        ArrayList<Ship> newShipList = new ArrayList<>();
+        newShipList.add(new Ship(Ship.ShipType.BASIC, fleet));
+        newShipList.add(new Ship(Ship.ShipType.BASIC, fleet));
+        try {
+            fleet.addShipsIntoFleet(newShipList);
+        } catch (IllegalArgumentException e) {
+            assertEquals("корабль уже существует во флоте", e.getMessage());
+        }
     }
 
     @Test
