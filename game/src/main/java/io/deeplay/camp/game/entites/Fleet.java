@@ -38,7 +38,7 @@ public class Fleet extends GalaxyEntity {
     }
 
 
-    public boolean checkShipExsist(Ship checkedShip) {
+    public boolean checkShipExist(final Ship checkedShip) {
         for (Ship ship : shipList) {
             if (checkedShip.getId() == ship.getId()) {
                 return true;
@@ -63,7 +63,7 @@ public class Fleet extends GalaxyEntity {
     public void addShipsIntoFleet(List<Ship> ships) {
 
         for (Ship ship : ships) {
-            if (checkShipExsist(ship)) {
+            if (checkShipExist(ship)) {
                 throw new IllegalArgumentException("корабль уже существует во флоте");
             }
         }
@@ -75,7 +75,7 @@ public class Fleet extends GalaxyEntity {
     }
 
     public void addShipIntoFleet(Ship ship) {
-        if (checkShipExsist(ship)) {
+        if (checkShipExist(ship)) {
             throw new IllegalArgumentException("корабль уже существует во флоте");
         }
         this.shipList.add(ship);
