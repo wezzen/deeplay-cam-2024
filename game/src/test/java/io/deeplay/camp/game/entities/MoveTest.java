@@ -1,7 +1,6 @@
 package io.deeplay.camp.game.entities;
 
-import io.deeplay.camp.game.entites.Cell;
-import io.deeplay.camp.game.entites.Move;
+import io.deeplay.camp.game.entites.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -71,4 +70,65 @@ class MoveTest {
         assertEquals(Move.MoveType.ORDINARY, moveOrdinary.moveType());
         assertEquals(Move.MoveType.CAPTURE, moveCapture.moveType());
     }
+    @Test
+    void testMoveToEmptyCell() {
+        Field field = new Field(10);
+        Move move = new Move(field.getBoard()[0][0], field.getBoard()[2][2], Move.MoveType.ORDINARY);
+        Player player = new Player(0, "0");
+        Fleet fleet = new Fleet(field.getBoard()[0][0], player);
+        field.getBoard()[0][0].setFleet(fleet);
+        move.makeMove(player);
+        assertNull(field.getBoard()[0][0].getFleet());
+        assertNotNull(field.getBoard()[2][2].getFleet());
+        assertEquals(field.getBoard()[2][2].getFleet(), fleet);
+    }
+    @Test
+    void testMoveToStrongEnemyFleet() {
+        Field field = new Field(10);
+        Move move = new Move(field.getBoard()[0][0], field.getBoard()[2][2], Move.MoveType.ORDINARY);
+        Player player1 = new Player(0, "0");
+        Player player2 = new Player(1, "1");
+        Fleet fleet1 = new Fleet(field.getBoard()[0][0], player1);
+        Fleet fleet2 = new Fleet(field.getBoard()[2][2], player2);
+        field.getBoard()[0][0].setFleet(fleet1);
+        field.getBoard()[2][2].setFleet(fleet2);
+        move.makeMove(player1);
+        assertNull(field.getBoard()[0][0].getFleet());
+        assertNotNull(field.getBoard()[2][2].getFleet());
+        assertTrue(player2.getFleetList().contains(fleet2)); // по нашему методу сражения флотов, при одинаковой силе флотов, побеждает враг
+        assertFalse(player1.getFleetList().contains(fleet1));
+    }
+
+    @Test
+    void testMoveToWeakEnemyFleet() {
+        Field field = new Field(10);
+        Move move = new Move(field.getBoard()[0][0], field.getBoard()[2][2], Move.MoveType.ORDINARY);
+        Player player1 = new Player(0, "0");
+        Player player2 = new Player(1, "1");
+        Fleet fleet1 = new Fleet(field.getBoard()[0][0], player1);
+        Fleet fleet2 = new Fleet(field.getBoard()[2][2], player2);
+        field.getBoard()[0][0].setFleet(fleet1);
+        field.getBoard()[2][2].setFleet(fleet2);
+        new Ship(Ship.ShipType.MEDIUM, fleet1);
+        move.makeMove(player1);
+        assertNull(field.getBoard()[0][0].getFleet());
+        assertNotNull(field.getBoard()[2][2].getFleet());
+        assertFalse(player2.getFleetList().contains(fleet2)); // у плеер1 сила больше, поэтому у плеера2 флот уничтожается
+        assertTrue(player1.getFleetList().contains(fleet1));
+    }
+    @Test
+    void testMoveToJoinFleet() {
+        Field field = new Field(10);
+        Move move = new Move(field.getBoard()[0][0], field.getBoard()[2][2], Move.MoveType.ORDINARY);
+        Player player = new Player(0, "0");
+        Fleet fleet1 = new Fleet(field.getBoard()[0][0], player);
+        Fleet fleet2 = new Fleet(field.getBoard()[2][2], player);
+        field.getBoard()[0][0].setFleet(fleet1);
+        field.getBoard()[2][2].setFleet(fleet2);
+        move.makeMove(player);
+        assertNull(field.getBoard()[0][0].getFleet());
+        assertNotNull(field.getBoard()[2][2].getFleet());
+        assertFalse(player.getFleetList().contains(fleet1)); // у плеера уже хранится новый флот, состоящий из двух флотов
+    }
+
 }
