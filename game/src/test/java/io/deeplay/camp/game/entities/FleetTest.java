@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -66,13 +67,20 @@ class FleetTest {
 
     @Test
     public void testUpdateShipListWithFleet() {
+        Cell secondCell = new Cell(1, 1);
+        Fleet secondFleet = new Fleet(secondCell, player);
         ArrayList<Ship> newShipList = new ArrayList<>();
-        newShipList.add(new Ship(Ship.ShipType.BASIC, fleet));
-        newShipList.add(new Ship(Ship.ShipType.BASIC, fleet));
-        fleet.addShipsIntoFleet(newShipList);
+        newShipList.add(new Ship(Ship.ShipType.BASIC, secondFleet));
+        newShipList.add(new Ship(Ship.ShipType.BASIC, secondFleet));
+        Map<Ship.ShipType, Integer> shipTypeIntegerMap = new HashMap<>();
+        shipTypeIntegerMap.put(Ship.ShipType.BASIC, 2);
+        List<Ship> shipListTemp = secondFleet.removeShipsFromFleet(shipTypeIntegerMap);
 
-        assertEquals(5, fleet.getShipList().size());
-        assertEquals(500, fleet.getFleetPower());
+
+        fleet.addShipsIntoFleet(shipListTemp);
+
+        assertEquals(3, fleet.getShipList().size());
+        assertEquals(300, fleet.getFleetPower());
     }
 
     @Test
