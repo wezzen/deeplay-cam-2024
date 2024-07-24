@@ -94,6 +94,7 @@ public class Fleet extends GalaxyEntity {
                 throw new IllegalArgumentException("Неверное количество кораблей для удаления");
             }
         }
+        updateFleetPower();
         return result;
     }
 
