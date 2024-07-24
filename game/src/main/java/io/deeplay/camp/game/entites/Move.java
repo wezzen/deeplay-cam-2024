@@ -6,6 +6,40 @@ package io.deeplay.camp.game.entites;
  * Record обеспечивает из коробки все требуемые методы (и даже больше)
  */
 public record Move(Cell startPosition, Cell endPosition, MoveType moveType) {
+
+    public void makeMove(final Player player) {
+        Fleet fleet = startPosition.getFleet();
+        Fleet enemyFleet = endPosition.getFleet();
+
+        if (enemyFleet != null) {
+            if (!enemyFleet.getOwner().equals(player)) {
+                fleet.fleetsClash(enemyFleet, player, enemyFleet.getOwner());
+                if (player.getFleetList().contains(fleet)) {
+                    setFleetOnPosition(endPosition, fleet);
+                    clearFleetFromPosition(startPosition);
+                } else {
+                    clearFleetFromPosition(startPosition);
+                }
+            } else {
+                enemyFleet.addShipsIntoFleet(fleet.getShipList());
+                player.removeFleet(fleet);
+                clearFleetFromPosition(startPosition);
+            }
+        } else {
+            setFleetOnPosition(endPosition, fleet);
+            clearFleetFromPosition(startPosition);
+        }
+    }
+
+    private void setFleetOnPosition(final Cell position,final Fleet fleet) {
+        fleet.setFleetPosition(position);
+        position.setFleet(fleet);
+    }
+
+    private void clearFleetFromPosition(final Cell position) {
+        position.setFleet(null);
+    }
+
     /**
      * Два типа хода:
      * ORDINARY - как перемещение по игровому полю
