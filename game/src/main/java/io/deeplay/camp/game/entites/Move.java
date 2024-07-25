@@ -11,8 +11,8 @@ public record Move(Cell startPosition, Cell endPosition, MoveType moveType) {
         Fleet fleet = startPosition.getFleet();
         Fleet enemyFleet = endPosition.getFleet();
 
-        if (enemyFleet != null) {
-            if (!enemyFleet.getOwner().equals(player)) {
+        if (enemyFleet != null) { // на конечной точке есть другой флот
+            if (!enemyFleet.getOwner().equals(player)) { // на конечной точке соперник
                 fleet.fleetsClash(enemyFleet, player, enemyFleet.getOwner());
                 if (player.getFleetList().contains(fleet)) {
                     setFleetOnPosition(endPosition, fleet);
@@ -20,18 +20,18 @@ public record Move(Cell startPosition, Cell endPosition, MoveType moveType) {
                 } else {
                     clearFleetFromPosition(startPosition);
                 }
-            } else {
+            } else { // на конечной точке корабль игрока
                 enemyFleet.addShipsIntoFleet(fleet.getShipList());
                 player.removeFleet(fleet);
                 clearFleetFromPosition(startPosition);
             }
-        } else {
+        } else { // конечная точка свободна
             setFleetOnPosition(endPosition, fleet);
             clearFleetFromPosition(startPosition);
         }
     }
 
-    private void setFleetOnPosition(final Cell position,final Fleet fleet) {
+    private void setFleetOnPosition(final Cell position, final Fleet fleet) {
         fleet.setFleetPosition(position);
         position.setFleet(fleet);
     }
