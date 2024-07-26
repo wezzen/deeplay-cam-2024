@@ -1,4 +1,4 @@
-package io.deeplay.camp.game.service;
+package io.deeplay.camp.game.utils;
 
 
 import io.deeplay.camp.game.domain.GalaxyListener;
@@ -17,8 +17,6 @@ public class GameLogger implements GalaxyListener {
 
     private static final Logger logger = LoggerFactory.getLogger(
             GalaxyListener.class);
-
-    private static final String FILENAME = "/logs/log.txt";
 
     @Override
     public void startGameSession(String gameId, GameTypes gameType) {

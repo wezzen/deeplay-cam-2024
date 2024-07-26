@@ -1,4 +1,4 @@
-package io.deeplay.camp.game.service;
+package io.deeplay.camp.game.utils;
 
 
 import io.deeplay.camp.game.entites.Cell;
@@ -15,7 +15,7 @@ public class ConvertorFieldToString {
         for (int j = 0; j < field.getSize(); j++) {
             result.append("  ");
             result.append(j);
-            result.append("   ");
+            result.append("     ");
         }
         result.append('\n');
 
