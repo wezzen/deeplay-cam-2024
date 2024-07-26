@@ -24,10 +24,10 @@ public abstract class Bot implements PlayerInterface {
 
     @Override
     public Answer getAnswer(final Field field) {
-        return new Answer(getAction());
+        return new Answer(getMove());
     }
 
-    protected abstract Move getAction();
+    protected abstract Move getMove();
 
     @Override
     public void startGameSession(final String gameId, final GameTypes gameType) {
