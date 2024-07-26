@@ -27,7 +27,7 @@ public class Player {
     public Player(final long id, final String name) {
         this.id = id;
         this.name = name;
-        this.totalGamePoints = 0;
+        this.totalGamePoints = 50; // пока мы не сделали экономику нашей игры, пусть будет, 50 очков для ходов
         this.fleetList = new ArrayList<>();
         this.controlledPlanet = new ArrayList<>();
         this.legalMoves = new ArrayList<>();
@@ -51,6 +51,10 @@ public class Player {
 
     public int getTotalGamePoints() {
         return totalGamePoints;
+    }
+
+    public void decreaseTotalGamePoints(int totalGamePoints) {
+        this.totalGamePoints = this.totalGamePoints - totalGamePoints;
     }
 
     /**
