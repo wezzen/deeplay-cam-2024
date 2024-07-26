@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -16,7 +17,7 @@ public class BotTest {
     private Bot testBot;
     private Player player;
     private Fleet fleet;
-    private Ship fleetShip;
+    private Ship ship;
 
     /*@BeforeEach
     public void setUp() {
@@ -32,16 +33,14 @@ public class BotTest {
     public void setUp() {
         field = new Field(8); // Например, создаём поле размером 8x8
         player = new Player(1, "TestPlayer");
-
+        Cell position = field.getBoard()[0][0];
+        fleet = new Fleet(position, player);
         fleet = new Fleet(new Cell(0, 0), player); // Инициализируем флот
-        fleetShip = new Ship(Ship.ShipType.BASIC, fleet); // Инициализируем корабль
-
-        player.getFleetList().add(fleet); // Добавляем флот к игроку
-
+        ship = new Ship(Ship.ShipType.BASIC, fleet);
         testBot = new RandomBot.Factory(player).createBot(field);
     }
 
-    /*@Test
+    @Test
     public void testGetAnswer() {
         Answer answer = testBot.getAnswer(field);
         assertNotNull(answer, "Answer should not be null");
@@ -50,7 +49,7 @@ public class BotTest {
         assertNotNull(move.startPosition(), "Start position of the move should not be null");
         assertNotNull(move.endPosition(), "End position of the move should not be null");
         assertEquals(Move.MoveType.ORDINARY, move.moveType(), "Move type should be ORDINARY");
-    }*/
+    }
 
     @Test
     public void testStartGameSession() {

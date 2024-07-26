@@ -5,6 +5,7 @@ import io.deeplay.camp.game.entites.Field;
 import io.deeplay.camp.game.entites.Move;
 import io.deeplay.camp.game.entites.Player;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -19,9 +20,13 @@ public class RandomBot extends Bot {
     @Override
     protected Move getMove() {
         Cell[][] board = field.getBoard();
-        Cell startCell = getRandomCell(board);
+        Cell startCell = Arrays.stream(field.getBoard())
+                .flatMap(Arrays::stream)
+                .filter(cell -> cell.getFleet() != null)
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("No cell with a fleet found"));
         Cell endCell = getRandomCell(board);
-        Move.MoveType moveType = Move.MoveType.ORDINARY; // или другая логика определения типа хода
+        Move.MoveType moveType = Move.MoveType.ORDINARY;
 
         Move move = new Move(startCell, endCell, moveType);
         move.makeMove(player);
