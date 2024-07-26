@@ -50,13 +50,11 @@ public class RandomBotTest {
     void testMakeMove() {
         int initialFleetCount = player.getFleetList().size();
         Move move = bot.getMove();
-
         // Проверяем, что флот перемещен корректно
         if (move.startPosition().getFleet() != null) {
             assertNotNull(move.endPosition().getFleet(), "End position should have a fleet after the move");
             assertNull(move.startPosition().getFleet(), "Start position should be empty after the move");
         }
-
         // Проверяем изменение списка флотов игрока, если флот уничтожен или перемещен
         int finalFleetCount = player.getFleetList().size();
         assertTrue(finalFleetCount <= initialFleetCount, "Final fleet count should not exceed the initial count");
