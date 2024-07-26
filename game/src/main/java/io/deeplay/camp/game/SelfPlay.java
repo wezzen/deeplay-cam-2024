@@ -18,6 +18,7 @@ public class SelfPlay {
 
     public SelfPlay(int sizeField, String[] playerNames) {
         this.sizeField = sizeField;
+        this.playerNames = playerNames;
     }
 
     private void initializePlayers(Field field) {
@@ -47,9 +48,9 @@ public class SelfPlay {
         while (!game.isGameOver()) {
             currentPlayer = game.getNextPlayerToAct();
             answer = stringPlayerInterfaceMap.get(currentPlayer).getAnswer();
-            //todo ваолидировать
+            //todo валидировать
             game.getPlayerAction(answer.getMove(), currentPlayer);
-            //todo ваолидировать опять(?)
+            //todo валидировать опять(?)
             for (PlayerInterface player : players) {
                 player.getPlayerAction(answer.getMove(), currentPlayer);
             }
