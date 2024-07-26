@@ -17,7 +17,22 @@ public class RandomBotTest {
         int size = 5;
         field = new Field(size);
         player = new Player(1, "TestPlayer");
+
+        // Инициализация флота и добавление его в ячейку
+        Fleet fleet = new Fleet(null, player);
+        fleet.setFleetPosition(field.getBoard()[0][0]);
+        Ship ship = new Ship(Ship.ShipType.BASIC, fleet);
+
+        // Добавление флота к игроку
+        player.getFleetList().add(fleet);
+
         bot = new RandomBot(field, player);
+    }
+    /*@BeforeEach
+    void setUp() {
+        int size = 5;
+        field = new Field(size);
+        player = new Player(1, "TestPlayer");
 
         // Заполнение поля клетками для тестов
         Cell[][] board = new Cell[size][size];
@@ -30,7 +45,9 @@ public class RandomBotTest {
 
         Fleet fleet = new Fleet(new Cell(0, 0), player);
         Ship ship = new Ship(Ship.ShipType.BASIC, fleet);
-    }
+
+        bot = new RandomBot(field, player);
+    }*/
 
     @Test
     void testGetMove() {
