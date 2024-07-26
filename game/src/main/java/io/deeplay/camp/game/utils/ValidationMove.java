@@ -6,24 +6,17 @@ import io.deeplay.camp.game.entites.Move;
 import io.deeplay.camp.game.entites.Player;
 
 public final class ValidationMove {
-    public static boolean isValidOrdinaryMove(final Move move, final Field field, final Player currentPlayer) {
+    public static boolean isValidOrdinaryMove(final Move move, final Field field, final Player currentPlayer, int cost) {
         return isPositionValid(move.endPosition(), field.getSize()) &&
                 isOrdinaryMove(move) &&
                 isPositionChanged(move) &&
                 isFleetPresent(move) &&
                 isOwnerFleet(move, currentPlayer) &&
-                isEnoughPoints(currentPlayer, move);
+                isEnoughPoints(currentPlayer, cost);
     }
 
-    public static boolean  isValidCaptureMove(final Move move, final Player currentPlayer){
-        return isOwnerFleet(move, currentPlayer) &&
-                isFleetPresent(move) &&
-                isEnemyFleet(move, currentPlayer) &&
-                isEnoughPoints(currentPlayer, move) &&
-                isCaptureMove(move);
 
-    }
-    // проверка - тип хода соответствует типу перемещения
+    // проверка - тип хода соответствует типу перемещение
     private static boolean isOrdinaryMove(final Move move) {
         return move.moveType() == Move.MoveType.ORDINARY;
     }
@@ -45,19 +38,12 @@ public final class ValidationMove {
     public static boolean isFleetPresent(final Move move) {
         return move.startPosition().getFleet() != null;
     }
-
     // проверка - флот принадлежит игроку, который ходит
     private static boolean isOwnerFleet(final Move move, final Player currentPlayer) {
         return move.startPosition().getFleet().getOwner().equals(currentPlayer);
     }
-
     // проверка - игроку хватает очков, чтобы совершить ход
-    public static boolean isEnoughPoints(Player player, Move move) {
-        return player.getTotalGamePoints() - move.cost() >= 0;
-    }
-
-    // проверка - на конечной точке есть флот оппонента
-    private  static boolean isEnemyFleet(final Move move, final Player currentPlayer){
-        return !move.endPosition().getFleet().getOwner().equals(currentPlayer) && move.endPosition().getFleet()!= null;
+    private static boolean isEnoughPoints(Player player, int cost) {
+        return player.getTotalGamePoints() - cost >= 0;
     }
 }
