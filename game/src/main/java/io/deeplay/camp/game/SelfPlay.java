@@ -4,14 +4,16 @@ import io.deeplay.camp.game.domain.GalaxyListener;
 import io.deeplay.camp.game.entites.Answer;
 import io.deeplay.camp.game.entites.Field;
 import io.deeplay.camp.game.entites.Game;
-import io.deeplay.camp.game.entites.Player;
 import io.deeplay.camp.game.interfaces.PlayerInterface;
+
+import java.util.Map;
 
 public class SelfPlay {
 
     private final int sizeField;
     private String[] playerNames;
     PlayerInterface[] players;
+    Map<String, PlayerInterface> stringPlayerInterfaceMap;
     GalaxyListener[] listeners;
 
     public SelfPlay(int sizeField, String[] playerNames) {
@@ -19,32 +21,32 @@ public class SelfPlay {
     }
 
     private void initializePlayers(Field field) {
-
         for (PlayerInterface player : players) {
             player.gameStarted(field);
         }
     }
 
     private void initializeListeners(Field field) {
-
+        for (GalaxyListener listener : listeners) {
+            listener.gameStarted(field);
+        }
     }
 
-    private PlayerInterface getPlayer(String name) {
-
-    }
 
     public void playGame() {
+
+        for (int i = 0; i < playerNames.length; i++) {
+            stringPlayerInterfaceMap.put(playerNames[i], players[i]);
+        }
         Field field = new Field(sizeField);
         final Game game = new Game(field);
         String currentPlayer;
         Answer answer;
         initializePlayers(field);
         initializeListeners(field);
-
-
         while (!game.isGameOver()) {
             currentPlayer = game.getNextPlayerToAct();
-            answer = getPlayer(currentPlayer).getAnswer();
+            answer = stringPlayerInterfaceMap.get(currentPlayer).getAnswer();
             //todo ваолидировать
             game.getPlayerAction(answer.getMove(), currentPlayer);
             //todo ваолидировать опять(?)
@@ -56,10 +58,13 @@ public class SelfPlay {
             }
         }
 
-        game.isWinner();
-
-        //gameEnded
-        //endGameSession
+        String winner = game.isWinner().getName();
+        for (PlayerInterface player : players) {
+            player.gameEnded(winner);
+        }
+        for (GalaxyListener listener : listeners) {
+            listener.gameEnded(winner);
+        }
     }
 
     public static void main(String[] args) {
