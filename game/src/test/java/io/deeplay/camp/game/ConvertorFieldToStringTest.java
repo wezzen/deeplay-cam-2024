@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static io.deeplay.camp.game.service.ConvertorFieldToString.convertFieldToString;
+import static io.deeplay.camp.game.utils.ConvertorFieldToString.convertFieldToString;
 
 
 public class ConvertorFieldToStringTest {
