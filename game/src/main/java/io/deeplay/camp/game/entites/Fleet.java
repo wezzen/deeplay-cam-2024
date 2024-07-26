@@ -21,6 +21,7 @@ public class Fleet extends GalaxyEntity {
         super();
         shipList = new ArrayList<>();
         this.fleetPosition = fleetPosition;
+        fleetPosition.setFleet(this);
         owner = player;
         owner.addFleet(this);
     }

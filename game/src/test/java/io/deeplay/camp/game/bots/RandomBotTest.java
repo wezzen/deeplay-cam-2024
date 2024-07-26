@@ -17,37 +17,13 @@ public class RandomBotTest {
         int size = 5;
         field = new Field(size);
         player = new Player(1, "TestPlayer");
-
+        Cell position = field.getBoard()[0][0];
         // Инициализация флота и добавление его в ячейку
-        Fleet fleet = new Fleet(null, player);
-        fleet.setFleetPosition(field.getBoard()[0][0]);
+        Fleet fleet = new Fleet(position, player);
         Ship ship = new Ship(Ship.ShipType.BASIC, fleet);
-
-        // Добавление флота к игроку
-        player.getFleetList().add(fleet);
 
         bot = new RandomBot(field, player);
     }
-    /*@BeforeEach
-    void setUp() {
-        int size = 5;
-        field = new Field(size);
-        player = new Player(1, "TestPlayer");
-
-        // Заполнение поля клетками для тестов
-        Cell[][] board = new Cell[size][size];
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                board[i][j] = new Cell(i, j);
-            }
-        }
-        field.setBoard(board);
-
-        Fleet fleet = new Fleet(new Cell(0, 0), player);
-        Ship ship = new Ship(Ship.ShipType.BASIC, fleet);
-
-        bot = new RandomBot(field, player);
-    }*/
 
     @Test
     void testGetMove() {
@@ -94,22 +70,4 @@ public class RandomBotTest {
         assertTrue(randomCell.x >= 0 && randomCell.x < board.length, "Random cell row should be within board range");
         assertTrue(randomCell.y >= 0 && randomCell.y < board[0].length, "Random cell column should be within board range");
     }
-
-
-    /*private Field field;
-    private RandomBot randomBot;
-
-    @BeforeEach
-    public void setUp() {
-        field = new Field(8); // Например, создаём поле размером 8x8
-        randomBot = new RandomBot.Factory().createBot(field);
-    }
-
-    @Test
-    public void testGetAction() {
-        Move expectedMove = new Move(new Cell(0, 0), new Cell(1, 1), Move.MoveType.ORDINARY);
-        Move move = randomBot.getAction();
-        assertNotNull(move);
-        assertEquals(expectedMove, move);
-    }*/
 }
