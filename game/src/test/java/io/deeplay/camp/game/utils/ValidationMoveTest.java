@@ -35,7 +35,7 @@ class ValidationMoveTest {
     void testValidPositionMove() {
         Move move = createMove(field.getBoard()[0][0], field.getBoard()[2][2], 10);
         setFleetAt(field.getBoard()[0][0]);
-        assertTrue(ValidationMove.isValidOrdinaryMove(move, field, player));
+        assertTrue(ValidationMove.isValidOrdinaryMove(move, field, player, 10));
     }
 
     @Test
@@ -43,7 +43,7 @@ class ValidationMoveTest {
         Move move = createMove(field.getBoard()[0][0], field.getBoard()[2][2], 10);
         setFleetAt(field.getBoard()[0][0]);
         Player player2 = new Player(1, "1");
-        assertFalse(ValidationMove.isValidOrdinaryMove(move, field, player2));
+        assertFalse(ValidationMove.isValidOrdinaryMove(move, field, player2, 10));
     }
 
     @Test
