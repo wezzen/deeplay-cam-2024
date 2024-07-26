@@ -90,7 +90,7 @@ public class Game implements GalaxyListener {
         // подсчет очков для хода возможно надо будет убрать, потому что мув содержит стоимость
         // int cost = PointsCalculator.costMovement(move);
         if (move.moveType() == Move.MoveType.ORDINARY) {
-            if (ValidationMove.isValidOrdinaryMove(move, field, players[nextPlayerToAct])) {
+            if (ValidationMove.isValidOrdinaryMove(move, field, players[nextPlayerToAct], cost)) {
                 allGameMoves.add(move);
                 move.makeMove(players[nextPlayerToAct]);
             }
