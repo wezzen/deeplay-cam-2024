@@ -6,13 +6,18 @@ import io.deeplay.camp.game.entites.Move;
 import io.deeplay.camp.game.entites.Player;
 
 public final class ValidationMove {
-    public static boolean isValidOrdinaryMove(final Move move, final Field field,final Player currentPlayer) {
+
+    public static boolean isValidOrdinaryMove(final Move move, final Field field, final Player currentPlayer, int cost) {
+
         return isPositionValid(move.endPosition(), field.getSize()) &&
                 isOrdinaryMove(move) &&
                 isPositionChanged(move) &&
                 isFleetPresent(move) &&
-                isOwnerFleet(move, currentPlayer);
+
+                isOwnerFleet(move, currentPlayer) &&
+                isEnoughPoints(currentPlayer, cost);
     }
+
 
     // проверка - тип хода соответствует типу перемещение
     private static boolean isOrdinaryMove(final Move move) {
@@ -33,8 +38,13 @@ public final class ValidationMove {
     private static boolean isFleetPresent(final Move move) {
         return move.startPosition().getFleet() != null;
     }
-   // проверка - флот принадлежит игроку, который ходит
-    private static boolean isOwnerFleet(final Move move,final Player currentPlayer) {
+
+    // проверка - флот принадлежит игроку, который ходит
+    private static boolean isOwnerFleet(final Move move, final Player currentPlayer) {
         return move.startPosition().getFleet().getOwner().equals(currentPlayer);
+    }
+    // проверка - игроку хватает очков, чтобы совершить ход
+    private static boolean isEnoughPoints(Player player, int cost) {
+        return player.getTotalGamePoints() - cost >= 0;
     }
 }

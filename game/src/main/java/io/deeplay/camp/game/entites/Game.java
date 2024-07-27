@@ -2,6 +2,9 @@ package io.deeplay.camp.game.entites;
 
 import io.deeplay.camp.game.domain.GalaxyListener;
 import io.deeplay.camp.game.domain.GameTypes;
+
+
+import io.deeplay.camp.game.utils.PointsCalculator;
 import io.deeplay.camp.game.utils.ValidationMove;
 
 import java.util.HashMap;
@@ -81,17 +84,23 @@ public class Game implements GalaxyListener {
         }
         nextPlayerToAct = (nextPlayerToAct + 1) % NUM_PLAYERS;
 
+        // подсчет очков для хода
+        int cost = PointsCalculator.costMovement(move);
+
         //todo проверка валидности хода
         if (move.moveType() == Move.MoveType.ORDINARY) {
-            if (ValidationMove.isValidOrdinaryMove(move, field, players[nextPlayerToAct])) {
+
+            if (ValidationMove.isValidOrdinaryMove(move, field, players[nextPlayerToAct], cost)) {
                 allGameMoves.add(move);
                 move.makeMove(players[nextPlayerToAct]);
             }
         } else {
             //todo проверка атаки
         }
-    }
 
+        players[nextPlayerToAct].decreaseTotalGamePoints(cost);
+    }
+    // todo сделать начисление очков раз в несколько ходов, но пока у нас нет этого
     @Override
     public void gameEnded(String winner) {
     }

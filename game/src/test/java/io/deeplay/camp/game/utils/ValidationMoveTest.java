@@ -17,8 +17,10 @@ class ValidationMoveTest {
         player = new Player(0, "0");
     }
 
-    private Move createMove(Cell start, Cell end, Move.MoveType moveType) {
-        return new Move(start, end, moveType);
+
+    private Move createMove(Cell start, Cell end) {
+        return new Move(start, end, Move.MoveType.ORDINARY);
+
     }
 
     private void setFleetAt(Cell cell) {
@@ -28,28 +30,42 @@ class ValidationMoveTest {
 
     @Test
     void testValidPositionMove() {
-        Move move = createMove(field.getBoard()[0][0], field.getBoard()[2][2], Move.MoveType.ORDINARY);
+
+        Move move = createMove(field.getBoard()[0][0], field.getBoard()[2][2]);
         setFleetAt(field.getBoard()[0][0]);
-        assertTrue(ValidationMove.isValidOrdinaryMove(move, field, player));
+        assertTrue(ValidationMove.isValidOrdinaryMove(move, field, player, 10));
+
     }
 
     @Test
     void testInvalidOwnerFleet() {
-        Move move = createMove(field.getBoard()[0][0], field.getBoard()[2][2], Move.MoveType.ORDINARY);
+
+        Move move = createMove(field.getBoard()[0][0], field.getBoard()[2][2]);
         setFleetAt(field.getBoard()[0][0]);
         Player player2 = new Player(1, "1");
-        assertFalse(ValidationMove.isValidOrdinaryMove(move, field, player2));
+        assertFalse(ValidationMove.isValidOrdinaryMove(move, field, player2, 10));
+
     }
 
     @Test
     void testInvalidPositionMove() {
-        Move move = createMove(new Cell(8, 8), new Cell(10, 10), Move.MoveType.ORDINARY);
-        assertFalse(ValidationMove.isValidOrdinaryMove(move, field, player));
+
+        Move move = createMove(new Cell(8, 8), new Cell(10, 10));
+        assertFalse(ValidationMove.isValidOrdinaryMove(move, field, player, 10));
+
     }
 
     @Test
     void testInvalidFleetPresent() {
-        Move move = createMove(new Cell(0, 0), new Cell(0, 0), Move.MoveType.ORDINARY);
-        assertFalse(ValidationMove.isValidOrdinaryMove(move, field, player));
+
+        Move move = createMove(new Cell(0, 0), new Cell(0, 0));
+        assertFalse(ValidationMove.isValidOrdinaryMove(move, field, player, 10));
+    }
+
+    @Test
+    void testInvalidCost(){
+        Move move = createMove(field.getBoard()[0][0], field.getBoard()[2][2]);
+        setFleetAt(field.getBoard()[0][0]);
+        assertFalse(ValidationMove.isValidOrdinaryMove(move, field, player, 60));
     }
 }
