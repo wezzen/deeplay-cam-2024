@@ -12,11 +12,15 @@ import java.util.Random;
 public class RandomBot extends Bot {
     private final Player player;
     private final Field field;
+    private Random random;
+
     protected RandomBot(Field field, Player player) {
         super(field);
         this.player = player;
         this.field = field;
+        this.random = new Random();
     }
+
     @Override
     protected Move getMove() {
         Cell[][] board = field.getBoard();
@@ -40,7 +44,6 @@ public class RandomBot extends Bot {
      * @return случайная клетка.
      */
     protected Cell getRandomCell(Cell[][] board) {
-        Random random = new Random();
         int row = random.nextInt(board.length);
         int col = random.nextInt(board[row].length);
         return board[row][col];
