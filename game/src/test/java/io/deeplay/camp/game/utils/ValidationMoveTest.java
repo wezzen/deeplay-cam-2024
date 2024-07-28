@@ -98,4 +98,38 @@ class ValidationMoveTest {
         field.getBoard()[0][0].setFleet(fleet);
         assertFalse(ValidationMove.isValidCaptureMove(move, player)); // игрок атакует сам себя
     }
+
+    @Test
+    void testValidCaptureMove() {
+        Move move = createAttack(field.getBoard()[0][0], field.getBoard()[2][2]);
+        setFleetAt(field.getBoard()[0][0]);
+        Fleet fleet = new Fleet(field.getBoard()[2][2], new Player(1, "1"));
+        field.getBoard()[2][2].setFleet(fleet);
+        assertTrue(ValidationMove.isValidCaptureMove(move, player, 10));
+    }
+
+    @Test
+    void testInvalidCaptureMove1() {
+        Move move = createAttack(field.getBoard()[0][0], field.getBoard()[2][2]);
+        setFleetAt(field.getBoard()[0][0]);
+        setFleetAt(field.getBoard()[2][2]);
+        assertFalse(ValidationMove.isValidCaptureMove(move, player, 10)); // на конечной точке флот атакующего игрока
+    }
+
+    @Test
+    void testInvalidCaptureMove2() {
+        Move move = createMove(field.getBoard()[0][0], field.getBoard()[2][2]); // неправильный тип хода
+        setFleetAt(field.getBoard()[0][0]);
+        Fleet fleet = new Fleet(field.getBoard()[2][2], new Player(1, "1"));
+        field.getBoard()[2][2].setFleet(fleet);
+        assertFalse(ValidationMove.isValidCaptureMove(move, player, 10));
+    }
+    @Test
+    void testInvalidCaptureMove3() {
+        Move move = createAttack(field.getBoard()[0][0], field.getBoard()[0][0]);
+        setFleetAt(field.getBoard()[0][0]);
+        Fleet fleet = new Fleet(field.getBoard()[0][0], new Player(1, "1"));
+        field.getBoard()[0][0].setFleet(fleet);
+        assertFalse(ValidationMove.isValidCaptureMove(move, player, 10)); // игрок атакует сам себя
+    }
 }

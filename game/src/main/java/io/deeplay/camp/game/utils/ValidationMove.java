@@ -15,8 +15,15 @@ public final class ValidationMove {
                 isEnoughPoints(currentPlayer, cost);
     }
 
+    public static boolean isValidCaptureMove(final Move move, final Player currentPlayer, int cost){
+        return isOwnerFleet(move, currentPlayer) &&
+                isFleetPresent(move) &&
+                isEnemyFleet(move, currentPlayer) &&
+                isEnoughPoints(currentPlayer, cost) &&
+                isCaptureMove(move);
 
-    // проверка - тип хода соответствует типу перемещение
+    }
+    // проверка - тип хода соответствует типу перемещения
     private static boolean isOrdinaryMove(final Move move) {
         return move.moveType() == Move.MoveType.ORDINARY;
     }
@@ -38,12 +45,19 @@ public final class ValidationMove {
     public static boolean isFleetPresent(final Move move) {
         return move.startPosition().getFleet() != null;
     }
+
     // проверка - флот принадлежит игроку, который ходит
     private static boolean isOwnerFleet(final Move move, final Player currentPlayer) {
         return move.startPosition().getFleet().getOwner().equals(currentPlayer);
     }
+
     // проверка - игроку хватает очков, чтобы совершить ход
     private static boolean isEnoughPoints(Player player, int cost) {
         return player.getTotalGamePoints() - cost >= 0;
+    }
+
+    // проверка - на конечной точке есть флот оппонента
+    private  static boolean isEnemyFleet(final Move move, final Player currentPlayer){
+        return !move.endPosition().getFleet().getOwner().equals(currentPlayer) && move.endPosition().getFleet()!= null;
     }
 }
