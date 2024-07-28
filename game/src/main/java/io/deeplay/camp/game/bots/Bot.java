@@ -34,16 +34,17 @@ public abstract class Bot implements PlayerInterface {
 
     @Override
     public void startGameSession(final String gameId, final GameTypes gameType) {
+        game.startGameSession(gameId, gameType);
     }
 
     @Override
     public void connectingPlayer(final String waitingPlayerName) {
-
+        game.connectingPlayer(waitingPlayerName);
     }
 
     @Override
     public void gameStarted(final Field field) {
-
+        game.gameStarted(field);
     }
 
     @Override
@@ -85,12 +86,12 @@ public abstract class Bot implements PlayerInterface {
 
     @Override
     public void gameEnded(final String winner) {
-
+        game.gameEnded(winner);
     }
 
     @Override
     public void endGameSession() {
-
+        game.endGameSession();
     }
 
     /**
