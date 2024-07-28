@@ -4,7 +4,10 @@ import io.deeplay.camp.game.entites.Cell;
 import io.deeplay.camp.game.entites.Field;
 import io.deeplay.camp.game.entites.Move;
 import io.deeplay.camp.game.entites.Player;
+import io.deeplay.camp.game.utils.PointsCalculator;
+import io.deeplay.camp.game.utils.ValidationMove;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -47,6 +50,27 @@ public class RandomBot extends Bot {
         int row = random.nextInt(board.length);
         int col = random.nextInt(board[row].length);
         return board[row][col];
+    }
+
+    /**
+     * Метод для получения всех доступных клеток для хода.
+     *
+     * @param startCell начальная клетка.
+     * @param board     игровое поле.
+     * @return список доступных клеток.
+     */
+    private List<Cell> getAvailableCells(Cell startCell, Cell[][] board) {
+        List<Cell> availableCells = new ArrayList<>();
+        for (Cell[] row : board) {
+            for (Cell cell : row) {
+                Move move = new Move(startCell, cell, Move.MoveType.ORDINARY);
+                int cost = PointsCalculator.costMovement(move);
+                if (ValidationMove.isValidOrdinaryMove(move, field, player, cost)) {
+                    availableCells.add(cell);
+                }
+            }
+        }
+        return availableCells;
     }
 
     public static class Factory extends BotFactory {
