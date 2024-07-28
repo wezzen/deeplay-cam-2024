@@ -16,6 +16,7 @@ public class RandomBot extends Bot {
     private final Player player;
     private final Field field;
     private Random random;
+    private List<Cell> availableCells;
 
     protected RandomBot(Field field, Player player) {
         super(field);
@@ -32,7 +33,11 @@ public class RandomBot extends Bot {
                 .filter(cell -> cell.getFleet() != null)
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("No cell with a fleet found"));
-        Cell endCell = getRandomCell(board); //Тут должна быть валидная клетка
+        availableCells = getAvailableCells(startCell, board);
+        if (availableCells.isEmpty()) {
+            throw new RuntimeException("No available cells for a move");
+        }
+        Cell endCell = availableCells.get(random.nextInt(availableCells.size()));
         Move.MoveType moveType = Move.MoveType.ORDINARY;
 
         Move move = new Move(startCell, endCell, moveType);
