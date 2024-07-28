@@ -92,7 +92,10 @@ public class Game implements GalaxyListener {
                 move.makeMove(players[nextPlayerToAct]);
             }
         } else {
-            //todo проверка атаки
+            if (ValidationMove.isValidCaptureMove(move, players[nextPlayerToAct], cost)){
+                allGameMoves.add(move);
+                move.makeAttack(players[nextPlayerToAct]);
+            }
         }
         players[nextPlayerToAct].decreaseTotalGamePoints(cost);
     }

@@ -131,4 +131,22 @@ class MoveTest {
         assertFalse(player.getFleetList().contains(fleet1)); // у плеера уже хранится новый флот, состоящий из двух флотов
     }
 
+    @Test
+    void testAttackFleet() {
+        Field field = new Field(10);
+        Move move = new Move(field.getBoard()[1][1], field.getBoard()[3][2], Move.MoveType.CAPTURE);
+        Player player1 = new Player(0, "0");
+        Player player2 = new Player(1, "1");
+        Fleet fleet1 = new Fleet(field.getBoard()[1][1], player1);
+        Fleet fleet2 = new Fleet(field.getBoard()[3][2], player2);
+        field.getBoard()[1][1].setFleet(fleet1);
+        field.getBoard()[3][2].setFleet(fleet2);
+        new Ship(Ship.ShipType.MEDIUM, fleet1);
+        move.makeAttack(player1);
+        assertNull(field.getBoard()[3][2].getFleet()); // у оппонента флот слабее, поэтому он уничтожается
+        assertNotNull(field.getBoard()[1][1].getFleet()); // в отличие от ORDINARY ход CAPTURE флот остается на месте
+        assertFalse(player2.getFleetList().contains(fleet2));
+        assertTrue(player1.getFleetList().contains(fleet1));
+    }
+
 }

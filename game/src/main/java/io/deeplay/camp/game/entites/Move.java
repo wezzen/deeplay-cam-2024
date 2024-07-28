@@ -31,6 +31,17 @@ public record Move(Cell startPosition, Cell endPosition, MoveType moveType) {
         }
     }
 
+    public void makeAttack(final Player player) {
+        Fleet fleet = startPosition.getFleet();
+        Fleet enemyFleet = endPosition.getFleet();
+        fleet.fleetsClash(enemyFleet, player, enemyFleet.getOwner());
+        if (player.getFleetList().contains(fleet)) {
+            clearFleetFromPosition(endPosition);
+        }
+        else {
+            clearFleetFromPosition(startPosition);
+        }
+    }
     private void setFleetOnPosition(final Cell position, final Fleet fleet) {
         fleet.setFleetPosition(position);
         position.setFleet(fleet);
