@@ -21,7 +21,9 @@ public class Game implements GalaxyListener {
     private GameTypes gameType;
     private List<Move> allGameMoves;
     public final Player[] players = new Player[NUM_PLAYERS];
+
     private final Map<String, Player> playerNames;
+
     private int nextPlayerToAct;
     private String id;
 
@@ -100,6 +102,7 @@ public class Game implements GalaxyListener {
 
         players[nextPlayerToAct].decreaseTotalGamePoints(cost);
     }
+
     // todo сделать начисление очков раз в несколько ходов, но пока у нас нет этого
     @Override
     public void gameEnded(String winner) {
@@ -108,5 +111,25 @@ public class Game implements GalaxyListener {
     @Override
     public void endGameSession() {
 
+    }
+
+    public Map<String, Player> getPlayerNames() {
+        return playerNames;
+    }
+
+    public Field getField() {
+        return field;
+    }
+
+    public List<Move> getAllGameMoves() {
+        return allGameMoves;
+    }
+
+    public void setNextPlayerToAct(int nextPlayerToAct) {
+        this.nextPlayerToAct = nextPlayerToAct;
+    }
+
+    public int getNextPlayerToActIndex() {
+        return nextPlayerToAct;
     }
 }

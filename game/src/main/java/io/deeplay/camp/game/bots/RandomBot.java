@@ -29,7 +29,7 @@ public class RandomBot extends Bot {
                 .filter(cell -> cell.getFleet() != null)
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("No cell with a fleet found"));
-        Cell endCell = getRandomCell(board);
+        Cell endCell = getRandomCell(board); //Тут должна быть валидная клетка
         Move.MoveType moveType = Move.MoveType.ORDINARY;
 
         Move move = new Move(startCell, endCell, moveType);

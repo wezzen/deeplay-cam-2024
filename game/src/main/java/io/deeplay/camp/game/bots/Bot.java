@@ -3,6 +3,8 @@ package io.deeplay.camp.game.bots;
 import io.deeplay.camp.game.domain.GameTypes;
 import io.deeplay.camp.game.entites.*;
 import io.deeplay.camp.game.interfaces.PlayerInterface;
+import io.deeplay.camp.game.utils.PointsCalculator;
+import io.deeplay.camp.game.utils.ValidationMove;
 
 /**
  * Абстрактный класс Бот. В дальнейшем будет родителем
@@ -12,6 +14,7 @@ import io.deeplay.camp.game.interfaces.PlayerInterface;
  * совершать боту ходы.
  */
 public abstract class Bot implements PlayerInterface {
+    private static final int NUM_PLAYERS = 2;
     /**
      * В классе есть только экземпляр класса Game
      * aka контроллер
@@ -31,7 +34,6 @@ public abstract class Bot implements PlayerInterface {
 
     @Override
     public void startGameSession(final String gameId, final GameTypes gameType) {
-
     }
 
     @Override
@@ -46,7 +48,39 @@ public abstract class Bot implements PlayerInterface {
 
     @Override
     public void getPlayerAction(final Move move, final String playerName) {
+        // Проверка наличия игрока
+        if (!game.getPlayerNames().containsKey(playerName)) {
+            throw new IllegalArgumentException("Отсутствует игрок:" + playerName);
+        }
 
+        // Получаем игрока
+        Player player = game.getPlayerNames().get(playerName);
+
+        // Проверка, что текущий ход принадлежит правильному игроку
+        if (!playerName.equals(game.getNextPlayerToAct())) {
+            throw new IllegalStateException("Сейчас не ход игрока: " + playerName);
+        }
+
+        // Подсчет очков для хода
+        int cost = PointsCalculator.costMovement(move);
+
+        // Проверка валидности хода
+        if (move.moveType() == Move.MoveType.ORDINARY) {
+            if (ValidationMove.isValidOrdinaryMove(move, game.getField(), player, cost)) {
+                game.getAllGameMoves().add(move);
+                move.makeMove(player);
+            } else {
+                throw new IllegalArgumentException("Недопустимый ход: " + move);
+            }
+        } else {
+            // Проверка атаки
+        }
+
+        // Обновляем очки игрока
+        player.decreaseTotalGamePoints(cost);
+
+        // Переход хода к следующему игроку
+        game.setNextPlayerToAct((game.getNextPlayerToActIndex() + 1) % NUM_PLAYERS);
     }
 
     @Override
