@@ -43,6 +43,10 @@ public class Game implements GalaxyListener {
         return players[nextPlayerToAct].getName();
     }
 
+    public int getNextPlayerToActIndex() {
+        return nextPlayerToAct;
+    }
+
 
     public boolean isGameOver() {
         return field.isGameOver();
@@ -83,20 +87,21 @@ public class Game implements GalaxyListener {
         nextPlayerToAct = (nextPlayerToAct + 1) % NUM_PLAYERS;
 
         // подсчет очков для хода возможно надо будет убрать, потому что мув содержит стоимость
-       // int cost = PointsCalculator.costMovement(move);
+        // int cost = PointsCalculator.costMovement(move);
         if (move.moveType() == Move.MoveType.ORDINARY) {
             if (ValidationMove.isValidOrdinaryMove(move, field, players[nextPlayerToAct])) {
                 allGameMoves.add(move);
                 move.makeMove(players[nextPlayerToAct]);
             }
         } else {
-            if (ValidationMove.isValidCaptureMove(move, players[nextPlayerToAct])){
+            if (ValidationMove.isValidCaptureMove(move, players[nextPlayerToAct])) {
                 allGameMoves.add(move);
                 move.makeAttack(players[nextPlayerToAct]);
             }
         }
         players[nextPlayerToAct].decreaseTotalGamePoints(move.cost());
     }
+
     // todo сделать начисление очков раз в несколько ходов, но пока у нас нет этого
     @Override
     public void gameEnded(String winner) {
@@ -106,5 +111,21 @@ public class Game implements GalaxyListener {
     @Override
     public void endGameSession() {
 
+    }
+
+    public Field getField() {
+        return field;
+    }
+
+    public List<Move> getAllGameMoves() {
+        return allGameMoves;
+    }
+
+    public Map<String, Player> getPlayerNames() {
+        return playerNames;
+    }
+
+    public void setNextPlayerToAct(int nextPlayerToAct) {
+        this.nextPlayerToAct = nextPlayerToAct;
     }
 }
