@@ -1,9 +1,6 @@
 package io.deeplay.camp.game.entities;
 
-import io.deeplay.camp.game.entites.Cell;
-import io.deeplay.camp.game.entites.Fleet;
-import io.deeplay.camp.game.entites.Player;
-import io.deeplay.camp.game.entites.Ship;
+import io.deeplay.camp.game.entites.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -189,5 +186,34 @@ class FleetTest {
         assertFalse(enemy.getFleetList().contains(fleetEnemy));
         // Проверяем, что победивший флот остался в списке флотов победившего игрока
         assertTrue(player.getFleetList().contains(fleet));
+    }
+    @Test
+    void testAddFleetMoves() {
+        Field field = new Field(5);
+        Fleet currentFleet = new Fleet(field.getBoard()[2][2], player);
+        currentFleet.addFleetMoves(field);
+        assertEquals(field.getSize() * field.getSize() - 1, currentFleet.getFleetMoves().size());
+    }
+    @Test
+    void testAddFleetMovesValidMoves() {
+        Field field = new Field(5);
+        Fleet currentFleet = new Fleet(field.getBoard()[2][2], player);
+        currentFleet.addFleetMoves(field);
+        Move move1 = new Move(field.getBoard()[2][2], field.getBoard()[1][1], Move.MoveType.ORDINARY, 7);
+        Move move2 = new Move(field.getBoard()[2][2], field.getBoard()[2][1], Move.MoveType.ORDINARY, 5);
+        Move move3 = new Move(field.getBoard()[2][2], field.getBoard()[0][0], Move.MoveType.ORDINARY, 14);
+        assertTrue(currentFleet.getFleetMoves().contains(move1));
+        assertTrue(currentFleet.getFleetMoves().contains(move2));
+        assertTrue(currentFleet.getFleetMoves().contains(move3));
+    }
+    @Test
+    void testAddFleetMovesInvalidMoves() {
+        Field field = new Field(20);
+        Fleet currentFleet = new Fleet(field.getBoard()[2][2], player);
+        currentFleet.addFleetMoves(field);
+        Move move1 = new Move(field.getBoard()[2][2], field.getBoard()[9][10], Move.MoveType.ORDINARY, 54); // уже не хватает очков для хода
+        Move move2 = new Move(field.getBoard()[2][2], field.getBoard()[9][9], Move.MoveType.ORDINARY, 49);
+        assertFalse(currentFleet.getFleetMoves().contains(move1));
+        assertTrue(currentFleet.getFleetMoves().contains(move2));
     }
 }

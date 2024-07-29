@@ -1,5 +1,8 @@
 package io.deeplay.camp.game.entites;
 
+import io.deeplay.camp.game.utils.PointsCalculator;
+import io.deeplay.camp.game.utils.ValidationMove;
+
 import java.util.*;
 
 /**
@@ -16,6 +19,7 @@ public class Fleet extends GalaxyEntity {
     private Cell fleetPosition;
     private int fleetPower;
     private final Player owner;
+    private List<Move> fleetMoves;
 
     public Fleet(final Cell fleetPosition, final Player player) {
         super();
@@ -23,6 +27,7 @@ public class Fleet extends GalaxyEntity {
         this.fleetPosition = fleetPosition;
         owner = player;
         owner.addFleet(this);
+        this.fleetMoves = new ArrayList<>();
     }
 
     public Fleet(final List<Ship> AnotherShipList, final Cell fleetPosition, final Player player) {
@@ -142,6 +147,37 @@ public class Fleet extends GalaxyEntity {
             us.removeFleet(this);
         }
     }
+    // метод подбора подходящих ходов для флота
+    public void addFleetMoves(final Field field) {
+        boolean[][] visited = new boolean[field.getSize()][field.getSize()];
+        visited[fleetPosition.x][fleetPosition.y] = true;
+        if (fleetMoves.isEmpty()) {
+            findNeighbors(fleetPosition, visited, field, 0);
+        }
+        for (int i = 0; i < fleetMoves.size(); i++) {
+            Move currentMove = fleetMoves.get(i);
+            findNeighbors(currentMove.endPosition(), visited, field, currentMove.cost());
+            if (!ValidationMove.isEnoughPoints(getOwner(), currentMove)|| fleetMoves.size() >= field.getSize() * field.getSize() - 1) break;
+        }
+    }
+
+    public void findNeighbors(final Cell currentCell,final boolean[][] map,final Field field,final int points) {
+        int[][] directions = {
+                {-1, -1}, {-1, 1}, {1, -1}, {1, 1}, {-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+
+        for (int[] direction : directions) {
+            int newX = currentCell.x + direction[0];
+            int newY = currentCell.y + direction[1];
+
+            int cost = PointsCalculator.costForList(currentCell, newX, newY);
+
+            if (ValidationMove.isPositionValid(new Cell(newX, newY), field.getSize()) && getOwner().getTotalGamePoints() - points >= cost && !map[newX][newY]) {
+                Cell cell = field.getBoard()[newX][newY];
+                map[newX][newY] = true;
+                fleetMoves.add(new Move(fleetPosition, cell, Move.MoveType.ORDINARY, points + cost));
+            }
+        }
+    }
 
     @Override
     public boolean equals(final Object o) {
@@ -157,5 +193,9 @@ public class Fleet extends GalaxyEntity {
 
     public Player getOwner() {
         return owner;
+    }
+
+    public List<Move> getFleetMoves() {
+        return fleetMoves;
     }
 }
