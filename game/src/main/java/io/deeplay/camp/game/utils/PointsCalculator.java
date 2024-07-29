@@ -25,4 +25,8 @@ public final class PointsCalculator {
     private static int calculateTotalCost(int direct, int diagonal) {
         return direct * DIRECT_COST + diagonal * DIAGONAL_COST;
     }
+    public static int costForList(Cell currentCell,int newX, int newY){
+        return currentCell.y != newY && currentCell.x != newX ? DIAGONAL_COST : DIRECT_COST;
+    }
+
 }
