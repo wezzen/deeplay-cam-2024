@@ -18,7 +18,7 @@ public class GameLoggerTest {
         Field field = new Field(5);
         Cell startPositionSM = new Cell(1, 1);
         Cell endPositionSM = new Cell(5, 5);
-        Move move = new Move(startPositionSM, endPositionSM, Move.MoveType.ORDINARY);
+        Move move = new Move(startPositionSM, endPositionSM, Move.MoveType.ORDINARY, 5);
 
         gameLogger.startGameSession(gameId, gameType);
         gameLogger.connectingPlayer(PlayerName);

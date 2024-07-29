@@ -15,7 +15,7 @@ class MoveTest {
     public void setUp() {
         startPositionSM = new Cell(1, 1);
         endPositionSM = new Cell(5, 5);
-        move = new Move(startPositionSM, endPositionSM, Move.MoveType.ORDINARY);
+        move = new Move(startPositionSM, endPositionSM, Move.MoveType.ORDINARY, 5);
     }
 
     @Test
@@ -34,8 +34,8 @@ class MoveTest {
 
     @Test
     public void testEqualsAndHashCode() {
-        Move sameMove = new Move(new Cell(1, 1), new Cell(5, 5), Move.MoveType.ORDINARY);
-        Move differentMove = new Move(new Cell(2, 2), new Cell(5, 5), Move.MoveType.CAPTURE);
+        Move sameMove = new Move(new Cell(1, 1), new Cell(5, 5), Move.MoveType.ORDINARY, 5);
+        Move differentMove = new Move(new Cell(2, 2), new Cell(5, 5), Move.MoveType.CAPTURE, 5);
 
         assertEquals(move, sameMove);
         assertNotEquals(move, differentMove);
@@ -47,8 +47,8 @@ class MoveTest {
     Cell startPosition = new Cell(0, 0);
     Cell toPosition = new Cell(1, 1);
     Cell endPosition = new Cell(2, 2);
-    private final Move moveOrdinary = new Move(startPosition, toPosition, Move.MoveType.ORDINARY);
-    private final Move moveCapture = new Move(toPosition, endPosition, Move.MoveType.CAPTURE);
+    private final Move moveOrdinary = new Move(startPosition, toPosition, Move.MoveType.ORDINARY, 5);
+    private final Move moveCapture = new Move(toPosition, endPosition, Move.MoveType.CAPTURE, 5);
 
     @Test
     void testToString1() {
@@ -73,7 +73,7 @@ class MoveTest {
     @Test
     void testMoveToEmptyCell() {
         Field field = new Field(10);
-        Move move = new Move(field.getBoard()[0][0], field.getBoard()[2][2], Move.MoveType.ORDINARY);
+        Move move = new Move(field.getBoard()[0][0], field.getBoard()[2][2], Move.MoveType.ORDINARY, 5);
         Player player = new Player(0, "0");
         Fleet fleet = new Fleet(field.getBoard()[0][0], player);
         field.getBoard()[0][0].setFleet(fleet);
@@ -85,7 +85,7 @@ class MoveTest {
     @Test
     void testMoveToStrongEnemyFleet() {
         Field field = new Field(10);
-        Move move = new Move(field.getBoard()[0][0], field.getBoard()[2][2], Move.MoveType.ORDINARY);
+        Move move = new Move(field.getBoard()[0][0], field.getBoard()[2][2], Move.MoveType.ORDINARY, 5);
         Player player1 = new Player(0, "0");
         Player player2 = new Player(1, "1");
         Fleet fleet1 = new Fleet(field.getBoard()[0][0], player1);
@@ -102,7 +102,7 @@ class MoveTest {
     @Test
     void testMoveToWeakEnemyFleet() {
         Field field = new Field(10);
-        Move move = new Move(field.getBoard()[0][0], field.getBoard()[2][2], Move.MoveType.ORDINARY);
+        Move move = new Move(field.getBoard()[0][0], field.getBoard()[2][2], Move.MoveType.ORDINARY, 5);
         Player player1 = new Player(0, "0");
         Player player2 = new Player(1, "1");
         Fleet fleet1 = new Fleet(field.getBoard()[0][0], player1);
@@ -119,7 +119,7 @@ class MoveTest {
     @Test
     void testMoveToJoinFleet() {
         Field field = new Field(10);
-        Move move = new Move(field.getBoard()[0][0], field.getBoard()[2][2], Move.MoveType.ORDINARY);
+        Move move = new Move(field.getBoard()[0][0], field.getBoard()[2][2], Move.MoveType.ORDINARY, 5);
         Player player = new Player(0, "0");
         Fleet fleet1 = new Fleet(field.getBoard()[0][0], player);
         Fleet fleet2 = new Fleet(field.getBoard()[2][2], player);
@@ -134,7 +134,7 @@ class MoveTest {
     @Test
     void testAttackFleet() {
         Field field = new Field(10);
-        Move move = new Move(field.getBoard()[1][1], field.getBoard()[3][2], Move.MoveType.CAPTURE);
+        Move move = new Move(field.getBoard()[1][1], field.getBoard()[3][2], Move.MoveType.CAPTURE, 10);
         Player player1 = new Player(0, "0");
         Player player2 = new Player(1, "1");
         Fleet fleet1 = new Fleet(field.getBoard()[1][1], player1);

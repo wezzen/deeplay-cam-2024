@@ -6,5 +6,5 @@ package io.deeplay.camp.game.domain;
 public enum GameTypes {
     BotVsBot,
     HumanVsBot,
-    HumansHuman
+    HumanVsHuman
 }
