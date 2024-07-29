@@ -99,6 +99,10 @@ public abstract class Bot implements PlayerInterface {
         game.endGameSession();
     }
 
+    public Game getGame() {
+        return game;
+    }
+
     /**
      * Паттерн абстрактная фабрика
      * Статический абстрактный класс
