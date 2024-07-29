@@ -77,28 +77,12 @@ class PlayerTest {
 //    }
     @Test
     void testAddLegalMoves() {
-        field = new Field(5);
-        player.addLegalMoves(field.getBoard()[2][2], field);
-        assertEquals(field.getSize() * field.getSize() - 1, player.legalMoves.size());
-    }
-    @Test
-    void testAddLegalMovesValidMoves() {
-        field = new Field(5);
-        player.addLegalMoves(field.getBoard()[2][2], field);
-        Move move1 = new Move(field.getBoard()[2][2], field.getBoard()[1][1], Move.MoveType.ORDINARY, 7);
-        Move move2 = new Move(field.getBoard()[2][2], field.getBoard()[2][1], Move.MoveType.ORDINARY, 5);
-        Move move3 = new Move(field.getBoard()[2][2], field.getBoard()[0][0], Move.MoveType.ORDINARY, 14);
-        assertTrue(player.legalMoves.contains(move1));
-        assertTrue(player.legalMoves.contains(move2));
-        assertTrue(player.legalMoves.contains(move3));
-    }
-    @Test
-    void testAddLegalMovesInvalidMoves() {
-        Field newField = new Field(20);
-        player.addLegalMoves(newField.getBoard()[2][2], newField);
-        Move move1 = new Move(newField.getBoard()[2][2], newField.getBoard()[9][10], Move.MoveType.ORDINARY, 54); // уже не хватает очков для хода
-        Move move2 = new Move(newField.getBoard()[2][2], newField.getBoard()[9][9], Move.MoveType.ORDINARY, 49);
-        assertFalse(player.legalMoves.contains(move1));
-        assertTrue(player.legalMoves.contains(move2));
+        Field field = new Field(5);
+        Fleet fleet1 = new Fleet(field.getBoard()[0][2], player);
+        Fleet fleet2 = new Fleet(field.getBoard()[3][2], player);
+        fleet1.addFleetMoves(field);
+        fleet2.addFleetMoves(field);
+        player.addLegalMoves();
+        assertEquals(fleet1.getFleetMoves().size() + fleet2.getFleetMoves().size(), player.legalMoves.size());
     }
 }
