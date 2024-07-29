@@ -17,7 +17,7 @@ public class AnswerTest {
 
     @BeforeEach
     public void setUp() {
-        move = new Move(new Cell(0, 0), new Cell(1, 1), Move.MoveType.ORDINARY);
+        move = new Move(new Cell(0, 0), new Cell(1, 1), Move.MoveType.ORDINARY, 5);
         answer = new Answer(move);
     }
 

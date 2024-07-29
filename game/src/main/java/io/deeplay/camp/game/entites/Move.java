@@ -5,7 +5,7 @@ package io.deeplay.camp.game.entites;
  * чтоб не закладывать, еще не продуманную, логику.
  * Record обеспечивает из коробки все требуемые методы (и даже больше)
  */
-public record Move(Cell startPosition, Cell endPosition, MoveType moveType) {
+public record Move(Cell startPosition, Cell endPosition, MoveType moveType, int cost) {
 
     public void makeMove(final Player player) {
         Fleet fleet = startPosition.getFleet();

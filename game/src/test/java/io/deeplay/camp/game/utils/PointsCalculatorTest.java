@@ -24,7 +24,7 @@ class PointsCalculatorTest {
         Cell startCell = field.getBoard()[0][0];
         Cell endCell = field.getBoard()[0][3];
         startCell.setFleet(fleet);
-        Move move = new Move(startCell, endCell, Move.MoveType.ORDINARY); // Прямое движение по 3Y
+        Move move = new Move(startCell, endCell, Move.MoveType.ORDINARY, 0); // Прямое движение по 3Y
         int cost = PointsCalculator.costMovement(move);
         assertEquals(15, cost); // Стоимость прямого движения должна быть 15 (3 * 5)
     }
@@ -34,7 +34,7 @@ class PointsCalculatorTest {
         Cell startCell = field.getBoard()[0][0];
         Cell endCell = field.getBoard()[3][3];
         startCell.setFleet(fleet);
-        Move move = new Move(startCell, endCell, Move.MoveType.ORDINARY); // Диагональное движение по 3XY
+        Move move = new Move(startCell, endCell, Move.MoveType.ORDINARY, 0); // Диагональное движение по 3XY
         int cost = PointsCalculator.costMovement(move);
         assertEquals(21, cost); // Стоимость диагонального движения должно быть 21 (3 * 7)
     }
@@ -44,7 +44,7 @@ class PointsCalculatorTest {
         Cell startCell = field.getBoard()[0][0];
         Cell endCell = field.getBoard()[2][3];
         startCell.setFleet(fleet);
-        Move move = new Move(startCell, endCell, Move.MoveType.ORDINARY); // Диагональное движение по 2XY + Y
+        Move move = new Move(startCell, endCell, Move.MoveType.ORDINARY, 0); // Диагональное движение по 2XY + Y
         int cost = PointsCalculator.costMovement(move);
         assertEquals(19, cost); // Стоимость диагонального движения должно быть 19 (2 * 7 + 5)
     }
@@ -54,7 +54,7 @@ class PointsCalculatorTest {
         Cell startCell = field.getBoard()[0][0];
         Cell endCell = field.getBoard()[0][0];
         startCell.setFleet(fleet);
-        Move move = new Move(startCell, endCell, Move.MoveType.ORDINARY);
+        Move move = new Move(startCell, endCell, Move.MoveType.ORDINARY, 0);
         int cost = PointsCalculator.costMovement(move);
         assertEquals(0, cost); // Стоимость без движения должна быть 0
     }

@@ -2,6 +2,7 @@ package io.deeplay.camp.game.entities;
 
 import io.deeplay.camp.game.domain.GameTypes;
 import io.deeplay.camp.game.entites.*;
+import io.deeplay.camp.game.entites.Move;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -49,7 +50,7 @@ class GameTest {
         Move move;
         startPositionSM = new Cell(1, 1);
         endPositionSM = new Cell(5, 5);
-        move = new Move(startPositionSM, endPositionSM, Move.MoveType.ORDINARY);
+        move = new Move(startPositionSM, endPositionSM, Move.MoveType.ORDINARY, 5);
         game.connectingPlayer("testPlayer");
         game.connectingPlayer("secondPlayer");
         game.gameStarted(field2);

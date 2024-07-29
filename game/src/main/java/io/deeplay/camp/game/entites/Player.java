@@ -1,5 +1,8 @@
 package io.deeplay.camp.game.entites;
 
+import io.deeplay.camp.game.utils.PointsCalculator;
+import io.deeplay.camp.game.utils.ValidationMove;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -22,7 +25,7 @@ public class Player {
     private int totalGamePoints;
     public List<Fleet> fleetList;
     public List<Planet> controlledPlanet;
-    public Collection<Move> legalMoves;
+    public List<Move> legalMoves;
 
     public Player(final long id, final String name) {
         this.id = id;
@@ -116,4 +119,38 @@ public class Player {
     public int hashCode() {
         return Objects.hash(id, name, totalGamePoints, fleetList, controlledPlanet, legalMoves);
     }
+// todo добавить в метод проверку, что на начальной позиции стоит флот
+    // метод подбора подходящих ходов
+    public void addLegalMoves(Cell fleetCell, Field field) {
+        boolean[][] visited = new boolean[field.getSize()][field.getSize()];
+        visited[fleetCell.x][fleetCell.y] = true;
+        if (legalMoves.isEmpty()) {
+            findNeighbors(fleetCell, fleetCell, visited, field, 0);
+        }
+        for (int i = 0; i < legalMoves.size(); i++) {
+            Move currentMove = legalMoves.get(i);
+            findNeighbors(fleetCell, currentMove.endPosition(), visited, field, currentMove.cost());
+            if (!ValidationMove.isEnoughPoints(this, currentMove)|| legalMoves.size() >= field.getSize() * field.getSize() - 1) break;
+        }
+    }
+
+    public void findNeighbors(Cell fleetCell, Cell currentCell, boolean[][] map, Field field, int points) {
+        int[][] directions = {
+                {-1, -1}, {-1, 1}, {1, -1}, {1, 1}, {-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+
+        for (int[] direction : directions) {
+            int newX = currentCell.x + direction[0];
+            int newY = currentCell.y + direction[1];
+
+            int cost = PointsCalculator.costForList(currentCell, newX, newY);
+
+            if (ValidationMove.isPositionValid(new Cell(newX, newY), field.getSize()) && totalGamePoints - points >= cost && !map[newX][newY]) {
+                Cell cell = field.getBoard()[newX][newY];
+                map[newX][newY] = true;
+                legalMoves.add(new Move(fleetCell, cell, Move.MoveType.ORDINARY, points + cost));
+            }
+        }
+        // todo добавление ходов атаки, захвата планет и т.д. в LegalMoves. Продумать стоимость этих событий
+    }
 }
+
