@@ -28,6 +28,7 @@ public class Fleet extends GalaxyEntity {
         owner = player;
         owner.addFleet(this);
         this.fleetMoves = new ArrayList<>();
+        fleetPosition.setFleet(this);
     }
 
     public Fleet(final List<Ship> AnotherShipList, final Cell fleetPosition, final Player player) {
@@ -40,6 +41,7 @@ public class Fleet extends GalaxyEntity {
         updateFleetPower();
         owner = player;
         owner.addFleet(this);
+        fleetPosition.setFleet(this);
     }
 
 
@@ -131,6 +133,7 @@ public class Fleet extends GalaxyEntity {
     //не делаю final из-за взаимной зависимости, возможно позже надо будет сетить в клетку
     public void setFleetPosition(Cell position) {
         this.fleetPosition = position;
+        position.setFleet(this);
     }
 
     /**

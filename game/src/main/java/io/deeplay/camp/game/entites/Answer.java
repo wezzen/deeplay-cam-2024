@@ -35,7 +35,6 @@ public class Answer {
         if (responseTime == null) {
             throw new IllegalArgumentException("Response time cannot be null.");
         }
-
         this.move = move;
         this.responseTime = responseTime;
     }
