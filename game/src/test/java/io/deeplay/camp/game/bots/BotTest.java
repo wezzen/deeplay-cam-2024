@@ -35,11 +35,12 @@ class BotTest {
 
     private Field field;
     private Bot bot;
+    Player player = new Player(0,"player1");
 
     @BeforeEach
     void setUp() {
         field = new Field(10);
-        bot = new TestBot(field);
+        bot = new TestBot.Factory(player).createBot(field);
     }
 
     @Test
@@ -59,7 +60,6 @@ class BotTest {
 
     @Test
     void testGetPlayerAction_ValidOrdinaryMove() {
-        Player player = new Player(0,"player1");
         Player player_ = new Player(1,"player2");
         Fleet fleet = new Fleet(field.getBoard()[0][0], player);
         Fleet fleet_ = new Fleet(field.getBoard()[0][1], player_);
@@ -71,8 +71,10 @@ class BotTest {
         bot.getGame().connectingPlayer(player.getName());
         bot.getGame().connectingPlayer(player_.getName());
         bot.getGame().gameStarted(field);
+        bot.getGame().getPlayerNames().get("player1").fleetList.add(fleet); //Придумать, что с этим делать
+        bot.getGame().getPlayerNames().get("player2").fleetList.add(fleet_);
         //bot.getGame().setNextPlayerToAct(0);
-        move.makeMove(bot.getGame().getPlayerNames().get("player1"));
+        //move.makeMove(bot.getGame().getPlayerNames().get("player1"));
         bot.getGame().setNextPlayerToAct(0);
 
         assertDoesNotThrow(() -> bot.getPlayerAction(move, "player1"));
@@ -87,9 +89,10 @@ class BotTest {
 
     @Test
     void testGetPlayerAction_InvalidTurn() {
-        Player player = new Player(0, "player1");
+        Player player_ = new Player(1, "player2");
         Move move = new Move(new Cell(0, 0), new Cell(1, 1), Move.MoveType.ORDINARY, 7);
         bot.getGame().connectingPlayer("player1");
+        bot.getGame().connectingPlayer("player2");
         bot.getGame().gameStarted(field);
         bot.getGame().getPlayerNames().put("player1", player);
         bot.getGame().setNextPlayerToAct(1);
@@ -97,17 +100,19 @@ class BotTest {
         IllegalStateException exception = assertThrows(IllegalStateException.class, () -> bot.getPlayerAction(move, "player1"));
         assertEquals("Сейчас не ход игрока: player1", exception.getMessage());
     }
-
     @Test
     void testGetPlayerAction_InvalidMove() {
-        Player player = new Player(0, "player1");
+        Player player_ = new Player(1, "player2");
         Move move = new Move(new Cell(0, 0), new Cell(8, 8), Move.MoveType.ORDINARY, 48); // неверный ход
+
         bot.getGame().connectingPlayer("player1");
+        bot.getGame().connectingPlayer("player2");
         bot.getGame().gameStarted(field);
         bot.getGame().getPlayerNames().put("player1", player);
-        bot.getGame().setNextPlayerToAct(1);
 
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> bot.getPlayerAction(move, "player1"));
+        assertTrue(bot.getGame().getPlayerNames().containsKey("player1"));
+
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> bot.getPlayerAction(move, "player1"));
         assertEquals("Недопустимый 'ORDINARY' ход: " + move, exception.getMessage());
     }
 

@@ -28,7 +28,7 @@ public class RandomBot extends Bot {
         Move move;
         Cell startCell = Arrays.stream(field.getBoard())
                 .flatMap(Arrays::stream)
-                .filter(cell -> cell.getFleet() != null)
+                .filter(cell -> cell.getFleet() != null && cell.getFleet().getOwner() == this.player)
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("Нет клеток с флотом"));
         startCell.getFleet().addFleetMoves(field);

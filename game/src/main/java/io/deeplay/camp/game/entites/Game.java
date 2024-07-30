@@ -5,6 +5,7 @@ import io.deeplay.camp.game.domain.GameTypes;
 import io.deeplay.camp.game.utils.PointsCalculator;
 import io.deeplay.camp.game.utils.ValidationMove;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +26,7 @@ public class Game implements GalaxyListener {
 
     public Game(final Field field) {
         this.field = field;
-        this.allGameMoves = null;
+        this.allGameMoves = new ArrayList<>();
         this.playerNames = new HashMap<>();
     }
 
