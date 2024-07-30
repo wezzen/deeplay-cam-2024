@@ -89,7 +89,7 @@ public class Game implements GalaxyListener {
         switchPlayerToAct();
         // подсчет очков для хода возможно надо будет убрать, потому что мув содержит стоимость
         // int cost = PointsCalculator.costMovement(move);
-        if (move.moveType() == Move.MoveType.ORDINARY) {
+        if (move.moveType == Move.MoveType.ORDINARY) {
             if (ValidationMove.isValidOrdinaryMove(move, field, players[nextPlayerToAct])) {
                 allGameMoves.add(move);
                 move.makeMove(players[nextPlayerToAct]);
@@ -100,7 +100,7 @@ public class Game implements GalaxyListener {
                 move.makeAttack(players[nextPlayerToAct]);
             }
         }
-        players[nextPlayerToAct].decreaseTotalGamePoints(move.cost());
+        players[nextPlayerToAct].decreaseTotalGamePoints(move.cost);
     }
 
     // todo сделать начисление очков раз в несколько ходов, но пока у нас нет этого

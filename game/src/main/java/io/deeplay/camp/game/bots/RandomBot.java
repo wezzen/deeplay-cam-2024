@@ -25,7 +25,7 @@ public class RandomBot extends Bot {
     @Override
     public Move getMove() {
         Cell[][] board = field.getBoard();
-        Move move;
+
 
         Cell startCell = Arrays.stream(field.getBoard())
                 .flatMap(Arrays::stream)
@@ -35,15 +35,15 @@ public class RandomBot extends Bot {
         startCell.getFleet().addFleetMoves(field);
 
         availableMoves = startCell.getFleet().getFleetMoves();
-        move = availableMoves.get(random.nextInt(availableMoves.size()));
+        Move move = availableMoves.get(random.nextInt(availableMoves.size()));
 
         if (availableMoves.isEmpty()) {
             throw new RuntimeException("Нет клеток совершения для хода");
         }
 
-        if (move.moveType() == Move.MoveType.ORDINARY) {
+        if (move.moveType == Move.MoveType.ORDINARY) {
             move.makeMove(player);
-        } else if (move.moveType() == Move.MoveType.CAPTURE) {
+        } else if (move.moveType == Move.MoveType.CAPTURE) {
             move.makeAttack(player);
         } else {
             throw new IllegalArgumentException("Нет такого типа хода!");
