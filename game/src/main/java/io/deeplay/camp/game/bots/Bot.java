@@ -39,7 +39,14 @@ public abstract class Bot implements PlayerInterface {
 
     @Override
     public void connectingPlayer(final String waitingPlayerName) {
-        game.connectingPlayer(waitingPlayerName);
+        //game.connectingPlayer(waitingPlayerName);
+        if (game.players[0] == null) {
+            game.players[0] = new Player(0, waitingPlayerName);
+            game.getPlayerNames().put(waitingPlayerName, game.players[0]);
+        } else if (game.players[1] == null) {
+            game.players[1] = new Player(1, waitingPlayerName);
+            game.getPlayerNames().put(waitingPlayerName, game.players[1]);
+        } else throw new IllegalArgumentException("Игроки уже существуют");
     }
 
     @Override
@@ -71,16 +78,16 @@ public abstract class Bot implements PlayerInterface {
                 game.getAllGameMoves().add(move);
                 move.makeMove(player);
             } else {
-                throw new IllegalArgumentException("Недопустимый 'ORDINARY' ход: " + move);
+                throw new IllegalStateException("Недопустимый 'ORDINARY' ход: " + move);
             }
         } else if (move.moveType() == Move.MoveType.CAPTURE) {
             if (ValidationMove.isValidCaptureMove(move, player)) {
                 game.getAllGameMoves().add(move);
                 move.makeMove(player);
             } else {
-                throw new IllegalArgumentException("Недопустимый 'CAPTURE' ход: " + move);
+                throw new IllegalStateException("Недопустимый 'CAPTURE' ход: " + move);
             }
-        } else throw new IllegalArgumentException("Нет такого типа хода!");
+        } else throw new IllegalStateException("Нет такого типа хода!");
 
         // Обновляем очки игрока
         player.decreaseTotalGamePoints(cost);
