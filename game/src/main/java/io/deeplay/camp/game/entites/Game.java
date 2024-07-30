@@ -85,8 +85,8 @@ public class Game implements GalaxyListener {
         if (!playerNames.containsKey(playerName)) {
             throw new IllegalArgumentException("Отсутствует игрок:" + playerName);
         }
-        nextPlayerToAct = (nextPlayerToAct + 1) % NUM_PLAYERS;
-
+//        nextPlayerToAct = (nextPlayerToAct + 1) % NUM_PLAYERS;
+        switchPlayerToAct();
         // подсчет очков для хода возможно надо будет убрать, потому что мув содержит стоимость
         // int cost = PointsCalculator.costMovement(move);
         if (move.moveType() == Move.MoveType.ORDINARY) {
@@ -129,4 +129,9 @@ public class Game implements GalaxyListener {
     public void setNextPlayerToAct(int nextPlayerToAct) {
         this.nextPlayerToAct = nextPlayerToAct;
     }
+
+    public void switchPlayerToAct() {
+        nextPlayerToAct = (nextPlayerToAct + 1) % NUM_PLAYERS;
+    }
+
 }
