@@ -23,7 +23,7 @@ public class RandomBot extends Bot {
     }
 
     @Override
-    protected Move getMove() {
+    public Move getMove() {
         Cell[][] board = field.getBoard();
         Move move;
         Cell startCell = Arrays.stream(field.getBoard())
