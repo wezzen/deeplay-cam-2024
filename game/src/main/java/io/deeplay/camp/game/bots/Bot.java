@@ -46,7 +46,9 @@ public abstract class Bot implements PlayerInterface {
         } else if (game.players[1] == null) {
             game.players[1] = new Player(1, waitingPlayerName);
             game.getPlayerNames().put(waitingPlayerName, game.players[1]);
-        } else throw new IllegalArgumentException("Игроки уже существуют");
+        } else {
+            throw new IllegalArgumentException("Игроки уже существуют");
+        }
     }
 
     @Override
