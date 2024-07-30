@@ -77,8 +77,11 @@ public class Field {
      */
     public boolean isGameOver() {
         Player owner = planets.getFirst().getOwner();
+        if (owner == null) {
+            return false;
+        }
         for (Planet planet : planets) {
-            if (!planet.getOwner().equals(owner)) {
+            if (!(planet.getOwner().equals(owner))) {
                 return false;
             }
         }
