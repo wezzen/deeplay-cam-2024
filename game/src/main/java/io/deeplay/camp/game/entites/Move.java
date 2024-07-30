@@ -75,6 +75,6 @@ public record Move(Cell startPosition, Cell endPosition, MoveType moveType, int 
 
     @Override
     public String toString() {
-        return "Start position = " + startPosition.toString() + " end position = " + endPosition.toString();
+        return "start position = [" + startPosition.x + ", " +Character.toString(startPosition.y + 'A' - 1) + "] end position = [" + endPosition.x + ", " +Character.toString(endPosition.y + 'A' - 1) + "]";
     }
 }

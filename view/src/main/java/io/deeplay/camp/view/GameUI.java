@@ -13,7 +13,7 @@ public interface GameUI extends GalaxyListener {
     /**
      * Метод для выбора цвета кораблей
      */
-    void selectShipColor(String color);
+    void selectShipColor();
     /**
      * Метод для отрисовки игрового поля
      */
