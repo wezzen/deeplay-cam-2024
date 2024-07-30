@@ -66,17 +66,12 @@ class BotTest {
         Ship ship = new Ship(Ship.ShipType.BASIC, fleet);
         Ship ship_ = new Ship(Ship.ShipType.BASIC, fleet_);
         Move move = new Move(field.getBoard()[0][0], field.getBoard()[1][1], Move.MoveType.ORDINARY, 7);
-        //bot.getGame().getPlayerNames().put("player1", player);
-        //bot.getGame().getPlayerNames().put("player2", player_);
         bot.getGame().connectingPlayer(player.getName());
         bot.getGame().connectingPlayer(player_.getName());
         bot.getGame().gameStarted(field);
-        bot.getGame().getPlayerNames().get("player1").fleetList.add(fleet); //Придумать, что с этим делать
+        bot.getGame().getPlayerNames().get("player1").fleetList.add(fleet);
         bot.getGame().getPlayerNames().get("player2").fleetList.add(fleet_);
-        //bot.getGame().setNextPlayerToAct(0);
-        //move.makeMove(bot.getGame().getPlayerNames().get("player1"));
         bot.getGame().setNextPlayerToAct(0);
-
         assertDoesNotThrow(() -> bot.getPlayerAction(move, "player1"));
     }
 
