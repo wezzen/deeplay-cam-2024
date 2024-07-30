@@ -13,7 +13,7 @@ public class SelfPlay {
     private final int sizeField;
     private String[] playerNames;
     List<RandomBot> players;
-    Map<String, PlayerInterface> stringPlayerInterfaceMap;
+    Map<String, RandomBot> stringPlayerInterfaceMap;
     List<GalaxyListener> listeners;
 
     public SelfPlay(int sizeField, String[] playerNames) {
@@ -96,9 +96,9 @@ public class SelfPlay {
             game.getPlayerAction(answer.getMove(), currentPlayer);
             //todo валидировать опять(?)
             for (RandomBot player : players) {
-                if (!Objects.equals(player.player.getName(), currentPlayer)) {
+//                if (!Objects.equals(player.player.getName(), currentPlayer)) {
                     player.getPlayerAction(answer.getMove(), currentPlayer);
-                }
+//                }
             }
 
             for (GalaxyListener listener : listeners) {

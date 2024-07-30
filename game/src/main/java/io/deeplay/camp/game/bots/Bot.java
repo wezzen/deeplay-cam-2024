@@ -28,7 +28,7 @@ public abstract class Bot implements PlayerInterface {
     @Override
     public Answer getAnswer(final Field field) {
         Answer answer = new Answer(getMove());
-        game.switchPlayerToAct();
+//        game.switchPlayerToAct();
         return answer;
     }
 
