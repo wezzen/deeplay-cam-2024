@@ -5,7 +5,21 @@ package io.deeplay.camp.game.entites;
  * чтоб не закладывать, еще не продуманную, логику.
  * Record обеспечивает из коробки все требуемые методы (и даже больше)
  */
-public record Move(Cell startPosition, Cell endPosition, MoveType moveType, int cost) {
+//public record Move(Cell startPosition, Cell endPosition, MoveType moveType, int cost) {
+
+public class Move {
+
+    public final Cell startPosition;
+    public final Cell endPosition;
+    public final MoveType moveType;
+    public final int cost;
+
+    public Move(Cell startPosition, Cell endPosition, MoveType moveType, int cost) {
+        this.startPosition = startPosition;
+        this.endPosition = endPosition;
+        this.moveType = moveType;
+        this.cost = cost;
+    }
 
     public void makeMove(final Player player) {
         Fleet fleet = startPosition.getFleet();
@@ -37,11 +51,11 @@ public record Move(Cell startPosition, Cell endPosition, MoveType moveType, int 
         fleet.fleetsClash(enemyFleet, player, enemyFleet.getOwner());
         if (player.getFleetList().contains(fleet)) {
             clearFleetFromPosition(endPosition);
-        }
-        else {
+        } else {
             clearFleetFromPosition(startPosition);
         }
     }
+
     private void setFleetOnPosition(final Cell position, final Fleet fleet) {
         fleet.setFleetPosition(position);
         position.setFleet(fleet);
