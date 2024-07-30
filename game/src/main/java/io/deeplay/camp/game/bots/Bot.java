@@ -27,7 +27,9 @@ public abstract class Bot implements PlayerInterface {
 
     @Override
     public Answer getAnswer(final Field field) {
-        return new Answer(getMove());
+        Answer answer = new Answer(getMove());
+        game.switchPlayerToAct();
+        return answer;
     }
 
     protected abstract Move getMove();
@@ -75,21 +77,21 @@ public abstract class Bot implements PlayerInterface {
         int cost = PointsCalculator.costMovement(move);
 
         // Проверка валидности хода
-        if (move.moveType() == Move.MoveType.ORDINARY) {
-            if (ValidationMove.isValidOrdinaryMove(move, game.getField(), player)) {
-                game.getAllGameMoves().add(move);
-                move.makeMove(player);
-            } else {
-                throw new IllegalStateException("Недопустимый 'ORDINARY' ход: " + move);
-            }
-        } else if (move.moveType() == Move.MoveType.CAPTURE) {
-            if (ValidationMove.isValidCaptureMove(move, player)) {
-                game.getAllGameMoves().add(move);
-                move.makeMove(player);
-            } else {
-                throw new IllegalStateException("Недопустимый 'CAPTURE' ход: " + move);
-            }
-        } else throw new IllegalStateException("Нет такого типа хода!");
+//        if (move.moveType() == Move.MoveType.ORDINARY) {
+//            if (ValidationMove.isValidOrdinaryMove(move, game.getField(), player)) {
+//                game.getAllGameMoves().add(move);
+//                move.makeMove(player);
+//            } else {
+//                throw new IllegalStateException("Недопустимый 'ORDINARY' ход: " + move);
+//            }
+//        } else if (move.moveType() == Move.MoveType.CAPTURE) {
+//            if (ValidationMove.isValidCaptureMove(move, player)) {
+//                game.getAllGameMoves().add(move);
+//                move.makeMove(player);
+//            } else {
+//                throw new IllegalStateException("Недопустимый 'CAPTURE' ход: " + move);
+//            }
+//        } else throw new IllegalStateException("Нет такого типа хода!");
 
         // Обновляем очки игрока
         player.decreaseTotalGamePoints(cost);
