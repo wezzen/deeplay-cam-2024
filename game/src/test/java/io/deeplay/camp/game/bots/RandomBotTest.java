@@ -18,12 +18,14 @@ public class RandomBotTest {
     public void setUp() {
         field = new Field(2); // Создаем поле размером 2x2
         player = new Player(0,"Player1");
+        Player player_ = new Player(1,"Player2");
         Cell cellWithFleet = field.getBoard()[0][0];
         fleet = new Fleet(cellWithFleet, player);
         Ship ship = new Ship(Ship.ShipType.BASIC, fleet);
         randomBot = new RandomBot.Factory(player).createBot(field);
+        randomBot.getGame().getPlayerNames().put("player2", player_);
     }
-/*
+
     @Test
     public void testGetMove() {
         Move move1 = new Move(field.getBoard()[0][0], field.getBoard()[0][1], Move.MoveType.ORDINARY, 5);
@@ -35,13 +37,11 @@ public class RandomBotTest {
         moves.add(move2);
         moves.add(move3);
 
-        Move move_ = randomBot.getMove();
+        //randomBot.getGame().getPlayerNames().get("player1").getLegalMoves();
 
-        assertTrue(moves.contains(move_));
-        if (move_.moveType() == Move.MoveType.ORDINARY) {
-            move_.makeMove(player);
-        } else if (move_.moveType() == Move.MoveType.CAPTURE) {
-            move_.makeAttack(player);
-        }
-    }*/
+        Move madeMove = randomBot.getMove();
+        Answer result = randomBot.getAnswer(field);
+
+        assertTrue(moves.contains(madeMove));//Иногда ломается
+    }
 }
