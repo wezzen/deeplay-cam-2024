@@ -6,16 +6,13 @@ import io.deeplay.camp.game.entites.*;
 import io.deeplay.camp.game.interfaces.PlayerInterface;
 import io.deeplay.camp.game.utils.GameLogger;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class SelfPlay {
 
     private final int sizeField;
     private String[] playerNames;
-    List<PlayerInterface> players;
+    List<RandomBot> players;
     Map<String, PlayerInterface> stringPlayerInterfaceMap;
     List<GalaxyListener> listeners;
 
@@ -28,14 +25,15 @@ public class SelfPlay {
     }
 
     private void initializePlayers(Field field, Game game) {
-        Cell cellWithFleet = field.getBoard()[0][0];
-        Cell cellWithFleet_ = field.getBoard()[field.getSize() - 1][field.getSize() - 1];
+        Cell cellWithFleet = field.getBoard()[0][field.getSize() - 1];
+        Cell cellWithFleet_ = field.getBoard()[field.getSize() - 1][0];
 
-        game.connectingPlayer(playerNames[0]);
+
         Player player0 = new Player(0, playerNames[0]);
-
-        game.connectingPlayer(playerNames[1]);
         Player player1 = new Player(1, playerNames[1]);
+        game.connectingPlayer(playerNames[0]);
+        game.connectingPlayer(playerNames[1]);
+
 
         Fleet fleet0 = new Fleet(cellWithFleet, player0);
         Fleet fleet1 = new Fleet(cellWithFleet_, player1);
@@ -47,6 +45,15 @@ public class SelfPlay {
 
         randomBot0.getGame().getPlayerNames().put(playerNames[1], player1);
         randomBot1.getGame().getPlayerNames().put(playerNames[0], player0);
+
+        randomBot0.getGame().connectingPlayer(playerNames[0]);
+        randomBot0.getGame().connectingPlayer(playerNames[1]);
+
+        randomBot1.getGame().connectingPlayer(playerNames[0]);
+        randomBot1.getGame().connectingPlayer(playerNames[1]);
+
+        randomBot0.getGame().setNextPlayerToAct(0);
+        randomBot1.getGame().setNextPlayerToAct(0);
 
 
         players.add(randomBot0);
@@ -88,9 +95,12 @@ public class SelfPlay {
             //todo валидировать
             game.getPlayerAction(answer.getMove(), currentPlayer);
             //todo валидировать опять(?)
-            for (PlayerInterface player : players) {
-                player.getPlayerAction(answer.getMove(), currentPlayer);
+            for (RandomBot player : players) {
+                if (!Objects.equals(player.player.getName(), currentPlayer)) {
+                    player.getPlayerAction(answer.getMove(), currentPlayer);
+                }
             }
+
             for (GalaxyListener listener : listeners) {
                 listener.getPlayerAction(answer.getMove(), currentPlayer);
             }

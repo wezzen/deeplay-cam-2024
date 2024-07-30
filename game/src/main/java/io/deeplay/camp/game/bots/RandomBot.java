@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Random;
 
 public class RandomBot extends Bot {
-    private final Player player;
+    public final Player player;
     private final Field field;
     private Random random;
     private List<Move> availableMoves;
