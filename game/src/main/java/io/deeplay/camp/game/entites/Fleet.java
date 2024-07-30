@@ -150,8 +150,10 @@ public class Fleet extends GalaxyEntity {
             us.removeFleet(this);
         }
     }
+
     // метод подбора подходящих ходов для флота
     public void addFleetMoves(final Field field) {
+        fleetMoves = new ArrayList<>();
         boolean[][] visited = new boolean[field.getSize()][field.getSize()];
         visited[fleetPosition.x][fleetPosition.y] = true;
         if (fleetMoves.isEmpty()) {
@@ -159,12 +161,13 @@ public class Fleet extends GalaxyEntity {
         }
         for (int i = 0; i < fleetMoves.size(); i++) {
             Move currentMove = fleetMoves.get(i);
-            findNeighbors(currentMove.endPosition(), visited, field, currentMove.cost());
-            if (!ValidationMove.isEnoughPoints(getOwner(), currentMove)|| fleetMoves.size() >= field.getSize() * field.getSize() - 1) break;
+            findNeighbors(currentMove.endPosition, visited, field, currentMove.cost);
+            if (!ValidationMove.isEnoughPoints(getOwner(), currentMove) || fleetMoves.size() >= field.getSize() * field.getSize() - 1)
+                break;
         }
     }
 
-    public void findNeighbors(final Cell currentCell,final boolean[][] map,final Field field,final int points) {
+    public void findNeighbors(final Cell currentCell, final boolean[][] map, final Field field, final int points) {
         int[][] directions = {
                 {-1, -1}, {-1, 1}, {1, -1}, {1, 1}, {-1, 0}, {1, 0}, {0, -1}, {0, 1}};
 
@@ -189,6 +192,7 @@ public class Fleet extends GalaxyEntity {
         return Objects.equals(shipList, fleet.shipList) &&
                 Objects.equals(fleetPosition, fleet.fleetPosition);
     }
+
     @Override
     public int hashCode() {
         return Objects.hash(shipList, fleetPosition);
