@@ -50,10 +50,8 @@ public class RandomBotTest {
         moves.add(move2_);
         moves.add(move3_);
 
-        //randomBot.getGame().getPlayerNames().get("player1").getLegalMoves();
-        //Move madeMove = randomBot.getMove();
         Answer result = randomBot.getAnswer(field);
 
-        assertTrue(moves.contains(result.getMove()));//Иногда ломается
+        assertTrue(moves.contains(result.getMove()));
     }
 }
