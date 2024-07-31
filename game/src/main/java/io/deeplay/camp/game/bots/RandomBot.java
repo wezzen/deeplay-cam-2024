@@ -1,35 +1,29 @@
 package io.deeplay.camp.game.bots;
 
 import io.deeplay.camp.game.entites.*;
-import io.deeplay.camp.game.utils.PointsCalculator;
-import io.deeplay.camp.game.utils.ValidationMove;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
 public class RandomBot extends Bot {
-    public final Player player;
-    private final Field field;
     private Random random;
     private List<Move> availableMoves;
 
-    protected RandomBot(Field field, Player player) {
-        super(field);
-        this.player = player;
-        this.field = field;
+    protected RandomBot(final String name, final Field field) {
+        super(name, field);
         this.random = new Random();
     }
 
     @Override
     public Move getMove() {
-        Cell[][] board = field.getBoard();
+        final Field field = game.getField();
+        final Cell[][] board = field.getBoard();
+        final Player player = game.getPlayerByName(name);
 
-
-        Cell startCell = Arrays.stream(field.getBoard())
+        Cell startCell = Arrays.stream(board)
                 .flatMap(Arrays::stream)
-                .filter(cell -> cell.getFleet() != null && cell.getFleet().getOwner() == this.player)
+                .filter(cell -> cell.getFleet() != null && cell.getFleet().getOwner() == player)
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("Нет клеток с флотом"));
         startCell.getFleet().addFleetMoves(field);
@@ -64,15 +58,13 @@ public class RandomBot extends Bot {
     }
 
     public static class Factory extends BotFactory {
-        private final Player player;
 
-        public Factory(Player player) {
-            this.player = player;
+        public Factory() {
         }
 
         @Override
-        public RandomBot createBot(final Field field) {
-            return new RandomBot(field, player);
+        public RandomBot createBot(final String name, final Field field) {
+            return new RandomBot(name, field);
         }
     }
 }

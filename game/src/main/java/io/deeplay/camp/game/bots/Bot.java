@@ -15,21 +15,22 @@ import io.deeplay.camp.game.utils.ValidationMove;
  */
 public abstract class Bot implements PlayerInterface {
     private static final int NUM_PLAYERS = 2;
+
+    protected final String name;
     /**
      * В классе есть только экземпляр класса Game
      * aka контроллер
      */
-    private final Game game;
+    protected final Game game;
 
-    protected Bot(final Field field) {
+    protected Bot(final String name, final Field field) {
         this.game = new Game(field);
+        this.name = name;
     }
 
     @Override
     public Answer getAnswer(final Field field) {
-        Answer answer = new Answer(getMove());
-//        game.switchPlayerToAct();
-        return answer;
+        return new Answer(getMove());
     }
 
     protected abstract Move getMove();
@@ -41,16 +42,7 @@ public abstract class Bot implements PlayerInterface {
 
     @Override
     public void connectingPlayer(final String waitingPlayerName) {
-        //game.connectingPlayer(waitingPlayerName);
-        if (game.players[0] == null) {
-            game.players[0] = new Player(0, waitingPlayerName);
-            game.getPlayerNames().put(waitingPlayerName, game.players[0]);
-        } else if (game.players[1] == null) {
-            game.players[1] = new Player(1, waitingPlayerName);
-            game.getPlayerNames().put(waitingPlayerName, game.players[1]);
-        } else {
-            throw new IllegalArgumentException("Игроки уже существуют");
-        }
+        game.connectingPlayer(waitingPlayerName);
     }
 
     @Override
@@ -60,6 +52,7 @@ public abstract class Bot implements PlayerInterface {
 
     @Override
     public void getPlayerAction(final Move move, final String playerName) {
+        game.getPlayerAction(move, playerName);
         // Проверка наличия игрока
         if (!game.getPlayerNames().containsKey(playerName)) {
             throw new IllegalArgumentException("Отсутствует игрок:" + playerName);
@@ -111,10 +104,6 @@ public abstract class Bot implements PlayerInterface {
         game.endGameSession();
     }
 
-    public Game getGame() {
-        return game;
-    }
-
     /**
      * Паттерн абстрактная фабрика
      * Статический абстрактный класс
@@ -126,6 +115,6 @@ public abstract class Bot implements PlayerInterface {
          * @param field поле, по которому ходит созданный бот
          * @return бота, который будет играть в игру
          */
-        public abstract Bot createBot(final Field field);
+        public abstract Bot createBot(final String name, final Field field);
     }
 }
