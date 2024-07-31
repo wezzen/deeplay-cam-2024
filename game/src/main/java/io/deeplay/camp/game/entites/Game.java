@@ -2,7 +2,6 @@ package io.deeplay.camp.game.entites;
 
 import io.deeplay.camp.game.domain.GalaxyListener;
 import io.deeplay.camp.game.domain.GameTypes;
-import io.deeplay.camp.game.utils.PointsCalculator;
 import io.deeplay.camp.game.utils.ValidationMove;
 
 import java.util.ArrayList;
@@ -65,7 +64,7 @@ public class Game implements GalaxyListener {
     }
 
     @Override
-    public void connectingPlayer(String waitingPlayerName) {
+    public void connectingPlayer(final String waitingPlayerName) {
         if (players[0] == null) {
             players[0] = new Player(0, waitingPlayerName);
             playerNames.put(waitingPlayerName, players[0]);
@@ -120,6 +119,12 @@ public class Game implements GalaxyListener {
 
     public List<Move> getAllGameMoves() {
         return allGameMoves;
+    }
+
+    public Player getPlayerByName(final String name) {
+        return playerNames.computeIfAbsent(name, (key) -> {
+            throw new IllegalStateException("There is no player with name " + key);
+        });
     }
 
     public Map<String, Player> getPlayerNames() {

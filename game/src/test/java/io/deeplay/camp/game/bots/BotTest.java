@@ -9,20 +9,18 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BotTest {
     private static class TestBot extends Bot {
-        protected TestBot(final Field field) {
-            super(field);
+        protected TestBot(final String name, final Field field) {
+            super(name, field);
         }
 
         public static class Factory extends BotFactory {
-            private final Player player;
 
-            public Factory(Player player) {
-                this.player = player;
+            public Factory() {
             }
 
             @Override
-            public TestBot createBot(final Field field) {
-                return new TestBot(field);
+            public TestBot createBot(final String name, final Field field) {
+                return new TestBot(name, field);
             }
         }
 
@@ -40,7 +38,7 @@ class BotTest {
     @BeforeEach
     void setUp() {
         field = new Field(10);
-        bot = new TestBot.Factory(player).createBot(field);
+        bot = new TestBot.Factory().createBot("aaa", field);
     }
 
     @Test
@@ -66,12 +64,12 @@ class BotTest {
         Ship ship = new Ship(Ship.ShipType.BASIC, fleet);
         Ship ship_ = new Ship(Ship.ShipType.BASIC, fleet_);
         Move move = new Move(field.getBoard()[0][0], field.getBoard()[1][1], Move.MoveType.ORDINARY, 7);
-        bot.getGame().connectingPlayer(player.getName());
-        bot.getGame().connectingPlayer(player_.getName());
-        bot.getGame().gameStarted(field);
-        bot.getGame().getPlayerNames().get("player1").fleetList.add(fleet);
-        bot.getGame().getPlayerNames().get("player2").fleetList.add(fleet_);
-        bot.getGame().setNextPlayerToAct(0);
+//        bot.getGame().connectingPlayer(player.getName());
+//        bot.getGame().connectingPlayer(player_.getName());
+//        bot.getGame().gameStarted(field);
+//        bot.getGame().getPlayerNames().get("player1").fleetList.add(fleet);
+//        bot.getGame().getPlayerNames().get("player2").fleetList.add(fleet_);
+//        bot.getGame().setNextPlayerToAct(0);
         assertDoesNotThrow(() -> bot.getPlayerAction(move, "player1"));
     }
 
@@ -86,11 +84,11 @@ class BotTest {
     void testGetPlayerAction_InvalidTurn() {
         Player player_ = new Player(1, "player2");
         Move move = new Move(new Cell(0, 0), new Cell(1, 1), Move.MoveType.ORDINARY, 7);
-        bot.getGame().connectingPlayer("player1");
-        bot.getGame().connectingPlayer("player2");
-        bot.getGame().gameStarted(field);
-        bot.getGame().getPlayerNames().put("player1", player);
-        bot.getGame().setNextPlayerToAct(1);
+//        bot.getGame().connectingPlayer("player1");
+//        bot.getGame().connectingPlayer("player2");
+//        bot.getGame().gameStarted(field);
+//        bot.getGame().getPlayerNames().put("player1", player);
+//        bot.getGame().setNextPlayerToAct(1);
 
         IllegalStateException exception = assertThrows(IllegalStateException.class, () -> bot.getPlayerAction(move, "player1"));
         assertEquals("Сейчас не ход игрока: player1", exception.getMessage());

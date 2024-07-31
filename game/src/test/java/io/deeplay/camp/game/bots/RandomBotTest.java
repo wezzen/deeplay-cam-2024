@@ -29,8 +29,8 @@ public class RandomBotTest {
         Fleet fleet_ = new Fleet(cellWithFleet_, player_);
         Ship ship = new Ship(Ship.ShipType.BASIC, fleet);
         Ship ship_ = new Ship(Ship.ShipType.BASIC, fleet_);
-        randomBot = new RandomBot.Factory(player).createBot(field);
-        randomBot.getGame().getPlayerNames().put("player2", player_);
+//        randomBot = new RandomBot.Factory(player).createBot(field);
+//        randomBot.getGame().getPlayerNames().put("player2", player_);
     }
 
     @Test
