@@ -6,7 +6,6 @@ package io.deeplay.camp.game.entites;
  * Record обеспечивает из коробки все требуемые методы (и даже больше)
  */
 public record Move(Cell startPosition, Cell endPosition, MoveType moveType, int cost) {
-
     public void makeMove(final Player player) {
         Fleet fleet = startPosition.getFleet();
         Fleet enemyFleet = endPosition.getFleet();
@@ -76,6 +75,11 @@ public record Move(Cell startPosition, Cell endPosition, MoveType moveType, int 
 
     @Override
     public String toString() {
-        return "Start position = " + startPosition.toString() + " end position = " + endPosition.toString();
+        if (startPosition != null && endPosition != null) {
+            return "Start position = " + startPosition.toString() + " end position = " + endPosition.toString();
+        } else {
+            return "Empty Move";
+        }
     }
 }
+

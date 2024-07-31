@@ -4,6 +4,7 @@ import io.deeplay.camp.game.entites.*;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 public class RandomBot extends Bot {
@@ -23,24 +24,26 @@ public class RandomBot extends Bot {
 
         long fleetCount = Arrays.stream(board)
                 .flatMap(Arrays::stream)
-                .filter(cell -> cell.getFleet() != null && cell.getFleet().getOwner() == player).count();
+                .filter(cell -> cell.getFleet() != null && Objects.equals(cell.getFleet().getOwner().getName(), player.getName())).count();
         if (fleetCount == 0) {
             return new Move(null, null, Move.MoveType.SKIP, 0);
         }
 
         Cell startCell = Arrays.stream(board)
                 .flatMap(Arrays::stream)
-                .filter(cell -> cell.getFleet() != null && cell.getFleet().getOwner() == player)
+                .filter(cell -> cell.getFleet() != null && Objects.equals(cell.getFleet().getOwner().getName(), player.getName()))
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("Нет клеток с флотом"));
         startCell.getFleet().addFleetMoves(field);
 
         availableMoves = startCell.getFleet().getFleetMoves();
+//тут падало потому что заканчивались очки хода
+        if (availableMoves.isEmpty()) {
+            return new Move(null, null, Move.MoveType.SKIP, 0);
+        }
+
         Move move = availableMoves.get(random.nextInt(availableMoves.size()));
 
-        if (availableMoves.isEmpty()) {
-            throw new RuntimeException("Нет клеток совершения для хода");
-        }
 
         if (move.moveType() == Move.MoveType.ORDINARY) {
             move.makeMove(player);

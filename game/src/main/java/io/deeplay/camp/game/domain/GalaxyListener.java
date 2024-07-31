@@ -4,6 +4,9 @@ package io.deeplay.camp.game.domain;
 import io.deeplay.camp.game.entites.Field;
 import io.deeplay.camp.game.entites.Move;
 import io.deeplay.camp.game.entites.Player;
+import io.deeplay.camp.game.entites.Ship;
+
+import java.util.List;
 
 /**
  * Интерфейс игровых событий
@@ -30,12 +33,17 @@ public interface GalaxyListener {
     void gameStarted(final Field field);
 
     /**
-     * Любое игровое событие
+     * Передвижение флота по карте
      *
      * @param move       ход
      * @param playerName игрок
      */
     void getPlayerAction(final Move move, final String playerName);
+
+    /**
+     * Создание флота на карте
+     */
+    void createShips(final List<Ship.ShipType> ships, final String playerName);
 
     /**
      * Конец игры

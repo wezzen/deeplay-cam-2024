@@ -5,10 +5,13 @@ import io.deeplay.camp.game.domain.GalaxyListener;
 import io.deeplay.camp.game.domain.GameTypes;
 import io.deeplay.camp.game.entites.Field;
 import io.deeplay.camp.game.entites.Move;
+import io.deeplay.camp.game.entites.Ship;
 import org.slf4j.LoggerFactory;
 
 
 import org.slf4j.Logger;
+
+import java.util.List;
 
 
 public class GameLogger implements GalaxyListener {
@@ -41,6 +44,7 @@ public class GameLogger implements GalaxyListener {
     @Override
     public void getPlayerAction(Move move, String playerName) {
         logger.info("Сходил игрок {}", playerName);
+        logger.info(move.toString());
         if (field != null) {
             field.updateField();//todo: жду пока дпопишется логика ходов
             String fieldString = ConvertorFieldToString.convertFieldToString(field);
@@ -48,6 +52,11 @@ public class GameLogger implements GalaxyListener {
         } else {
             logger.error("ПУСТОЕ ПОЛЕ");
         }
+    }
+
+    @Override
+    public void createShips(List<Ship.ShipType> ships, String playerName) {
+        logger.info(playerName + " создал " + ships.size() + " кораблей");
     }
 
     @Override

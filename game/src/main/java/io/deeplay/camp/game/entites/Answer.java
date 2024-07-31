@@ -2,6 +2,7 @@ package io.deeplay.camp.game.entites;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -10,6 +11,7 @@ import java.util.Objects;
 public class Answer {
     private final Move move;
     private final String responseTime;
+    private final List<Ship.ShipType> shipList;
 
     /**
      * Конструктор, который инициализирует ответ с текущим временем в формате ISO_LOCAL_DATE_TIME.
@@ -29,6 +31,10 @@ public class Answer {
      * @throws IllegalArgumentException если move или responseTime являются null
      */
     public Answer(final Move move, final String responseTime) {
+        this(move, responseTime, null);
+    }
+
+    public Answer(Move move, String responseTime, List<Ship.ShipType> shipList) {
         if (move == null) {
             throw new IllegalArgumentException("Move cannot be null.");
         }
@@ -37,10 +43,15 @@ public class Answer {
         }
         this.move = move;
         this.responseTime = responseTime;
+        this.shipList = shipList;
     }
 
     public Move getMove() {
         return move;
+    }
+
+    public List<Ship.ShipType> getShipList() {
+        return shipList;
     }
 
     public String getResponseTime() {
