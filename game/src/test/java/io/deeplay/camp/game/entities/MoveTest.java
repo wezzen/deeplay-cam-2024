@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class MoveTest {
     private Cell startPositionSM;
@@ -70,6 +71,7 @@ class MoveTest {
         assertEquals(Move.MoveType.ORDINARY, moveOrdinary.moveType());
         assertEquals(Move.MoveType.CAPTURE, moveCapture.moveType());
     }
+
     @Test
     void testMoveToEmptyCell() {
         Field field = new Field(10);
@@ -82,6 +84,7 @@ class MoveTest {
         assertNotNull(field.getBoard()[2][2].getFleet());
         assertEquals(field.getBoard()[2][2].getFleet(), fleet);
     }
+
     @Test
     void testMoveToStrongEnemyFleet() {
         Field field = new Field(10);
@@ -116,6 +119,7 @@ class MoveTest {
         assertFalse(player2.getFleetList().contains(fleet2)); // у плеер1 сила больше, поэтому у плеера2 флот уничтожается
         assertTrue(player1.getFleetList().contains(fleet1));
     }
+
     @Test
     void testMoveToJoinFleet() {
         Field field = new Field(10);
@@ -149,4 +153,25 @@ class MoveTest {
         assertTrue(player1.getFleetList().contains(fleet1));
     }
 
+    @Test
+    void testCapturePlanet() {
+        Player player = new Player(0, "0");
+        Planet planet = new Planet(150);
+        move.capturePlanet(player, planet);
+        assertTrue(planet.isCaptured());
+        assertTrue(player.controlledPlanet.contains(planet));
+    }
+
+    @Test
+    void testMovePlanet() {
+        Player player = new Player(0, "0");
+        Field field = new Field(5);
+        new Ship(Ship.ShipType.POWERFUL, new Fleet(field.getBoard()[1][1], player));
+        Move move = new Move(field.getBoard()[1][1], field.getBoard()[3][2], Move.MoveType.CAPTURE, 10);
+        move.makeMove(player);
+        if (field.getBoard()[3][2].planet != null && field.getBoard()[3][2].planet.points <= 200) {
+            assertTrue(field.getBoard()[3][2].planet.isCaptured());
+            assertTrue(player.controlledPlanet.contains(field.getBoard()[3][2].planet));
+        }
+    }
 }

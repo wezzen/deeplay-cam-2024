@@ -11,7 +11,7 @@ public class Planet extends GalaxyEntity {
      * Расположение планеты хранится в доске, не знаю,
      * есть ли смысл его хранить где-то кроме
      */
-    public final int points;
+    public final int points; // пока пусть эти очки будут очками защиты планеты
     private Player owner;
     private Cell cell = null;
 
