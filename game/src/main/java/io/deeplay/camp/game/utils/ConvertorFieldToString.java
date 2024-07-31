@@ -41,8 +41,8 @@ public class ConvertorFieldToString {
                         result.append('◯');
                     }
                     result.append(' ');
-                    result.append((char) (board[i][j].planet.points + '0'));
-                    result.append(" ".repeat(3));
+                    result.append( (board[i][j].planet.points));
+                    result.append(' ');
                 } else {
                     result.append(" ".repeat(6));
                 }

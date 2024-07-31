@@ -18,9 +18,10 @@ public final class ValidationMove {
     public static boolean isValidCaptureMove(final Move move, final Player currentPlayer) {
         return isOwnerFleet(move, currentPlayer) &&
                 isFleetPresent(move) &&
-                isEnemyFleet(move, currentPlayer) &&
                 isEnoughPoints(currentPlayer, move) &&
-                isCaptureMove(move);
+                isCaptureMove(move) &&
+                (isEnemyFleet(move, currentPlayer) ||
+                isPlanet(move.endPosition()));
 
     }
 
@@ -61,5 +62,13 @@ public final class ValidationMove {
     // проверка - на конечной точке есть флот оппонента
     private static boolean isEnemyFleet(final Move move, final Player currentPlayer) {
         return !move.endPosition().getFleet().getOwner().equals(currentPlayer) && move.endPosition().getFleet() != null;
+    }
+
+    private static boolean isPlanet(Cell planetCell) {
+        return planetCell.planet != null;
+    }
+
+    public static boolean isCapturePlanet(final int powerFleet, final int pointPlanet) {
+        return powerFleet >= pointPlanet;
     }
 }
