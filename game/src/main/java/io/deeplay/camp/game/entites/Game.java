@@ -93,7 +93,7 @@ public class Game implements GalaxyListener {
                 allGameMoves.add(move);
                 move.makeMove(players[nextPlayerToAct]);
             }
-        } else {
+        } else if ((move.moveType() == Move.MoveType.CAPTURE)) {
             if (ValidationMove.isValidCaptureMove(move, players[nextPlayerToAct])) {
                 allGameMoves.add(move);
                 move.makeAttack(players[nextPlayerToAct]);

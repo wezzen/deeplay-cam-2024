@@ -33,6 +33,10 @@ public final class ValidationMove {
         return move.moveType() == Move.MoveType.CAPTURE;
     }
 
+    private static boolean isSkipMove(final Move move) {
+        return move.moveType() == Move.MoveType.SKIP;
+    }
+
     // проверка - флот не выйдет за границы карты
     public static boolean isPositionValid(final Cell newPosition, final int fieldSize) {
         return newPosition.x >= 0 && newPosition.x < fieldSize && newPosition.y >= 0 && newPosition.y < fieldSize;

@@ -58,7 +58,8 @@ public record Move(Cell startPosition, Cell endPosition, MoveType moveType, int 
      */
     public enum MoveType {
         ORDINARY,
-        CAPTURE
+        CAPTURE,
+        SKIP
     }
 
     /**
