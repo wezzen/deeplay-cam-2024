@@ -48,7 +48,7 @@ public class Field {
         for (int i = 0; i < size; i++) {
             for (int j = 0; j <= i; j++) {
                 if (random.nextInt(2) == 1) {
-                    int temp = random.nextInt(10);
+                    int temp = 100 + random.nextInt(13) * 50;
                     Planet newPlanet = new Planet(temp);
                     board[i][j] = new Cell(i, j, newPlanet);
                     newPlanet.setCell(board[i][j]);

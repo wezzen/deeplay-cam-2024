@@ -1,5 +1,7 @@
 package io.deeplay.camp.game.entites;
 
+import io.deeplay.camp.game.utils.ValidationMove;
+
 /**
  * Класс - ход, как record,
  * чтоб не закладывать, еще не продуманную, логику.
@@ -9,7 +11,6 @@ public record Move(Cell startPosition, Cell endPosition, MoveType moveType, int 
     public void makeMove(final Player player) {
         Fleet fleet = startPosition.getFleet();
         Fleet enemyFleet = endPosition.getFleet();
-
         if (enemyFleet != null) { // на конечной точке есть другой флот
             if (!enemyFleet.getOwner().equals(player)) { // на конечной точке соперник
                 fleet.fleetsClash(enemyFleet, player, enemyFleet.getOwner());
@@ -28,19 +29,35 @@ public record Move(Cell startPosition, Cell endPosition, MoveType moveType, int 
             setFleetOnPosition(endPosition, fleet);
             clearFleetFromPosition(startPosition);
         }
+        if (endPosition.planet != null && endPosition.getFleet().getOwner().equals(player)) { // ситуация, когда флот игрока уцелел и на конечной точке есть планета
+            if (ValidationMove.isCapturePlanet(endPosition.getFleet().getFleetPower(), endPosition.planet.points))
+                capturePlanet(player, endPosition.planet);
+        }
+    }
+
+    public void capturePlanet(Player player, Planet planet) {
+        player.controlledPlanet.add(planet);
+        planet.setOwner(player);
+        planet.isCaptured();
     }
 
     public void makeAttack(final Player player) {
         Fleet fleet = startPosition.getFleet();
         Fleet enemyFleet = endPosition.getFleet();
-        fleet.fleetsClash(enemyFleet, player, enemyFleet.getOwner());
-        if (player.getFleetList().contains(fleet)) {
-            clearFleetFromPosition(endPosition);
-        } else {
-            clearFleetFromPosition(startPosition);
+        if (endPosition.planet != null) {
+            int enemyFleetPower = enemyFleet != null ? enemyFleet.getFleetPower() : 0;
+            if (ValidationMove.isCapturePlanet(startPosition.getFleet().getFleetPower(), endPosition.planet.points + enemyFleetPower))
+                capturePlanet(player, endPosition.planet);
+        }
+        if (enemyFleet != null) {
+            fleet.fleetsClash(enemyFleet, player, enemyFleet.getOwner());
+            if (player.getFleetList().contains(fleet)) {
+                clearFleetFromPosition(endPosition);
+            } else {
+                clearFleetFromPosition(startPosition);
+            }
         }
     }
-
     private void setFleetOnPosition(final Cell position, final Fleet fleet) {
         fleet.setFleetPosition(position);
         position.setFleet(fleet);

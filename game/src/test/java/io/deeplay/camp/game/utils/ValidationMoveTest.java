@@ -59,7 +59,7 @@ class ValidationMoveTest {
     }
 
     @Test
-    void testInvalidCost(){
+    void testInvalidCost() {
         Move move = createMove(field.getBoard()[0][0], field.getBoard()[2][2], 100);
         setFleetAt(field.getBoard()[0][0]);
         assertFalse(ValidationMove.isValidOrdinaryMove(move, field, player));
@@ -97,5 +97,15 @@ class ValidationMoveTest {
         Fleet fleet = new Fleet(field.getBoard()[0][0], new Player(1, "1"));
         field.getBoard()[0][0].setFleet(fleet);
         assertFalse(ValidationMove.isValidCaptureMove(move, player)); // игрок атакует сам себя
+    }
+
+    @Test
+    void testCapturePlanet() {
+        Fleet fleet = new Fleet(new Cell(1, 1), player);
+        new Ship(Ship.ShipType.POWERFUL, fleet);
+        Planet planet1 = new Planet(500);
+        Planet planet2 = new Planet(100);
+        assertFalse(ValidationMove.isCapturePlanet(fleet.getFleetPower(), planet1.points));
+        assertTrue(ValidationMove.isCapturePlanet(fleet.getFleetPower(), planet2.points));
     }
 }
