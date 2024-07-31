@@ -76,6 +76,7 @@ public abstract class Bot implements PlayerInterface {
         // Подсчет очков для хода
         int cost = PointsCalculator.costMovement(move);
 
+        //todo проверитьвалидность(эта пытается проверять уже совершенный код)
         // Проверка валидности хода
 //        if (move.moveType() == Move.MoveType.ORDINARY) {
 //            if (ValidationMove.isValidOrdinaryMove(move, game.getField(), player)) {

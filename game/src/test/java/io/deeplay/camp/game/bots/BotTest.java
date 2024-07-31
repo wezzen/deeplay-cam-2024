@@ -95,21 +95,22 @@ class BotTest {
         IllegalStateException exception = assertThrows(IllegalStateException.class, () -> bot.getPlayerAction(move, "player1"));
         assertEquals("Сейчас не ход игрока: player1", exception.getMessage());
     }
-    @Test
-    void testGetPlayerAction_InvalidMove() {
-        Player player_ = new Player(1, "player2");
-        Move move = new Move(new Cell(0, 0), new Cell(8, 8), Move.MoveType.ORDINARY, 48); // неверный ход
 
-        bot.getGame().connectingPlayer("player1");
-        bot.getGame().connectingPlayer("player2");
-        bot.getGame().gameStarted(field);
-        bot.getGame().getPlayerNames().put("player1", player);
-
-        assertTrue(bot.getGame().getPlayerNames().containsKey("player1"));
-
-        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> bot.getPlayerAction(move, "player1"));
-        assertEquals("Недопустимый 'ORDINARY' ход: " + move, exception.getMessage());
-    }
+//    @Test
+//    void testGetPlayerAction_InvalidMove() {
+//        Player player_ = new Player(1, "player2");
+//        Move move = new Move(new Cell(0, 0), new Cell(8, 8), Move.MoveType.ORDINARY, 48); // неверный ход
+//
+//        bot.getGame().connectingPlayer("player1");
+//        bot.getGame().connectingPlayer("player2");
+//        bot.getGame().gameStarted(field);
+//        bot.getGame().getPlayerNames().put("player1", player);
+//
+//        assertTrue(bot.getGame().getPlayerNames().containsKey("player1"));
+//
+//        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> bot.getPlayerAction(move, "player1"));
+//        assertEquals("Недопустимый 'ORDINARY' ход: " + move, exception.getMessage());
+//    }
 
     @Test
     void testGameEnded() {

@@ -1,4 +1,4 @@
-package io.deeplay.camp.game;
+package io.deeplay.camp.game.utils;
 
 
 import io.deeplay.camp.game.entites.Field;

@@ -1,10 +1,9 @@
-package io.deeplay.camp.game;
+package io.deeplay.camp.game.utils;
 
 import io.deeplay.camp.game.domain.GameTypes;
 import io.deeplay.camp.game.entites.Cell;
 import io.deeplay.camp.game.entites.Field;
 import io.deeplay.camp.game.entites.Move;
-import io.deeplay.camp.game.utils.GameLogger;
 import org.junit.jupiter.api.Test;
 
 public class GameLoggerTest {
