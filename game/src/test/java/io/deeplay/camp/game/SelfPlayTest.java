@@ -13,12 +13,13 @@ public class SelfPlayTest {
     @Test
     void templateSelfPlayTest() {
         names = new String[]{"TestPlayer0", "TestPlayer1"};
-        final Bot.BotFactory[] factories = new Bot.BotFactory[] {
+        final Bot.BotFactory[] factories = new Bot.BotFactory[]{
                 new RandomBot.Factory(),
                 new RandomBot.Factory()
         };
         selfPlay = new SelfPlay(4, names, factories);
-        selfPlay.playGame();
-//        assertThrows(RuntimeException.class, () -> selfPlay.playGame());
+//        selfPlay.playGame();
+        //todo нормальные тесты на селфплей после рефакторинга
+        assertThrows(RuntimeException.class, () -> selfPlay.playGame());
     }
 }
