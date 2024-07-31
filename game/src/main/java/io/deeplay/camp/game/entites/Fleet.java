@@ -161,7 +161,7 @@ public class Fleet extends GalaxyEntity {
         }
         for (int i = 0; i < fleetMoves.size(); i++) {
             Move currentMove = fleetMoves.get(i);
-            findNeighbors(currentMove.endPosition, visited, field, currentMove.cost);
+            findNeighbors(currentMove.endPosition(), visited, field, currentMove.cost());
             if (!ValidationMove.isEnoughPoints(getOwner(), currentMove) || fleetMoves.size() >= field.getSize() * field.getSize() - 1)
                 break;
         }
