@@ -8,8 +8,8 @@ public final class PointsCalculator {
     public static final int DIAGONAL_COST = 7;
 
     public static int costMovement(Move move) {
-        Cell start = move.startPosition;
-        Cell end = move.endPosition;
+        Cell start = move.startPosition();
+        Cell end = move.endPosition();
         // Здесь можно добавить логику для использования totalCost
         return calculateCostMovement(start, end);
     }
@@ -25,7 +25,8 @@ public final class PointsCalculator {
     private static int calculateTotalCost(int direct, int diagonal) {
         return direct * DIRECT_COST + diagonal * DIAGONAL_COST;
     }
-    public static int costForList(Cell currentCell,int newX, int newY){
+
+    public static int costForList(Cell currentCell, int newX, int newY) {
         return currentCell.y != newY && currentCell.x != newX ? DIAGONAL_COST : DIRECT_COST;
     }
 

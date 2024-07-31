@@ -21,9 +21,9 @@ class MoveTest {
     @Test
     public void testMoveCreation() {
         assertNotNull(move);
-        assertEquals(startPositionSM, move.startPosition);
-        assertEquals(endPositionSM, move.endPosition);
-        assertEquals(Move.MoveType.ORDINARY, move.moveType);
+        assertEquals(startPositionSM, move.startPosition());
+        assertEquals(endPositionSM, move.endPosition());
+        assertEquals(Move.MoveType.ORDINARY, move.moveType());
     }
 
     @Test
@@ -57,18 +57,18 @@ class MoveTest {
 
     @Test
     void startPosition() {
-        assertEquals(startPosition, moveOrdinary.startPosition);
+        assertEquals(startPosition, moveOrdinary.startPosition());
     }
 
     @Test
     void endPosition() {
-        assertEquals(toPosition, moveOrdinary.endPosition);
+        assertEquals(toPosition, moveOrdinary.endPosition());
     }
 
     @Test
     void moveType() {
-        assertEquals(Move.MoveType.ORDINARY, moveOrdinary.moveType);
-        assertEquals(Move.MoveType.CAPTURE, moveCapture.moveType);
+        assertEquals(Move.MoveType.ORDINARY, moveOrdinary.moveType());
+        assertEquals(Move.MoveType.CAPTURE, moveCapture.moveType());
     }
     @Test
     void testMoveToEmptyCell() {

@@ -5,21 +5,7 @@ package io.deeplay.camp.game.entites;
  * чтоб не закладывать, еще не продуманную, логику.
  * Record обеспечивает из коробки все требуемые методы (и даже больше)
  */
-//public record Move(Cell startPosition, Cell endPosition, MoveType moveType, int cost) {
-
-public class Move {
-
-    public final Cell startPosition;
-    public final Cell endPosition;
-    public final MoveType moveType;
-    public final int cost;
-
-    public Move(Cell startPosition, Cell endPosition, MoveType moveType, int cost) {
-        this.startPosition = startPosition;
-        this.endPosition = endPosition;
-        this.moveType = moveType;
-        this.cost = cost;
-    }
+public record Move(Cell startPosition, Cell endPosition, MoveType moveType, int cost) {
 
     public void makeMove(final Player player) {
         Fleet fleet = startPosition.getFleet();

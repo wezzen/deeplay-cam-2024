@@ -103,7 +103,7 @@ public class Player {
     public Collection<Move> calculateAttacksOnTile(final Cell cell,
                                                    final Collection<Move> moves) {
         return moves.stream()
-                .filter(move -> move.endPosition.equals(cell)) //Либо move.getDestinationCoordinate() == tile
+                .filter(move -> move.endPosition().equals(cell)) //Либо move.getDestinationCoordinate() == tile
                 .collect(collectingAndThen(Collectors.toList(), Collections::unmodifiableList));
     }
 
@@ -119,8 +119,9 @@ public class Player {
     public int hashCode() {
         return Objects.hash(id, name, totalGamePoints, fleetList, controlledPlanet, legalMoves);
     }
+
     // метод для подсчета всех возможный ходов для игрока
-    public void addLegalMoves(){
+    public void addLegalMoves() {
         for (Fleet fleet : fleetList) {
             legalMoves.addAll(fleet.getFleetMoves());
         }
