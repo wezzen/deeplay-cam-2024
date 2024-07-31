@@ -7,7 +7,6 @@ import java.util.*;
  */
 public class Field {
 
-
     private final int size;
     private Cell[][] board;
 
