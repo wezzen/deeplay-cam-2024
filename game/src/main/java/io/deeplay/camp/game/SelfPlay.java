@@ -97,7 +97,7 @@ public class SelfPlay {
             //todo валидировать опять(?)
             for (RandomBot player : players) {
 //                if (!Objects.equals(player.player.getName(), currentPlayer)) {
-                    player.getPlayerAction(answer.getMove(), currentPlayer);
+                player.getPlayerAction(answer.getMove(), currentPlayer);
 //                }
             }
 
