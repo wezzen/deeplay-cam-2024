@@ -153,6 +153,7 @@ public class Fleet extends GalaxyEntity {
 
     // метод подбора подходящих ходов для флота
     public void addFleetMoves(final Field field) {
+        fleetMoves = new ArrayList<>();
         boolean[][] visited = new boolean[field.getSize()][field.getSize()];
         visited[fleetPosition.x][fleetPosition.y] = true;
         if (fleetMoves.isEmpty()) {
