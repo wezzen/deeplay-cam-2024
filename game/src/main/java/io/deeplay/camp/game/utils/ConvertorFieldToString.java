@@ -1,9 +1,4 @@
-<<<<<<<< HEAD:game/src/main/java/io/deeplay/camp/game/utils/ConvertorFieldToString.java
 package io.deeplay.camp.game.utils;
-========
-package io.deeplay.camp.game.service;
->>>>>>>> 5004701 (feat: добавил логирование):game/src/main/java/io/deeplay/camp/game/service/ConvertorFieldToString.java
-
 
 import io.deeplay.camp.game.entites.Cell;
 import io.deeplay.camp.game.entites.Field;
