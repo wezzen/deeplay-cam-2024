@@ -30,6 +30,10 @@ public class SelfPlay implements GalaxyListener {
         final Field field = new Field(sizeField);
         final Game game = new Game(field);
         final GameLogger logger = new GameLogger();
+
+        List<Ship.ShipType> startShips = new ArrayList<>();
+        startShips.add(Ship.ShipType.BASIC);
+
         players[0] = factories[0].createBot(playerNames[0], game.getField());
         players[1] = factories[1].createBot(playerNames[1], game.getField());
         playerNamesMap.put(playerNames[0], players[0]);
@@ -44,12 +48,23 @@ public class SelfPlay implements GalaxyListener {
         connectingPlayer(playerNames[0]);
         connectingPlayer(playerNames[1]);
         gameStarted(field);
+
+
+        createShips(startShips, playerNames[0]);
+        createShips(startShips, playerNames[1]);
+
+
         while (!game.isGameOver()) {
             final String nextPlayerToAct = game.getNextPlayerToAct();
             final PlayerInterface player = playerNamesMap.computeIfAbsent(nextPlayerToAct, (key) -> {
                 throw new IllegalStateException("There is no player with name " + key);
             });
             final Answer answer = player.getAnswer(game.getField());
+
+            if (answer.getShipList() != null) {
+                createShips(answer.getShipList(), game.getNextPlayerToAct());
+            }
+
             getPlayerAction(answer.getMove(), nextPlayerToAct);
         }
         String winner = game.isWinner().getName();
@@ -82,6 +97,13 @@ public class SelfPlay implements GalaxyListener {
     public void getPlayerAction(final Move move, final String playerName) {
         for (final GalaxyListener listener : listeners) {
             listener.getPlayerAction(move, playerName);
+        }
+    }
+
+    @Override
+    public void createShips(List<Ship.ShipType> ships, String playerName) {
+        for (final GalaxyListener listener : listeners) {
+            listener.createShips(ships, playerName);
         }
     }
 
