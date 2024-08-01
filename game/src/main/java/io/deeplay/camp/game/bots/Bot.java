@@ -57,52 +57,76 @@ public abstract class Bot implements PlayerInterface {
         game.createShips(ships, playerName);
     }
 
+    /**
+     * Обрабатывает действие игрока в игре.
+     *
+     * <p>Метод выполняет следующие действия:
+     * <ul>
+     *     <li>Проверяет, существует ли игрок с данным именем.</li>
+     *     <li>Проверяет, что текущий ход принадлежит правильному игроку.</li>
+     *     <li>Получает объект игрока по его имени.</li>
+     *     <li>Подсчитывает очки, затрачиваемые на данный ход.</li>
+     *     <li>Проверяет валидность хода в зависимости от его типа.</li>
+     *     <li>Если ход валиден, выполняет его.</li>
+     *     <li>Добавляет ход в список всех ходов игры.</li>
+     *     <li>Обновляет очки игрока.</li>
+     *     <li>Передает ход следующему игроку.</li>
+     * </ul>
+     *
+     * @param move       Объект хода {@link Move}, содержащий информацию о типе хода и его параметрах.
+     * @param playerName Имя игрока, выполняющего ход.
+     * @throws IllegalArgumentException если игрок с данным именем не найден или тип хода не существует.
+     * @throws IllegalStateException    если ход выполняется не в очереди игрока или если ход недопустим.
+     */
     @Override
     public void getPlayerAction(final Move move, final String playerName) {
-        game.getPlayerAction(move, playerName);
         // Проверка наличия игрока
         if (!game.getPlayerNames().containsKey(playerName)) {
-            throw new IllegalArgumentException("Отсутствует игрок:" + playerName);
+            throw new IllegalArgumentException("Отсутствует игрок: " + playerName);
+        }
+
+        // Проверка, что текущий ход принадлежит правильному игроку
+        if (!playerName.equals(game.getNextPlayerToAct())) {
+            throw new IllegalStateException("Сейчас не ход игрока: " + playerName);
         }
 
         // Получаем игрока
         Player player = game.getPlayerNames().get(playerName);
 
-        //todo разобраться с порядком хода
-
-        // Проверка, что текущий ход принадлежит правильному игроку
-//        if (!playerName.equals(game.getNextPlayerToAct())) {
-//        String name =game.getNextPlayerToAct();
-//        if (!playerName.equals(name)){
-//            throw new IllegalStateException("Сейчас не ход игрока: " + playerName);
-//        }
-
         // Подсчет очков для хода
         //int cost = PointsCalculator.costMovement(move);
 
-        //todo проверитьвалидность(эта пытается проверять уже совершенный код)
-        // Проверка валидности хода
-//        if (move.moveType() == Move.MoveType.ORDINARY) {
-//            if (ValidationMove.isValidOrdinaryMove(move, game.getField(), player)) {
-//                game.getAllGameMoves().add(move);
-//                move.makeMove(player);
-//            } else {
-//                throw new IllegalStateException("Недопустимый 'ORDINARY' ход: " + move);
-//            }
-//        } else if (move.moveType() == Move.MoveType.CAPTURE) {
-//            if (ValidationMove.isValidCaptureMove(move, player)) {
-//                game.getAllGameMoves().add(move);
-//                move.makeMove(player);
-//            } else {
-//                throw new IllegalStateException("Недопустимый 'CAPTURE' ход: " + move);
-//            }
-//        } else throw new IllegalStateException("Нет такого типа хода!");
+        //Проверка принятого хода на валидность
+        boolean isValidMove = false;
+        if (move.moveType() == Move.MoveType.ORDINARY) {
+            isValidMove = ValidationMove.isValidOrdinaryMove(move, game.getField(), player);
+        } else if (move.moveType() == Move.MoveType.CAPTURE) {
+            isValidMove = ValidationMove.isValidCaptureMove(move, player);
+        } else if (move.moveType() == Move.MoveType.SKIP) {
+            isValidMove = true;
+        } else {
+            throw new IllegalArgumentException("Нет такого типа хода!");
+        }
+
+        if (!isValidMove) {
+            throw new IllegalStateException("Недопустимый ход: " + move);
+        }
+
+        // Исполнение хода
+        if (move.moveType() == Move.MoveType.ORDINARY) {
+            move.makeMove(player);
+        } else if (move.moveType() == Move.MoveType.CAPTURE) {
+            move.makeAttack(player);
+        }
+
+        // Добавляем ход в список всех ходов
+        game.getAllGameMoves().add(move);
 
         // Обновляем очки игрока
         player.decreaseTotalGamePoints(move.cost());
 
         // Переход хода к следующему игроку
-//        game.setNextPlayerToAct((game.getNextPlayerToActIndex() + 1) % NUM_PLAYERS);
+        game.switchPlayerToAct();
     }
 
     @Override
