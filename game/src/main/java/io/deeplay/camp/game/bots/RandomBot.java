@@ -1,6 +1,8 @@
 package io.deeplay.camp.game.bots;
 
 import io.deeplay.camp.game.entites.*;
+import io.deeplay.camp.game.utils.PointsCalculator;
+import io.deeplay.camp.game.utils.ValidationMove;
 
 import java.util.Arrays;
 import java.util.List;
@@ -16,6 +18,20 @@ public class RandomBot extends Bot {
         this.random = new Random();
     }
 
+    /**
+     * Выполняет ход для бота. Метод определяет, какой ход бот должен сделать на основе текущего состояния игры,
+     * выбирает случайный доступный ход и исполняет его.
+     *
+     * @return объект {@link Move}, представляющий совершенный ход. Если доступных ходов нет, возвращается ход типа SKIP.
+     *
+     * @throws RuntimeException если нет клеток с флотом, принадлежащим игроку.
+     * @throws IllegalArgumentException если тип хода не поддерживается.
+     *
+     * Метод сначала проверяет наличие флота у игрока на игровом поле. Если флот отсутствует, возвращается ход типа SKIP.
+     * Далее выбирается клетка с флотом игрока и добавляются возможные ходы флота. Если доступных ходов нет, возвращается ход типа SKIP.
+     * Иначе выбирается случайный ход из доступных и проверяется его валидность. В зависимости от типа хода, он либо выполняется,
+     * либо бросается исключение, если тип хода не поддерживается.
+     */
     @Override
     public Move getMove() {
         final Field field = game.getField();
@@ -37,21 +53,33 @@ public class RandomBot extends Bot {
         startCell.getFleet().addFleetMoves(field);
 
         availableMoves = startCell.getFleet().getFleetMoves();
-//тут падало потому что заканчивались очки хода
+        // Проверяем доступные ходы, избавляемся от ходов, на которые не хватает очков игрока
+        availableMoves.removeIf(move -> PointsCalculator.costMovement(move) > player.getTotalGamePoints());
+
         if (availableMoves.isEmpty()) {
             return new Move(null, null, Move.MoveType.SKIP, 0);
         }
 
         Move move = availableMoves.get(random.nextInt(availableMoves.size()));
 
-
         if (move.moveType() == Move.MoveType.ORDINARY) {
-            move.makeMove(player);
+            if (ValidationMove.isValidOrdinaryMove(move, field, player)) {
+                move.makeMove(player);
+            } else {
+                throw new IllegalStateException("Недопустимый 'ORDINARY' ход: " + move);
+            }
         } else if (move.moveType() == Move.MoveType.CAPTURE) {
-            move.makeAttack(player);
+            if (ValidationMove.isValidCaptureMove(move, player)) {
+                move.makeAttack(player);
+            } else {
+                throw new IllegalStateException("Недопустимый 'CAPTURE' ход: " + move);
+            }
+        } else if (move.moveType() == Move.MoveType.SKIP) {
+            return new Move(null, null, Move.MoveType.SKIP, 0);
         } else {
             throw new IllegalArgumentException("Нет такого типа хода!");
         }
+
         return move;
     }
 
