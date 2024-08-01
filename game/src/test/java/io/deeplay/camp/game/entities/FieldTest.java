@@ -57,7 +57,7 @@ class FieldTest {
 
     @Test
     void testIsWinner() {
-        assertEquals(player1, field.isWinner(), "Player1 should be the winner");
+        assertEquals(player1.getName(), field.isWinner());
 
         // Change the owner of one planet
         field.getPlanets().get(0).setOwner(player2);

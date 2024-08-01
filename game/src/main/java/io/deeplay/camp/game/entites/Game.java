@@ -54,7 +54,7 @@ public class Game implements GalaxyListener {
         return field.isGameOver();
     }
 
-    public Player isWinner() {
+    public String isWinner() {
         return field.isWinner();
     }
 
