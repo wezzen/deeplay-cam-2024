@@ -5,6 +5,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 
+import static io.deeplay.camp.game.entites.Move.MoveType.SKIP;
+
 /**
  * Представление сущности ответ игрока (response)
  */
@@ -58,9 +60,17 @@ public class Answer {
         return responseTime;
     }
 
+    /**
+     * Метод toString() обрабатывает разные типы ход
+     *
+     * @return строку нормированного формата
+     */
     @Override
     public String toString() {
-        return "Answer{response='" + move + " : " + responseTime + "'}";
+        if (this.move.moveType() == SKIP) {
+            return "Answer{response='" + " SKIP " + " : " + responseTime + "'}";
+        }
+        else return "Answer{response='" + move + " : " + responseTime + "'}";
     }
 
     @Override
