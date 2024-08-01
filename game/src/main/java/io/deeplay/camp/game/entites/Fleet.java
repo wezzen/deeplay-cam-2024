@@ -136,6 +136,14 @@ public class Fleet extends GalaxyEntity {
         position.setFleet(this);
     }
 
+    public void fleetsClashWithPlanet(final Fleet enemyFleet, final Player us, final Player enemy, int planetPoints) {
+        if (this.fleetPower > enemyFleet.fleetPower + planetPoints) {
+            enemy.removeFleet(enemyFleet);
+        } else {
+            us.removeFleet(this);
+        }
+    }
+
     /**
      * Метод, который обыгрывает столкновение флотов
      *

@@ -83,6 +83,7 @@ class MoveTest {
         assertNull(field.getBoard()[0][0].getFleet());
         assertNotNull(field.getBoard()[2][2].getFleet());
         assertEquals(field.getBoard()[2][2].getFleet(), fleet);
+
     }
 
     @Test
@@ -110,8 +111,6 @@ class MoveTest {
         Player player2 = new Player(1, "1");
         Fleet fleet1 = new Fleet(field.getBoard()[0][0], player1);
         Fleet fleet2 = new Fleet(field.getBoard()[2][2], player2);
-        field.getBoard()[0][0].setFleet(fleet1);
-        field.getBoard()[2][2].setFleet(fleet2);
         new Ship(Ship.ShipType.MEDIUM, fleet1);
         move.makeMove(player1);
         assertNull(field.getBoard()[0][0].getFleet());
@@ -127,8 +126,6 @@ class MoveTest {
         Player player = new Player(0, "0");
         Fleet fleet1 = new Fleet(field.getBoard()[0][0], player);
         Fleet fleet2 = new Fleet(field.getBoard()[2][2], player);
-        field.getBoard()[0][0].setFleet(fleet1);
-        field.getBoard()[2][2].setFleet(fleet2);
         move.makeMove(player);
         assertNull(field.getBoard()[0][0].getFleet());
         assertNotNull(field.getBoard()[2][2].getFleet());
@@ -174,4 +171,5 @@ class MoveTest {
             assertTrue(player.controlledPlanet.contains(field.getBoard()[3][2].planet));
         }
     }
+
 }

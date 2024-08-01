@@ -19,6 +19,7 @@ public final class ValidationMove {
         return isOwnerFleet(move, currentPlayer) &&
                 isFleetPresent(move) &&
                 isEnoughPoints(currentPlayer, move) &&
+                isPositionChanged(move) &&
                 isCaptureMove(move) &&
                 (isEnemyFleet(move, currentPlayer) ||
                 isPlanet(move.endPosition()));
@@ -41,7 +42,7 @@ public final class ValidationMove {
 
     // проверка - начальная и конечная позиция отличается
     private static boolean isPositionChanged(final Move move) {
-        return !move.startPosition().equals(move.endPosition());
+        return !move.startPosition().equals(move.endPosition()) || move.startPosition().planet != null;
     }
 
     // проверка - на начальной позиции стоит флот
@@ -67,7 +68,7 @@ public final class ValidationMove {
     private static boolean isPlanet(Cell planetCell) {
         return planetCell.planet != null;
     }
-
+    // проверка - флоту хватает очков для захвата планеты
     public static boolean isCapturePlanet(final int powerFleet, final int pointPlanet) {
         return powerFleet >= pointPlanet;
     }
