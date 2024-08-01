@@ -20,6 +20,7 @@ public class Game implements GalaxyListener {
     private List<Move> allGameMoves;
     public final Player[] players = new Player[NUM_PLAYERS];
     private final Map<String, Player> playerNames;
+    private final Map<String, Cell> playerStartPosition;
     private int nextPlayerToAct;
     private String id;
 
@@ -27,6 +28,7 @@ public class Game implements GalaxyListener {
         this.field = field;
         this.allGameMoves = new ArrayList<>();
         this.playerNames = new HashMap<>();
+        this.playerStartPosition = new HashMap<>();
     }
 
 
@@ -52,7 +54,7 @@ public class Game implements GalaxyListener {
         return field.isGameOver();
     }
 
-    public Player isWinner() {
+    public String isWinner() {
         return field.isWinner();
     }
 
@@ -77,6 +79,8 @@ public class Game implements GalaxyListener {
     @Override
     public void gameStarted(Field field) {
         this.field.setBoard(field.getBoard());
+        playerStartPosition.put(players[0].getName(), field.getBoard()[0][field.getSize() - 1]);
+        playerStartPosition.put(players[1].getName(), field.getBoard()[field.getSize() - 1][0]);
     }
 
     @Override
@@ -93,13 +97,21 @@ public class Game implements GalaxyListener {
                 allGameMoves.add(move);
                 move.makeMove(players[nextPlayerToAct]);
             }
-        } else {
+        } else if ((move.moveType() == Move.MoveType.CAPTURE)) {
             if (ValidationMove.isValidCaptureMove(move, players[nextPlayerToAct])) {
                 allGameMoves.add(move);
                 move.makeAttack(players[nextPlayerToAct]);
             }
         }
         players[nextPlayerToAct].decreaseTotalGamePoints(move.cost());
+    }
+
+    @Override
+    public void createShips(List<Ship.ShipType> ships, String playerName) {
+        Fleet fleet = new Fleet(playerStartPosition.get(playerName), playerNames.get(playerName));
+        for (Ship.ShipType shipType : ships) {
+            Ship ship = new Ship(shipType, fleet);
+        }
     }
 
     // todo сделать начисление очков раз в несколько ходов, но пока у нас нет этого

@@ -8,6 +8,9 @@ public final class PointsCalculator {
     public static final int DIAGONAL_COST = 7;
 
     public static int costMovement(Move move) {
+        if (move.startPosition() == null && move.endPosition() == null) {
+            return 0;
+        }
         Cell start = move.startPosition();
         Cell end = move.endPosition();
         // Здесь можно добавить логику для использования totalCost

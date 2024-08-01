@@ -92,10 +92,10 @@ public class Field {
      *
      * @return Player, который является владельцем всех планет на поле
      */
-    public Player isWinner() {
+    public String isWinner() {
         if (isGameOver()) {
-            return planets.getFirst().getOwner();
-        } else throw new IllegalCallerException("победитель не существует");
+            return planets.getFirst().getOwner().getName();
+        } else return ("победитель не существует");
     }
 
     @Override

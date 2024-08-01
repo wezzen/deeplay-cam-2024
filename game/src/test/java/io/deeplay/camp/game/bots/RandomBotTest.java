@@ -50,10 +50,10 @@ public class RandomBotTest {
         moves.add(move2_);
         moves.add(move3_);
 
-//        Answer result = randomBot.getAnswer(field);
+        Answer result = randomBot.getAnswer(field);
 
-//        assertTrue(moves.contains(result.getMove()));
+        assertTrue(moves.contains(result.getMove()));
         //todo нормальные тесты на бота после рефакторинга
-        assertThrows(RuntimeException.class, () -> randomBot.getAnswer(field));
+//        assertThrows(RuntimeException.class, () -> randomBot.getAnswer(field));
     }
 }

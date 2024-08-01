@@ -5,6 +5,8 @@ import io.deeplay.camp.game.entites.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class BotTest {
@@ -44,15 +46,8 @@ class BotTest {
     @Test
     void testStartGameSession() {
         assertDoesNotThrow(() -> bot.startGameSession("testGameId", GameTypes.HumanVsBot));
-    }
-
-    @Test
-    void testConnectingPlayer() {
         assertDoesNotThrow(() -> bot.connectingPlayer("player1"));
-    }
-
-    @Test
-    void testGameStarted() {
+        assertDoesNotThrow(() -> bot.connectingPlayer("player0"));
         assertDoesNotThrow(() -> bot.gameStarted(field));
     }
 

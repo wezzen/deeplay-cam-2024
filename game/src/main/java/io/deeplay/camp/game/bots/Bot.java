@@ -6,6 +6,8 @@ import io.deeplay.camp.game.interfaces.PlayerInterface;
 import io.deeplay.camp.game.utils.PointsCalculator;
 import io.deeplay.camp.game.utils.ValidationMove;
 
+import java.util.List;
+
 /**
  * Абстрактный класс Бот. В дальнейшем будет родителем
  * для разных ботов в игре.
@@ -50,6 +52,12 @@ public abstract class Bot implements PlayerInterface {
         game.gameStarted(field);
     }
 
+
+    @Override
+    public void createShips(List<Ship.ShipType> ships, String playerName) {
+        game.createShips(ships, playerName);
+    }
+
     @Override
     public void getPlayerAction(final Move move, final String playerName) {
         game.getPlayerAction(move, playerName);
@@ -61,10 +69,14 @@ public abstract class Bot implements PlayerInterface {
         // Получаем игрока
         Player player = game.getPlayerNames().get(playerName);
 
+        //todo разобраться с порядком хода
+
         // Проверка, что текущий ход принадлежит правильному игроку
-        if (!playerName.equals(game.getNextPlayerToAct())) {
-            throw new IllegalStateException("Сейчас не ход игрока: " + playerName);
-        }
+//        if (!playerName.equals(game.getNextPlayerToAct())) {
+//        String name =game.getNextPlayerToAct();
+//        if (!playerName.equals(name)){
+//            throw new IllegalStateException("Сейчас не ход игрока: " + playerName);
+//        }
 
         // Подсчет очков для хода
         int cost = PointsCalculator.costMovement(move);
@@ -91,7 +103,7 @@ public abstract class Bot implements PlayerInterface {
         player.decreaseTotalGamePoints(cost);
 
         // Переход хода к следующему игроку
-        game.setNextPlayerToAct((game.getNextPlayerToActIndex() + 1) % NUM_PLAYERS);
+//        game.setNextPlayerToAct((game.getNextPlayerToActIndex() + 1) % NUM_PLAYERS);
     }
 
     @Override
