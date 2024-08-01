@@ -2,6 +2,8 @@ package io.deeplay.camp.game.entites;
 
 import io.deeplay.camp.game.utils.ValidationMove;
 
+import java.util.Objects;
+
 /**
  * Класс - ход, как record,
  * чтоб не закладывать, еще не продуманную, логику.
@@ -82,9 +84,15 @@ public record Move(Cell startPosition, Cell endPosition, MoveType moveType, int 
     }
 
     private void handlePlanetCaptureAttempt(Player player, Fleet fleet, Fleet enemyFleet) {
-        int enemyFleetPower = (enemyFleet.getOwner().equals(player) || !endPosition.planet.isCaptured()) ? 0 : enemyFleet.getFleetPower();
+            int enemyFleetPower;
+        if (enemyFleet != null && endPosition.planet.isCaptured()) {
+            enemyFleetPower = enemyFleet.getFleetPower();
+        } else {
+            enemyFleetPower = 0;
+        }
         if (ValidationMove.isCapturePlanet(fleet.getFleetPower(), endPosition.planet.points + enemyFleetPower)) {
-            capturePlanet(player, endPosition.planet);
+                capturePlanet(player, endPosition.planet);
+
         }
     }
 
