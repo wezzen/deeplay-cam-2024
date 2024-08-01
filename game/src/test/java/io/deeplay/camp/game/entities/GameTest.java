@@ -45,12 +45,17 @@ class GameTest {
     @Test
     void gameConnectingStartedTest() {
         Field field2 = new Field(5);
+        game = new Game(field2);
         Cell startPositionSM;
+        Cell startPosition;
         Cell endPositionSM;
         Move move;
-        startPositionSM = new Cell(1, 1);
-        endPositionSM = new Cell(5, 5);
-        move = new Move(startPositionSM, endPositionSM, Move.MoveType.ORDINARY, 5);
+        startPositionSM =  field2.getBoard()[0][0];
+        startPosition =  field2.getBoard()[4][0];
+        endPositionSM = field2.getBoard()[4][4];
+        Fleet fleet = new Fleet(startPositionSM, player1);
+        Fleet fleet_ = new Fleet(startPosition, player2);
+        move = new Move(startPositionSM, endPositionSM, Move.MoveType.ORDINARY, 0);
         game.connectingPlayer("testPlayer");
         game.connectingPlayer("secondPlayer");
         game.gameStarted(field2);

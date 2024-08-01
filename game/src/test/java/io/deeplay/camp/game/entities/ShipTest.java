@@ -12,112 +12,173 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ShipTest {
-    private ArrayList<Ship> shipList = new ArrayList<>();
-    private Player player = new Player(1, "test");
-    private Fleet fleet = new Fleet(shipList, new Cell(0, 0), player);
-    private Ship basicShip = new Ship(Ship.ShipType.BASIC, fleet);
-    private Ship mediumShip = new Ship(Ship.ShipType.MEDIUM, fleet);
-    private Ship powerfulShip = new Ship(Ship.ShipType.POWERFUL, fleet);
 
+    private final Player player = new Player(1, "test");
+    private final ArrayList<Ship> shipList = new ArrayList<>();
+    private final Fleet fleet = new Fleet(shipList, new Cell(0, 0), player);
+    private final Ship basicShip = new Ship(Ship.ShipType.BASIC, fleet);
+    private final Ship mediumShip = new Ship(Ship.ShipType.MEDIUM, fleet);
+    private final Ship powerfulShip = new Ship(Ship.ShipType.POWERFUL, fleet);
 
     @Test
-    void getAttackPoint0() {
-        assertEquals(100, Ship.ShipType.BASIC.getShipPower());
+    void testShipTypeBasicAttackPoints() {
+        assertEquals(100, Ship.ShipType.BASIC.getShipPower(), "BASIC ship type should have 100 attack points.");
     }
 
     @Test
-    void getAttackPoints1() {
-        assertEquals(150, Ship.ShipType.MEDIUM.getShipPower());
+    void testShipTypeMediumAttackPoints() {
+        assertEquals(150, Ship.ShipType.MEDIUM.getShipPower(), "MEDIUM ship type should have 150 attack points.");
     }
 
     @Test
-    void getAttackPoints2() {
-        assertEquals(200, Ship.ShipType.POWERFUL.getShipPower());
+    void testShipTypePowerfulAttackPoints() {
+        assertEquals(200, Ship.ShipType.POWERFUL.getShipPower(), "POWERFUL ship type should have 200 attack points.");
     }
 
     @Test
-    void getAttackPoints3() {
-        assertEquals(100, basicShip.getShipType().getShipPower());
+    void testBasicShipType() {
+        assertEquals(Ship.ShipType.BASIC, basicShip.getShipType(), "Basic ship should be of type BASIC.");
     }
 
     @Test
-    void getShipType0() {
-        assertEquals(Ship.ShipType.BASIC, basicShip.getShipType());
-    }
-
-    @Test
-    void getShipType1() {
+    void testShipTypeConsistency() {
         assertEquals(Ship.ShipType.BASIC, basicShip.getShipType());
         assertEquals(Ship.ShipType.MEDIUM, mediumShip.getShipType());
         assertEquals(Ship.ShipType.POWERFUL, powerfulShip.getShipType());
     }
 
     @Test
-    void fleetAffiliation0() {
-        assertNotNull(basicShip.fleetAffiliation());
-        assertNotNull(mediumShip.fleetAffiliation());
-        assertNotNull(powerfulShip.fleetAffiliation());
+    void testFleetAffiliationNotNull() {
+        assertNotNull(basicShip.fleetAffiliation(), "Fleet affiliation should not be null.");
+        assertNotNull(mediumShip.fleetAffiliation(), "Fleet affiliation should not be null.");
+        assertNotNull(powerfulShip.fleetAffiliation(), "Fleet affiliation should not be null.");
     }
 
     @Test
-    void fleetAffiliation1() {
-        Ship newShip = new Ship(Ship.ShipType.BASIC, fleet);
-        assertTrue(fleet.getShipList().contains(newShip));
-        assertEquals(fleet, newShip.fleetAffiliation());
+    void testFleetAffiliationConsistency() {
+        Fleet mockFleet = new Fleet(new ArrayList<>(), new Cell(0, 0), player);
+        Ship newShip = new Ship(Ship.ShipType.BASIC, mockFleet);
+
+        assertTrue(mockFleet.getShipList().contains(newShip), "Fleet should contain the newly created ship.");
+        assertEquals(mockFleet, newShip.fleetAffiliation(), "Fleet affiliation should match the provided fleet.");
     }
 
     @Test
-    void fleetAffiliation2() {
+    void testFleetAffiliationConsistencyWithExistingFleet() {
         assertEquals(fleet, basicShip.fleetAffiliation());
         assertEquals(fleet, mediumShip.fleetAffiliation());
         assertEquals(fleet, powerfulShip.fleetAffiliation());
     }
 
     @Test
-    public void testShipConstructorWithTypeAndFleet() {
-        Fleet mockFleet = new Fleet(shipList, new Cell(0, 0), player);  // Предположим, что у нас есть mock объект Fleet
+    void testShipConstructorWithTypeAndFleet() {
+        Fleet mockFleet = new Fleet(shipList, new Cell(0, 0), player);
         Ship ship = new Ship(Ship.ShipType.BASIC, mockFleet);
-        assertEquals(Ship.ShipType.BASIC, ship.getShipType());
-        assertEquals(100, ship.getShipType().getShipPower());
-        assertEquals(mockFleet, ship.fleetAffiliation());
+
+        assertEquals(Ship.ShipType.BASIC, ship.getShipType(), "Ship type should be BASIC.");
+        assertEquals(100, ship.getShipType().getShipPower(), "Ship attack power should be 100.");
+        assertEquals(mockFleet, ship.fleetAffiliation(), "Fleet affiliation should match the provided fleet.");
     }
 
     @Test
-    public void testSetFleetAffiliation() {
+    void testSetFleetAffiliation() {
         Fleet mockFleet = new Fleet(new ArrayList<>(), new Cell(0, 0), player);
         Ship ship = new Ship(Ship.ShipType.BASIC, mockFleet);
-        assertEquals(mockFleet, ship.fleetAffiliation());
+
+        assertEquals(mockFleet, ship.fleetAffiliation(), "Fleet affiliation should match the provided fleet.");
     }
 
     @Test
-    public void testShipConstructorWithTypeAndFleet1() {
+    void testMultipleShipConstructors() {
         Fleet mockFleet = new Fleet(shipList, new Cell(0, 0), player);
         Ship ship1 = new Ship(Ship.ShipType.BASIC, mockFleet);
         Ship ship2 = new Ship(Ship.ShipType.MEDIUM, mockFleet);
         Ship ship3 = new Ship(Ship.ShipType.POWERFUL, mockFleet);
 
-        assertEquals(Ship.ShipType.BASIC, ship1.getShipType());
-        assertEquals(100, ship1.getShipType().getShipPower());
-        assertEquals(mockFleet, ship1.fleetAffiliation());
+        assertEquals(Ship.ShipType.BASIC, ship1.getShipType(), "Ship1 type should be BASIC.");
+        assertEquals(100, ship1.getShipType().getShipPower(), "Ship1 attack power should be 100.");
+        assertEquals(mockFleet, ship1.fleetAffiliation(), "Fleet affiliation of Ship1 should match.");
 
-        assertEquals(Ship.ShipType.MEDIUM, ship2.getShipType());
-        assertEquals(150, ship2.getShipType().getShipPower());
-        assertEquals(mockFleet, ship2.fleetAffiliation());
+        assertEquals(Ship.ShipType.MEDIUM, ship2.getShipType(), "Ship2 type should be MEDIUM.");
+        assertEquals(150, ship2.getShipType().getShipPower(), "Ship2 attack power should be 150.");
+        assertEquals(mockFleet, ship2.fleetAffiliation(), "Fleet affiliation of Ship2 should match.");
 
-        assertEquals(Ship.ShipType.POWERFUL, ship3.getShipType());
-        assertEquals(200, ship3.getShipType().getShipPower());
-        assertEquals(mockFleet, ship3.fleetAffiliation());
+        assertEquals(Ship.ShipType.POWERFUL, ship3.getShipType(), "Ship3 type should be POWERFUL.");
+        assertEquals(200, ship3.getShipType().getShipPower(), "Ship3 attack power should be 200.");
+        assertEquals(mockFleet, ship3.fleetAffiliation(), "Fleet affiliation of Ship3 should match.");
     }
 
     @Test
     void testMediumShipAttributes() {
-        assertEquals(150, mediumShip.getShipType().getShipPower());
-        assertEquals("Medium", mediumShip.getShipType().toString());
+        assertEquals(150, mediumShip.getShipType().getShipPower(), "Medium ship should have 150 attack points.");
+        assertEquals("Medium", mediumShip.getShipType().toString(), "Medium ship type should have name 'Medium'.");
     }
 
     @Test
     void testPowerfulShipAttributes() {
-        assertEquals(200, powerfulShip.getShipType().getShipPower());
-        assertEquals("Powerful", powerfulShip.getShipType().toString());
+        assertEquals(200, powerfulShip.getShipType().getShipPower(), "Powerful ship should have 200 attack points.");
+        assertEquals("Powerful", powerfulShip.getShipType().toString(), "Powerful ship type should have name 'Powerful'.");
+    }
+
+    private final Fleet fleet1 = new Fleet(shipList, new Cell(0, 0), player);
+    private final Fleet fleet2 = new Fleet(new ArrayList<>(), new Cell(1, 1), player);
+    private final Ship basicShipFleet1 = new Ship(Ship.ShipType.BASIC, fleet1);
+    private final Ship mediumShipFleet1 = new Ship(Ship.ShipType.MEDIUM, fleet1);
+    private final Ship powerfulShipFleet1 = new Ship(Ship.ShipType.POWERFUL, fleet1);
+    private final Ship basicShipFleet2 = new Ship(Ship.ShipType.BASIC, fleet2);
+    private final Ship mediumShipFleet2 = new Ship(Ship.ShipType.MEDIUM, fleet2);
+    private final Ship powerfulShipFleet2 = new Ship(Ship.ShipType.POWERFUL, fleet2);
+
+    @Test
+    void testShipEqualityDifferentFleets0() {
+        // Проверяем, что корабли разных флотов считаются разными
+        assertNotEquals(basicShipFleet1, basicShipFleet2, "Ships of different fleets should not be equal.");
+        assertNotEquals(mediumShipFleet1, mediumShipFleet2, "Ships of different fleets should not be equal.");
+        assertNotEquals(powerfulShipFleet1, powerfulShipFleet2, "Ships of different fleets should not be equal.");
+    }
+
+    @Test
+    void testShipEqualityDifferentFleets1() {
+        // Создаем разные флоты
+        Fleet fleet1 = new Fleet(new Cell(0, 0), new Player(1, "Player1"));
+        Fleet fleet2 = new Fleet(new Cell(1, 1), new Player(2, "Player2"));
+
+        // Создаем корабли в разных флотов
+        Ship basicShipFleet1 = new Ship(Ship.ShipType.BASIC, fleet1);
+        Ship basicShipFleet2 = new Ship(Ship.ShipType.BASIC, fleet2);
+        Ship mediumShipFleet1 = new Ship(Ship.ShipType.MEDIUM, fleet1);
+        Ship mediumShipFleet2 = new Ship(Ship.ShipType.MEDIUM, fleet2);
+        Ship powerfulShipFleet1 = new Ship(Ship.ShipType.POWERFUL, fleet1);
+        Ship powerfulShipFleet2 = new Ship(Ship.ShipType.POWERFUL, fleet2);
+
+        // Проверяем, что корабли разных флотов считаются разными
+        assertNotEquals(basicShipFleet1, basicShipFleet2, "Ships of different fleets should not be equal.");
+        assertNotEquals(mediumShipFleet1, mediumShipFleet2, "Ships of different fleets should not be equal.");
+        assertNotEquals(powerfulShipFleet1, powerfulShipFleet2, "Ships of different fleets should not be equal.");
+    }
+
+
+    @Test
+    void testShipFleetAffiliation() {
+        // Проверяем, что корабли принадлежат правильным флотам
+        assertEquals(fleet1, basicShipFleet1.fleetAffiliation(), "Basic ship from fleet1 should have fleet1 as its affiliation.");
+        assertEquals(fleet1, mediumShipFleet1.fleetAffiliation(), "Medium ship from fleet1 should have fleet1 as its affiliation.");
+        assertEquals(fleet1, powerfulShipFleet1.fleetAffiliation(), "Powerful ship from fleet1 should have fleet1 as its affiliation.");
+
+        assertEquals(fleet2, basicShipFleet2.fleetAffiliation(), "Basic ship from fleet2 should have fleet2 as its affiliation.");
+        assertEquals(fleet2, mediumShipFleet2.fleetAffiliation(), "Medium ship from fleet2 should have fleet2 as its affiliation.");
+        assertEquals(fleet2, powerfulShipFleet2.fleetAffiliation(), "Powerful ship from fleet2 should have fleet2 as its affiliation.");
+    }
+
+    @Test
+    void testFleetContainsShips() {
+        // Проверяем, что флоты содержат правильные корабли
+        assertTrue(fleet1.getShipList().contains(basicShipFleet1), "Fleet1 should contain basicShipFleet1.");
+        assertTrue(fleet1.getShipList().contains(mediumShipFleet1), "Fleet1 should contain mediumShipFleet1.");
+        assertTrue(fleet1.getShipList().contains(powerfulShipFleet1), "Fleet1 should contain powerfulShipFleet1.");
+
+        assertTrue(fleet2.getShipList().contains(basicShipFleet2), "Fleet2 should contain basicShipFleet2.");
+        assertTrue(fleet2.getShipList().contains(mediumShipFleet2), "Fleet2 should contain mediumShipFleet2.");
+        assertTrue(fleet2.getShipList().contains(powerfulShipFleet2), "Fleet2 should contain powerfulShipFleet2.");
     }
 }

@@ -1,9 +1,15 @@
 package io.deeplay.camp.game.entites;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
 import io.deeplay.camp.game.utils.PointsCalculator;
 import io.deeplay.camp.game.utils.ValidationMove;
-
-import java.util.*;
 
 /**
  * Класс-представление сущности Флот
@@ -216,5 +222,24 @@ public class Fleet extends GalaxyEntity {
 
     public List<Move> getFleetMoves() {
         return fleetMoves;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Fleet fleet = (Fleet) o;
+        return fleetPower == fleet.fleetPower &&
+                Objects.equals(fleetPosition, fleet.fleetPosition) &&
+                Objects.equals(owner, fleet.owner) &&
+                Objects.equals(fleetMoves, fleet.fleetMoves) &&
+                // Здесь сравниваем только идентификаторы кораблей, а не сами объекты
+                Objects.equals(shipList.stream().map(Ship::getId).collect(Collectors.toSet()),
+                        fleet.shipList.stream().map(Ship::getId).collect(Collectors.toSet()));
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(shipList.stream().map(Ship::getId).collect(Collectors.toSet()), fleetPosition, fleetPower, owner, fleetMoves);
     }
 }

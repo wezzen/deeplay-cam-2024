@@ -28,6 +28,107 @@ class BotTest {
 
         @Override
         protected Move getMove() {
+            // Возвращаем тестовый ход
+            return new Move(new Cell(0, 0), new Cell(1, 1), Move.MoveType.ORDINARY, 7);
+        }
+    }
+
+    private Field field;
+    private Bot bot;
+    private Player player;
+    private Game game;
+
+    @BeforeEach
+    void setUp() {
+        field = new Field(10);
+        bot = new TestBot.Factory().createBot("player1", field);
+        player = new Player(0, "player1");
+        game = bot.game;
+    }
+
+    @Test
+    void testStartGameSession() {
+        assertDoesNotThrow(() -> bot.startGameSession("testGameId", GameTypes.HumanVsBot));
+        assertDoesNotThrow(() -> bot.connectingPlayer("player1"));
+        assertDoesNotThrow(() -> bot.connectingPlayer("player0"));
+        assertDoesNotThrow(() -> bot.gameStarted(field));
+    }
+
+    @Test
+    void testGetPlayerAction_ValidOrdinaryMove() {
+        Player player2 = new Player(1, "player2");
+        Fleet fleet = new Fleet(field.getBoard()[0][0], player);
+        Fleet fleet2 = new Fleet(field.getBoard()[0][1], player2);
+        Ship ship = new Ship(Ship.ShipType.BASIC, fleet);
+        Ship ship2 = new Ship(Ship.ShipType.BASIC, fleet2);
+        Move move = new Move(field.getBoard()[0][0], field.getBoard()[1][1], Move.MoveType.ORDINARY, 7);
+
+        game.connectingPlayer(player.getName());
+        game.connectingPlayer(player2.getName());
+        game.gameStarted(field);
+        game.getPlayerNames().put(player.getName(), player);
+        game.getPlayerNames().put(player2.getName(), player2);
+
+        assertDoesNotThrow(() -> bot.getPlayerAction(move, player.getName()));
+    }
+
+    @Test
+    void testGetPlayerAction_InvalidPlayer() {
+        Move move = new Move(new Cell(0, 0), new Cell(1, 1), Move.MoveType.ORDINARY, 7);
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> bot.getPlayerAction(move, "invalidPlayer"));
+        assertEquals("Отсутствует игрок: invalidPlayer", exception.getMessage());
+    }
+
+    @Test
+    void testGetPlayerAction_InvalidTurn() {
+        Player player2 = new Player(1, "player2");
+        Move move = new Move(new Cell(0, 0), new Cell(1, 1), Move.MoveType.ORDINARY, 7);
+
+        game.connectingPlayer(player.getName());
+        game.connectingPlayer(player2.getName());
+        game.gameStarted(field);
+        game.getPlayerNames().put(player.getName(), player);
+        game.getPlayerNames().put(player2.getName(), player2);
+        game.switchPlayerToAct();
+
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> bot.getPlayerAction(move, player.getName()));
+        assertEquals("Сейчас не ход игрока: player1", exception.getMessage());
+    }
+
+    @Test
+    void testGameEnded() {
+        assertDoesNotThrow(() -> bot.gameEnded("player1"));
+    }
+
+    @Test
+    void testEndGameSession() {
+        assertDoesNotThrow(() -> bot.endGameSession());
+    }
+
+    @Test
+    void testGetAnswer() {
+        Answer answer = bot.getAnswer(field);
+        assertNotNull(answer);
+        assertEquals(new Move(new Cell(0, 0), new Cell(1, 1), Move.MoveType.ORDINARY, 7), answer.getMove());
+    }
+    /*private static class TestBot extends Bot {
+        protected TestBot(final String name, final Field field) {
+            super(name, field);
+        }
+
+        public static class Factory extends BotFactory {
+
+            public Factory() {
+            }
+
+            @Override
+            public TestBot createBot(final String name, final Field field) {
+                return new TestBot(name, field);
+            }
+        }
+
+        @Override
+        protected Move getMove() {
             // Возвращаем тестовый ход для простоты
             return new Move(new Cell(0, 0), new Cell(1, 1), Move.MoveType.ORDINARY, 7);
         }
@@ -75,7 +176,7 @@ class BotTest {
     void testGetPlayerAction_InvalidPlayer() {
         Move move = new Move(new Cell(0, 0), new Cell(1, 1), Move.MoveType.ORDINARY, 7);
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> bot.getPlayerAction(move, "invalidPlayer"));
-        assertEquals("Отсутствует игрок:invalidPlayer", exception.getMessage());
+        assertEquals("Отсутствует игрок: invalidPlayer", exception.getMessage());
     }
 
     @Test
@@ -126,5 +227,5 @@ class BotTest {
         Answer answer = bot.getAnswer(field);
         assertNotNull(answer);
         assertEquals(new Move(new Cell(0, 0), new Cell(1, 1), Move.MoveType.ORDINARY, 7), answer.getMove());
-    }
+    }*/
 }
