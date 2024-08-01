@@ -30,6 +30,7 @@ public class SelfPlay implements GalaxyListener {
         final Field field = new Field(sizeField);
         final Game game = new Game(field);
         final GameLogger logger = new GameLogger();
+        long skipCounter = 0;
 
         List<Ship.ShipType> startShips = new ArrayList<>();
         startShips.add(Ship.ShipType.BASIC);
@@ -54,12 +55,16 @@ public class SelfPlay implements GalaxyListener {
         createShips(startShips, playerNames[1]);
 
 
-        while (!game.isGameOver()) {
+        while (!game.isGameOver() && skipCounter < 4) {
             final String nextPlayerToAct = game.getNextPlayerToAct();
             final PlayerInterface player = playerNamesMap.computeIfAbsent(nextPlayerToAct, (key) -> {
                 throw new IllegalStateException("There is no player with name " + key);
             });
             final Answer answer = player.getAnswer(game.getField());
+
+            if (answer.getMove().moveType() == Move.MoveType.SKIP) {
+                skipCounter++;
+            }
 
             if (answer.getShipList() != null) {
                 createShips(answer.getShipList(), game.getNextPlayerToAct());
@@ -67,7 +72,7 @@ public class SelfPlay implements GalaxyListener {
 
             getPlayerAction(answer.getMove(), nextPlayerToAct);
         }
-        String winner = game.isWinner().getName();
+        String winner = game.isWinner();
         gameEnded(winner);
         endGameSession();
     }
