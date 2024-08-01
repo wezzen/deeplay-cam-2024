@@ -46,15 +46,8 @@ class BotTest {
     @Test
     void testStartGameSession() {
         assertDoesNotThrow(() -> bot.startGameSession("testGameId", GameTypes.HumanVsBot));
-    }
-
-    @Test
-    void testConnectingPlayer() {
         assertDoesNotThrow(() -> bot.connectingPlayer("player1"));
-    }
-
-    @Test
-    void testGameStarted() {
+        assertDoesNotThrow(() -> bot.connectingPlayer("player0"));
         assertDoesNotThrow(() -> bot.gameStarted(field));
     }
 
