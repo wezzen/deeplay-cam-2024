@@ -1,5 +1,6 @@
 package io.deeplay.camp.game.entities;
 
+import io.deeplay.camp.game.entites.Cell;
 import io.deeplay.camp.game.entites.Field;
 import io.deeplay.camp.game.entites.Planet;
 import io.deeplay.camp.game.entites.Player;
@@ -20,7 +21,7 @@ class FieldTest {
         player1 = new Player(0, "player1");
         player2 = new Player(1, "player2");
         for (Planet planet : field.getPlanets()) {
-            planet.setOwner(player1); // initially setting all planets to player1
+            planet.setOwner(player1); // Присваиваем все планеты игроку 1
         }
     }
 
@@ -50,8 +51,53 @@ class FieldTest {
     void testIsWinner() {
         assertEquals(player1.getName(), field.isWinner());
 
-        // Change the owner of one planet
+        // Изменение владельца планеты
         field.getPlanets().get(0).setOwner(player2);
+    }
 
+    @Test
+    public void testFieldCopyConstructor() {
+        // Создание оригинального поля
+        Field originalField = new Field(5);
+
+        // Копирование поля
+        Field copiedField = new Field(originalField);
+
+        // Проверка, что размеры полей совпадают
+        assertEquals(originalField.getSize(), copiedField.getSize());
+
+        // Проверка, что клетки совпадают по значениям, но являются разными объектами
+        for (int i = 0; i < originalField.getSize(); i++) {
+            for (int j = 0; j < originalField.getSize(); j++) {
+                Cell originalCell = originalField.getBoard()[i][j];
+                Cell copiedCell = copiedField.getBoard()[i][j];
+
+                assertNotSame(originalCell, copiedCell);
+                assertEquals(originalCell.x, copiedCell.x);
+                assertEquals(originalCell.y, copiedCell.y);
+
+                Planet originalPlanet = originalCell.getPlanet();
+                Planet copiedPlanet = copiedCell.getPlanet();
+
+                if (originalPlanet != null) {
+                    assertNotSame(originalPlanet, copiedPlanet);
+                    assertEquals(originalPlanet.getPoints(), copiedPlanet.getPoints());
+                    assertEquals(originalPlanet.getOwner(), copiedPlanet.getOwner());
+                    assertNotSame(originalPlanet.getCell(), copiedPlanet.getCell());
+                } else {
+                    assertNull(copiedPlanet);
+                }
+            }
+        }
+
+        // Проверка, что списки планет совпадают по значению, но состоят из разных объектов
+        assertEquals(originalField.getPlanets().size(), copiedField.getPlanets().size());
+        for (int i = 0; i < originalField.getPlanets().size(); i++) {
+            Planet originalPlanet = originalField.getPlanets().get(i);
+            Planet copiedPlanet = copiedField.getPlanets().get(i);
+            assertNotSame(originalPlanet, copiedPlanet);
+            assertEquals(originalPlanet.getPoints(), copiedPlanet.getPoints());
+            assertEquals(originalPlanet.getOwner(), copiedPlanet.getOwner());
+        }
     }
 }

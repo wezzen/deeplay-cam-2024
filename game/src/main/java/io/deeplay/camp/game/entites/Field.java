@@ -21,6 +21,48 @@ public class Field {
         generateField(size);
     }
 
+    /**
+     * Конструктор копирования для игрового поля.
+     *
+     * Создает новое игровое поле, являющееся глубокой копией переданного поля.
+     * Копируются все клетки и планеты, создавая новые объекты, чтобы изменения
+     * в новом поле не влияли на исходное.
+     *
+     * @param other поле, которое нужно скопировать
+     */
+    /**
+     * Конструктор копирования для игрового поля.
+     *
+     * Создает новое игровое поле, являющееся глубокой копией переданного поля.
+     * Копируются все клетки и планеты, создавая новые объекты, чтобы изменения
+     * в новом поле не влияли на исходное.
+     *
+     * @param other поле, которое нужно скопировать
+     */
+    public Field(final Field other) {
+        this.size = other.size;
+        this.board = new Cell[other.size][other.size];
+        this.planets = new ArrayList<>();
+
+        // Глубокое копирование поля
+        for (int i = 0; i < other.size; i++) {
+            for (int j = 0; j < other.size; j++) {
+                Cell otherCell = other.board[i][j];
+                if (otherCell != null) {
+                    Planet otherPlanet = otherCell.getPlanet();
+                    if (otherPlanet != null) {
+                        Planet newPlanet = new Planet(otherPlanet);
+                        this.board[i][j] = new Cell(i, j, newPlanet);
+                        newPlanet.setCell(this.board[i][j]);
+                        this.planets.add(newPlanet);
+                    } else {
+                        this.board[i][j] = new Cell(i, j);
+                    }
+                }
+            }
+        }
+    }
+
     public int getSize() {
         return size;
     }
