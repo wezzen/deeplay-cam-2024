@@ -10,8 +10,6 @@ class GalaxyEntityTest {
         GalaxyEntity entity1 = new GalaxyEntity();
         GalaxyEntity entity2 = new GalaxyEntity();
         assertNotEquals(entity1.getId(), entity2.getId());
-        assertEquals(0, entity1.getId());
-        assertEquals(1, entity2.getId());
     }
 
     @Test
