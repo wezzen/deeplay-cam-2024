@@ -72,3 +72,4 @@ public class Planet extends GalaxyEntity {
         return cell;
     }
 }
+
