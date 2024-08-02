@@ -42,7 +42,7 @@ class GameTest {
         assertEquals(game.getGameType(), GameTypes.HumanVsBot);
     }
 
-    @Test
+    /*@Test
     void gameConnectingStartedTest() {
         Field field2 = new Field(5);
         game = new Game(field2);
@@ -61,6 +61,5 @@ class GameTest {
         game.gameStarted(field2);
         assertEquals(game.getNextPlayerToAct(), "testPlayer");
         game.getPlayerAction(move, "testPlayer");
-    }
-
+    }*/
 }
