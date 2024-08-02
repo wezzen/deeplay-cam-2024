@@ -64,6 +64,18 @@
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
+    <!-- Аппендер для View модуля -->
+    <appender name="VIEW_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/viewLog.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/viewModule-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
     <logger name="io.deeplay.camp.game" level="debug">
         <appender-ref ref="GAME_FILE" />
     </logger>
@@ -82,8 +94,12 @@
 
     <logger name="io.deeplay.camp.automat" level="debug">
         <appender-ref ref="AUTOMAT_FILE" />
-
     </logger>
+
+    <logger name="io.deeplay.camp.view" level="debug">
+        <appender-ref ref="VIEW_FILE" />
+    </logger>
+
     <root level="degub">
         <appender-ref ref="CONSOLE" />
     </root>
