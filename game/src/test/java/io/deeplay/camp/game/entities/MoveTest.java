@@ -176,14 +176,14 @@ class MoveTest {
         Player player = new Player(0, "0");
         Field field = new Field(5);
         new Ship(Ship.ShipType.POWERFUL, new Fleet(field.getBoard()[1][1], player));
-        Move move = new Move(field.getBoard()[1][1], field.getBoard()[3][2], Move.MoveType.CAPTURE, 10);
-        move.makeAttack(player);
+        Move move1 = new Move(field.getBoard()[1][1], field.getBoard()[3][2], Move.MoveType.CAPTURE, 10);
+        move1.makeAttack(player);
         if (field.getBoard()[3][2].planet != null && field.getBoard()[3][2].planet.points <= 200) {
             assertTrue(field.getBoard()[3][2].planet.isCaptured());
             assertTrue(player.controlledPlanet.contains(field.getBoard()[3][2].planet));
         }
-        Move move1 = new Move(field.getBoard()[1][1], field.getBoard()[4][4], Move.MoveType.CAPTURE, 10);
-        move1.makeAttack(player);
+        Move move2 = new Move(field.getBoard()[1][1], field.getBoard()[4][4], Move.MoveType.CAPTURE, 10);
+        move2.makeAttack(player);
         if (field.getBoard()[3][2].planet != null && field.getBoard()[3][2].planet.points <= 200) {
             assertTrue(field.getBoard()[3][2].planet.isCaptured());
             assertTrue(player.controlledPlanet.contains(field.getBoard()[3][2].planet));
