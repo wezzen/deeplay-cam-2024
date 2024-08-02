@@ -2,20 +2,24 @@ package io.deeplay.camp.view.GUI.panels;
 
 import io.deeplay.camp.game.entites.Cell;
 import io.deeplay.camp.game.entites.Field;
+import io.deeplay.camp.view.GUI.fabric.ImageFactory;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class GamePanel extends JPanel {
+    private static final ImageFactory imageFactory = new ImageFactory();
     private Field field;
     private int squareSize = 50; // Размер каждого квадрата
     private int arcSize = 15;
     public GamePanel() {
         setPreferredSize(new Dimension(800, 800));
+
     }
 
     public void setField(Field field) {
         this.field = field;
+        squareSize = (int) ((getWidth() / field.getSize()) * 0.9);
     }
 
     @Override
@@ -44,7 +48,7 @@ public class GamePanel extends JPanel {
     private void drawCell(Graphics g, Cell cell, int x, int y, int cellSize) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2d.setColor(Color.GRAY);
+        g2d.setColor(Color.LIGHT_GRAY);
         g2d.fillRoundRect(x, y, squareSize, squareSize, arcSize, arcSize);
     }
 
@@ -52,7 +56,7 @@ public class GamePanel extends JPanel {
 
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2d.setColor(Color.GREEN);
+        g2d.setColor(Color.DARK_GRAY);
         g2d.fillRoundRect(x, y, squareSize, squareSize, arcSize, arcSize);
     }
 }
