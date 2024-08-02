@@ -49,4 +49,8 @@ public class Cell {
     public void setFleet(final Fleet fleet) {
         this.fleet = fleet;
     }
+
+    public Planet getPlanet() {
+        return planet;
+    }
 }
