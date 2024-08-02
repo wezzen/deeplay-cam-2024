@@ -64,13 +64,13 @@ public class RandomBot extends Bot {
 
         if (move.moveType() == Move.MoveType.ORDINARY) {
             if (ValidationMove.isValidOrdinaryMove(move, field, player)) {
-                move.makeMove(player);
+                //move.makeMove(player);
             } else {
                 throw new IllegalStateException("Недопустимый 'ORDINARY' ход: " + move);
             }
         } else if (move.moveType() == Move.MoveType.CAPTURE) {
             if (ValidationMove.isValidCaptureMove(move, player)) {
-                move.makeAttack(player);
+                //move.makeAttack(player);
             } else {
                 throw new IllegalStateException("Недопустимый 'CAPTURE' ход: " + move);
             }

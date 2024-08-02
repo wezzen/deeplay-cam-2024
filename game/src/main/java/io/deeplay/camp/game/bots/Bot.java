@@ -86,9 +86,9 @@ public abstract class Bot implements PlayerInterface {
         }
 
         // Проверка, что текущий ход принадлежит правильному игроку
-        if (!playerName.equals(game.getNextPlayerToAct())) {
+        /*if (!playerName.equals(game.getNextPlayerToAct())) {
             throw new IllegalStateException("Сейчас не ход игрока: " + playerName);
-        }
+        }*/
 
         // Получаем игрока
         Player player = game.getPlayerNames().get(playerName);
@@ -97,7 +97,7 @@ public abstract class Bot implements PlayerInterface {
         //int cost = PointsCalculator.costMovement(move);
 
         //Проверка принятого хода на валидность
-        boolean isValidMove = false;
+        /*boolean isValidMove = false;
         if (move.moveType() == Move.MoveType.ORDINARY) {
             isValidMove = ValidationMove.isValidOrdinaryMove(move, game.getField(), player);
         } else if (move.moveType() == Move.MoveType.CAPTURE) {
@@ -110,14 +110,18 @@ public abstract class Bot implements PlayerInterface {
 
         if (!isValidMove) {
             throw new IllegalStateException("Недопустимый ход: " + move);
-        }
+        }*/
 
         // Исполнение хода
-        if (move.moveType() == Move.MoveType.ORDINARY) {
-            move.makeMove(player);
+       /* if (move.moveType() == Move.MoveType.ORDINARY) {
+            game.getPlayerAction(move, playerName);
+            //move.makeMove(player);
         } else if (move.moveType() == Move.MoveType.CAPTURE) {
-            move.makeAttack(player);
-        }
+            game.getPlayerAction(move, playerName);
+            //move.makeAttack(player);
+        }*/
+
+        game.getPlayerAction(move, playerName);
 
         // Добавляем ход в список всех ходов
         game.getAllGameMoves().add(move);

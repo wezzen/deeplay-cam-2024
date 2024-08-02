@@ -223,23 +223,4 @@ public class Fleet extends GalaxyEntity {
     public List<Move> getFleetMoves() {
         return fleetMoves;
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Fleet fleet = (Fleet) o;
-        return fleetPower == fleet.fleetPower &&
-                Objects.equals(fleetPosition, fleet.fleetPosition) &&
-                Objects.equals(owner, fleet.owner) &&
-                Objects.equals(fleetMoves, fleet.fleetMoves) &&
-                // Здесь сравниваем только идентификаторы кораблей, а не сами объекты
-                Objects.equals(shipList.stream().map(Ship::getId).collect(Collectors.toSet()),
-                        fleet.shipList.stream().map(Ship::getId).collect(Collectors.toSet()));
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(shipList.stream().map(Ship::getId).collect(Collectors.toSet()), fleetPosition, fleetPower, owner, fleetMoves);
-    }
 }
