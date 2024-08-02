@@ -33,7 +33,7 @@ public class RandomBotTest {
         randomBot.connectingPlayer("Player1");
     }
 
-    /*@Test
+    @Test
     public void testGetMove() {
         Move move1 = new Move(field.getBoard()[0][0], field.getBoard()[0][1], Move.MoveType.ORDINARY, DIRECT_COST);
         Move move1_ = new Move(field.getBoard()[0][0], field.getBoard()[0][1], Move.MoveType.CAPTURE, DIRECT_COST);
@@ -55,5 +55,5 @@ public class RandomBotTest {
         assertTrue(moves.contains(result.getMove()));
         //todo нормальные тесты на бота после рефакторинга
 //        assertThrows(RuntimeException.class, () -> randomBot.getAnswer(field));
-    }*/
+    }
 }

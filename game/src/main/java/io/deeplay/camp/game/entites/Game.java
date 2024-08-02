@@ -83,6 +83,30 @@ public class Game implements GalaxyListener {
         playerStartPosition.put(players[1].getName(), field.getBoard()[field.getSize() - 1][0]);
     }
 
+    /*@Override
+    public void getPlayerAction(Move move, String playerName) {
+        if (!playerNames.containsKey(playerName)) {
+            throw new IllegalArgumentException("Отсутствует игрок:" + playerName);
+        }
+//        nextPlayerToAct = (nextPlayerToAct + 1) % NUM_PLAYERS;
+        switchPlayerToAct();
+        // подсчет очков для хода возможно надо будет убрать, потому что мув содержит стоимость
+        // int cost = PointsCalculator.costMovement(move);
+        if (move.moveType() == Move.MoveType.ORDINARY) {
+            if (ValidationMove.isValidOrdinaryMove(move, field, players[nextPlayerToAct])) {
+                allGameMoves.add(move);
+                move.makeMove(players[nextPlayerToAct]);
+            } //else throw new IllegalStateException("Такой ORDINARY move не валиден!");
+        } else if ((move.moveType() == Move.MoveType.CAPTURE)) {
+            if (ValidationMove.isValidCaptureMove(move, players[nextPlayerToAct])) {
+                allGameMoves.add(move);
+                move.makeAttack(players[nextPlayerToAct]);
+            } //else throw new IllegalStateException("Такой CAPTURE move не валиден!");
+        }
+        players[nextPlayerToAct].decreaseTotalGamePoints(move.cost());
+    }*/
+
+
     /**
      * Обрабатывает действие игрока в игре.
      *
@@ -100,22 +124,22 @@ public class Game implements GalaxyListener {
         if (!playerNames.containsKey(playerName)) {
             throw new IllegalArgumentException("Отсутствует игрок:" + playerName);
         }
-        switchPlayerToAct();
 
         if (move.moveType() == Move.MoveType.ORDINARY) {
             if (ValidationMove.isValidOrdinaryMove(move, field, players[nextPlayerToAct])) {
                 allGameMoves.add(move);
                 move.makeMove(players[nextPlayerToAct]);
-            } else throw new IllegalStateException("Такой ORDINARY move не валиден!");
+            } //else throw new IllegalStateException("Такой ORDINARY move не валиден!");
         } else if (move.moveType() == Move.MoveType.CAPTURE) {
             if (ValidationMove.isValidCaptureMove(move, players[nextPlayerToAct])) {
                 allGameMoves.add(move);
                 move.makeAttack(players[nextPlayerToAct]);
-            } else throw new IllegalStateException("Такой CAPTURE move не валиден!");
+            } //else throw new IllegalStateException("Такой CAPTURE move не валиден!");
         } else if (move.moveType() == Move.MoveType.SKIP) {
             getAllGameMoves().add(move);
         } else throw new IllegalStateException("Не существует такого типа хода!");
 
+        switchPlayerToAct();
         players[nextPlayerToAct].decreaseTotalGamePoints(move.cost());
     }
 

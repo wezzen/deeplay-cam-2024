@@ -51,12 +51,16 @@ public final class ValidationMove {
 
     // проверка - на начальной позиции стоит флот
     public static boolean isFleetPresent(final Move move) {
-        return move.startPosition().getFleet() != null;
+        boolean flag = move.startPosition().getFleet() != null;
+        return flag;
+        //return move.startPosition().getFleet() != null;
     }
 
     // проверка - флот принадлежит игроку, который ходит
     private static boolean isOwnerFleet(final Move move, final Player currentPlayer) {
-        return move.startPosition().getFleet().getOwner().equals(currentPlayer);
+        boolean flag = move.startPosition().getFleet().getOwner().getName().equals(currentPlayer.getName());
+        return flag;
+        //return move.startPosition().getFleet().getOwner().getName().equals(currentPlayer.getName());
     }
 
     // проверка - игроку хватает очков, чтобы совершить ход

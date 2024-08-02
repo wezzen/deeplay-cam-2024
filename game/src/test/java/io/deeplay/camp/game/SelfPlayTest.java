@@ -10,7 +10,7 @@ public class SelfPlayTest {
     SelfPlay selfPlay;
     String[] names;
 
-    /*@Test
+    @Test
     void templateSelfPlayTest() {
         names = new String[]{"TestPlayer0", "TestPlayer1"};
         final Bot.BotFactory[] factories = new Bot.BotFactory[]{
@@ -21,5 +21,5 @@ public class SelfPlayTest {
         selfPlay.playGame();
         //todo нормальные тесты на селфплей после рефакторинга
 //        assertThrows(RuntimeException.class, () -> selfPlay.playGame());
-    }*/
+    }
 }
