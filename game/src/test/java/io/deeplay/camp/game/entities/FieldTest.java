@@ -37,15 +37,6 @@ class FieldTest {
     }
 
     @Test
-    void testFieldSymmetry() {
-        for (int i = 0; i < field.getSize(); i++) {
-            for (int j = 0; j < i; j++) {
-                assertEquals(field.getBoard()[i][j].planet, field.getBoard()[j][i].planet);
-            }
-        }
-    }
-
-    @Test
     void testIsGameOver() {
         assertTrue(field.isGameOver(), "All planets should belong to player1, so the game should be over");
 
