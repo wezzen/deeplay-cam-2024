@@ -192,21 +192,6 @@ public class Fleet extends GalaxyEntity {
             }
         }
     }
-
-
-    @Override
-    public boolean equals(final Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Fleet fleet)) return false;
-        return Objects.equals(shipList, fleet.shipList) &&
-                Objects.equals(fleetPosition, fleet.fleetPosition);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(shipList, fleetPosition);
-    }
-
     public Player getOwner() {
         return owner;
     }
