@@ -1,7 +1,5 @@
 package io.deeplay.camp.game.entites;
 
-import java.util.Objects;
-
 /**
  * Класс планеты
  */
@@ -59,17 +57,4 @@ public class Planet extends GalaxyEntity {
     public void setOwner(final Player player) {
         this.owner = player;
     }
-
-    @Override
-    public boolean equals(final Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Planet planet)) return false;
-        return points == planet.points && Objects.equals(owner, planet.owner);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(points, owner);
-    }
 }
-
