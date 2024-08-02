@@ -35,7 +35,7 @@ public class RandomBotTest {
         randomBot.createShips(List.of(Ship.ShipType.MEDIUM), "Player2");
     }
 
-    /*@Test
+    @Test
     public void testGetMove() {
         Move move1 = new Move(field.getBoard()[0][0], field.getBoard()[0][1], Move.MoveType.ORDINARY, DIRECT_COST + 1);
         Move move1_ = new Move(field.getBoard()[0][0], field.getBoard()[0][1], Move.MoveType.CAPTURE, DIRECT_COST);
@@ -58,5 +58,5 @@ public class RandomBotTest {
         assertTrue(randomBot.game.getAllGameMoves().contains(result.getMove()));
         //todo нормальные тесты на бота после рефакторинга
 //        assertThrows(RuntimeException.class, () -> randomBot.getAnswer(field));
-    }*/
+    }
 }
