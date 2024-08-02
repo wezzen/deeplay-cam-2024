@@ -1,7 +1,5 @@
 package io.deeplay.camp.game.entites;
 
-import java.util.Objects;
-
 /**
  * Класс – представление для Корабля
  */
@@ -38,20 +36,6 @@ public class Ship extends GalaxyEntity {
     public Fleet fleetAffiliation() {
         return this.fleetAffiliation;
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Ship ship = (Ship) o;
-        return shipType == ship.shipType && Objects.equals(fleetAffiliation, ship.fleetAffiliation);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(shipType, fleetAffiliation);
-    }
-
 
     /**
      * Набор всевозможных кораблей в игре
