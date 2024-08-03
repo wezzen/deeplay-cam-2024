@@ -26,6 +26,52 @@ class FieldTest {
     }
 
     @Test
+    public void testFieldCopyConstructor() {
+        // Создание оригинального поля
+        Field originalField = new Field(5);
+
+        // Копирование поля
+        Field copiedField = new Field(originalField);
+
+        // Проверка, что размеры полей совпадают
+        assertEquals(originalField.getSize(), copiedField.getSize());
+
+        // Проверка, что клетки совпадают по значениям, но являются разными объектами
+        for (int i = 0; i < originalField.getSize(); i++) {
+            for (int j = 0; j < originalField.getSize(); j++) {
+                Cell originalCell = originalField.getBoard()[i][j];
+                Cell copiedCell = copiedField.getBoard()[i][j];
+
+                assertNotSame(originalCell, copiedCell);
+                assertEquals(originalCell.x, copiedCell.x);
+                assertEquals(originalCell.y, copiedCell.y);
+
+                Planet originalPlanet = originalCell.getPlanet();
+                Planet copiedPlanet = copiedCell.getPlanet();
+
+                if (originalPlanet != null) {
+                    assertNotSame(originalPlanet, copiedPlanet);
+                    assertEquals(originalPlanet.getPoints(), copiedPlanet.getPoints());
+                    assertEquals(originalPlanet.getOwner(), copiedPlanet.getOwner());
+                    assertNotSame(originalPlanet.getCell(), copiedPlanet.getCell());
+                } else {
+                    assertNull(copiedPlanet);
+                }
+            }
+        }
+
+        // Проверка, что списки планет совпадают по значению, но состоят из разных объектов
+        assertEquals(originalField.getPlanets().size(), copiedField.getPlanets().size());
+        for (int i = 0; i < originalField.getPlanets().size(); i++) {
+            Planet originalPlanet = originalField.getPlanets().get(i);
+            Planet copiedPlanet = copiedField.getPlanets().get(i);
+            assertNotSame(originalPlanet, copiedPlanet);
+            assertEquals(originalPlanet.getPoints(), copiedPlanet.getPoints());
+            assertEquals(originalPlanet.getOwner(), copiedPlanet.getOwner());
+        }
+    }
+
+    @Test
     void testFieldSize() {
         assertEquals(5, field.getSize(), "Field size = 5");
     }
@@ -56,7 +102,7 @@ class FieldTest {
     }
 
     @Test
-    public void testFieldCopyConstructor() {
+    public void testFieldCopyConstructor1() {
         // Создание оригинального поля
         Field originalField = new Field(5);
 

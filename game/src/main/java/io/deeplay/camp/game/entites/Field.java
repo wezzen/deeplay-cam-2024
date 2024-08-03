@@ -30,15 +30,6 @@ public class Field {
      *
      * @param other поле, которое нужно скопировать
      */
-    /**
-     * Конструктор копирования для игрового поля.
-     *
-     * Создает новое игровое поле, являющееся глубокой копией переданного поля.
-     * Копируются все клетки и планеты, создавая новые объекты, чтобы изменения
-     * в новом поле не влияли на исходное.
-     *
-     * @param other поле, которое нужно скопировать
-     */
     public Field(final Field other) {
         this.size = other.size;
         this.board = new Cell[other.size][other.size];
@@ -58,6 +49,8 @@ public class Field {
                     } else {
                         this.board[i][j] = new Cell(i, j);
                     }
+                } else {
+                    this.board[i][j] = null;
                 }
             }
         }
