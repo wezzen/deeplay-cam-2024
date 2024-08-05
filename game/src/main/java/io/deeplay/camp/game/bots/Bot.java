@@ -3,8 +3,7 @@ package io.deeplay.camp.game.bots;
 import io.deeplay.camp.game.domain.GameTypes;
 import io.deeplay.camp.game.entites.*;
 import io.deeplay.camp.game.interfaces.PlayerInterface;
-import io.deeplay.camp.game.utils.PointsCalculator;
-import io.deeplay.camp.game.utils.ValidationMove;
+
 
 import java.util.List;
 
@@ -79,7 +78,7 @@ public abstract class Bot implements PlayerInterface {
 //        }
 
         // Подсчет очков для хода
-        int cost = PointsCalculator.costMovement(move);
+        //int cost = PointsCalculator.costMovement(move);
 
         //todo проверитьвалидность(эта пытается проверять уже совершенный код)
         // Проверка валидности хода
@@ -100,10 +99,15 @@ public abstract class Bot implements PlayerInterface {
 //        } else throw new IllegalStateException("Нет такого типа хода!");
 
         // Обновляем очки игрока
-        player.decreaseTotalGamePoints(cost);
+        player.decreaseTotalGamePoints(move.cost());
 
         // Переход хода к следующему игроку
 //        game.setNextPlayerToAct((game.getNextPlayerToActIndex() + 1) % NUM_PLAYERS);
+    }
+
+    @Override
+    public void addCredits() {
+        game.addCredits();
     }
 
     @Override

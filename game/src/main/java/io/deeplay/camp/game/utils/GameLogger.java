@@ -55,6 +55,11 @@ public class GameLogger implements GalaxyListener {
     }
 
     @Override
+    public void addCredits() {
+        logger.info("Начисление очков игры игрокам");
+    }
+
+    @Override
     public void createShips(List<Ship.ShipType> ships, String playerName) {
         logger.info(playerName + " создал " + ships.size() + " кораблей");
     }

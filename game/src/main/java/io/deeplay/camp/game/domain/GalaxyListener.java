@@ -3,7 +3,6 @@ package io.deeplay.camp.game.domain;
 
 import io.deeplay.camp.game.entites.Field;
 import io.deeplay.camp.game.entites.Move;
-import io.deeplay.camp.game.entites.Player;
 import io.deeplay.camp.game.entites.Ship;
 
 import java.util.List;
@@ -39,6 +38,11 @@ public interface GalaxyListener {
      * @param playerName игрок
      */
     void getPlayerAction(final Move move, final String playerName);
+
+    /**
+     * Начисление очков игры
+     */
+    void addCredits();
 
     /**
      * Создание флота на карте

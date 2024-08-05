@@ -31,6 +31,8 @@ public class SelfPlay implements GalaxyListener {
         final Game game = new Game(field);
         final GameLogger logger = new GameLogger();
         long skipCounter = 0;
+        long moveCounter = 0;
+
 
         List<Ship.ShipType> startShips = new ArrayList<>();
         startShips.add(Ship.ShipType.BASIC);
@@ -71,6 +73,8 @@ public class SelfPlay implements GalaxyListener {
             }
 
             getPlayerAction(answer.getMove(), nextPlayerToAct);
+            moveCounter++;
+            if (moveCounter % 6 == 0) addCredits();
         }
         String winner = game.isWinner();
         gameEnded(winner);
@@ -102,6 +106,13 @@ public class SelfPlay implements GalaxyListener {
     public void getPlayerAction(final Move move, final String playerName) {
         for (final GalaxyListener listener : listeners) {
             listener.getPlayerAction(move, playerName);
+        }
+    }
+
+    @Override
+    public void addCredits() {
+        for (final GalaxyListener listener : listeners) {
+            listener.addCredits();
         }
     }
 
