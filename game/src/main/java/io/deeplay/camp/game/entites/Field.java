@@ -30,10 +30,40 @@ public class Field {
      *
      * @param other поле, которое нужно скопировать
      */
-    public Field(final Field other) {
+    /*public Field(final Field other) {
         this.size = other.size;
         this.board = new Cell[other.size][other.size];
         this.planets = new ArrayList<>();
+
+        // Карта для хранения соответствия между оригинальными планетами и их копиями
+        Map<Planet, Planet> planetMap = new HashMap<>();
+
+        // Глубокое копирование поля
+        for (int i = 0; i < other.size; i++) {
+            for (int j = 0; j < other.size; j++) {
+                Cell otherCell = other.board[i][j];
+                if (otherCell != null) {
+                    Planet otherPlanet = otherCell.getPlanet();
+                    if (otherPlanet != null) {
+                        Planet newPlanet = planetMap.computeIfAbsent(otherPlanet, Planet::new);
+                        this.board[i][j] = new Cell(i, j, newPlanet);
+                        newPlanet.setCell(this.board[i][j]);
+                    } else {
+                        this.board[i][j] = new Cell(i, j);
+                    }
+                } else {
+                    this.board[i][j] = null;
+                }
+            }
+        }
+
+        // Добавление всех новых планет в список
+        this.planets.addAll(planetMap.values());
+    }*/
+    /*public Field(final Field other) {
+        this.size = other.size;
+        this.board = new Cell[other.size][other.size];
+        List<Planet> newPlanets = new ArrayList<>(other.planets.size());
 
         // Глубокое копирование поля
         for (int i = 0; i < other.size; i++) {
@@ -43,9 +73,41 @@ public class Field {
                     Planet otherPlanet = otherCell.getPlanet();
                     if (otherPlanet != null) {
                         Planet newPlanet = new Planet(otherPlanet);
+                        newPlanets.add(newPlanet); // добавляем в новый список
                         this.board[i][j] = new Cell(i, j, newPlanet);
                         newPlanet.setCell(this.board[i][j]);
-                        this.planets.add(newPlanet);
+                    } else {
+                        this.board[i][j] = new Cell(i, j);
+                    }
+                } else {
+                    this.board[i][j] = null;
+                }
+            }
+        }
+
+        // Присваиваем новый список планет полю planets
+        this.planets = newPlanets;
+    }*/
+    public Field(final Field other) {
+        this.size = other.size;
+        this.board = new Cell[other.size][other.size];
+        this.planets = new ArrayList<>(other.planets.size());
+        Map<Planet, Planet> planetMap = new HashMap<>();
+
+        // Глубокое копирование поля
+        for (int i = 0; i < other.size; i++) {
+            for (int j = 0; j < other.size; j++) {
+                Cell otherCell = other.board[i][j];
+                if (otherCell != null) {
+                    Planet otherPlanet = otherCell.getPlanet();
+                    if (otherPlanet != null) {
+                        Planet newPlanet = planetMap.computeIfAbsent(otherPlanet, p -> {
+                            Planet copy = new Planet(p);
+                            planets.add(copy);  // Добавляем в список при создании копии
+                            return copy;
+                        });
+                        this.board[i][j] = new Cell(i, j, newPlanet);
+                        newPlanet.setCell(this.board[i][j]);
                     } else {
                         this.board[i][j] = new Cell(i, j);
                     }

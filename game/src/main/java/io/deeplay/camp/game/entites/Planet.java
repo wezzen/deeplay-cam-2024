@@ -34,8 +34,7 @@ public class Planet extends GalaxyEntity {
     public Planet(final Planet otherPlanet) {
         super();
         this.points = otherPlanet.points;
-        this.owner = otherPlanet.owner;
-        this.cell = null; // Ячейка будет установлена позже
+        this.owner = null;
     }
 
     public void setCell(final Cell cell) throws RuntimeException {
