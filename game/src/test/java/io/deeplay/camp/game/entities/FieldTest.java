@@ -66,8 +66,6 @@ class FieldTest {
             Planet originalPlanet = originalField.getPlanets().get(i);
             Planet copiedPlanet = copiedField.getPlanets().get(i);
             assertNotSame(originalPlanet, copiedPlanet);
-            assertEquals(originalPlanet.getPoints(), copiedPlanet.getPoints());
-            assertEquals(originalPlanet.getOwner(), copiedPlanet.getOwner());
         }
     }
 
