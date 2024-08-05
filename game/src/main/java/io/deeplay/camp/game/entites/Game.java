@@ -107,6 +107,11 @@ public class Game implements GalaxyListener {
     }
 
     @Override
+    public void addCredits() {
+        players[nextPlayerToAct].addTotalGamePoints();
+    }
+
+    @Override
     public void createShips(List<Ship.ShipType> ships, String playerName) {
         Fleet fleet = new Fleet(playerStartPosition.get(playerName), playerNames.get(playerName));
         for (Ship.ShipType shipType : ships) {
@@ -114,7 +119,6 @@ public class Game implements GalaxyListener {
         }
     }
 
-    // todo сделать начисление очков раз в несколько ходов, но пока у нас нет этого
     @Override
     public void gameEnded(String winner) {
 
