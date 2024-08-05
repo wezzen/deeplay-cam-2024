@@ -16,14 +16,20 @@ public final class ValidationMove {
     }
 
     public static boolean isValidCaptureMove(final Move move, final Player currentPlayer) {
-        return isOwnerFleet(move, currentPlayer) &&
-                isFleetPresent(move) &&
+        return isFleetPresent(move) &&
+                isOwnerFleet(move, currentPlayer) &&
                 isEnoughPoints(currentPlayer, move) &&
                 isPositionChanged(move) &&
                 isCaptureMove(move) &&
                 (isEnemyFleet(move, currentPlayer) ||
-                isPlanet(move.endPosition()));
+                        isPlanet(move.endPosition()));
 
+    }
+
+    public static boolean isCheckForList(final Move move, final Player player) {
+        if (move.endPosition().getFleet() != null) {
+            return isEnemyFleet(move, player);
+        } else return isPlanet(move.endPosition());
     }
 
     // проверка - тип хода соответствует типу перемещения
@@ -72,6 +78,7 @@ public final class ValidationMove {
     private static boolean isPlanet(Cell planetCell) {
         return planetCell.planet != null;
     }
+
     // проверка - флоту хватает очков для захвата планеты
     public static boolean isCapturePlanet(final int powerFleet, final int pointPlanet) {
         return powerFleet >= pointPlanet;

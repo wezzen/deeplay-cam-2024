@@ -33,4 +33,8 @@ public final class PointsCalculator {
         return currentCell.y != newY && currentCell.x != newX ? DIAGONAL_COST : DIRECT_COST;
     }
 
+    public static int costWeightFleet(int fleetPower) {
+        return (int) Math.ceil(fleetPower / 100.0);
+    }
+
 }

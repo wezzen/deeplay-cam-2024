@@ -161,23 +161,36 @@ public class Fleet extends GalaxyEntity {
 
     // метод подбора подходящих ходов для флота
     public void addFleetMoves(final Field field) {
-        fleetMoves = new ArrayList<>();
+        fleetMoves.clear();
+        List<Move> listMoves = new ArrayList<>();
         boolean[][] visited = new boolean[field.getSize()][field.getSize()];
+        boolean[][] attacked = new boolean[field.getSize()][field.getSize()];
+
         visited[fleetPosition.x][fleetPosition.y] = true;
-        if (fleetMoves.isEmpty()) {
-            findNeighbors(fleetPosition, visited, field, 0);
+        attacked[fleetPosition.x][fleetPosition.y] = true;
+
+        findNeighbors(fleetPosition, attacked, field, 0, Move.MoveType.CAPTURE, listMoves);
+        findNeighbors(fleetPosition, visited, field, 0, Move.MoveType.ORDINARY, listMoves);
+
+        for (int i = 0; i < listMoves.size(); i++) {
+            Move currentMove = listMoves.get(i);
+            if (currentMove.moveType() == Move.MoveType.ORDINARY)
+                findNeighbors(currentMove.endPosition(), visited, field, currentMove.cost(), currentMove.moveType(), listMoves);
+            else
+                findNeighbors(currentMove.endPosition(), attacked, field, currentMove.cost(), currentMove.moveType(), listMoves);
         }
-        for (int i = 0; i < fleetMoves.size(); i++) {
-            Move currentMove = fleetMoves.get(i);
-            findNeighbors(currentMove.endPosition(), visited, field, currentMove.cost());
-            if (!ValidationMove.isEnoughPoints(getOwner(), currentMove) || fleetMoves.size() >= field.getSize() * field.getSize() - 1)
-                break;
+        for (Move move : listMoves) {
+            if (move.moveType() == Move.MoveType.ORDINARY) {
+                fleetMoves.add(move);
+            } else if (ValidationMove.isCheckForList(move, owner)) {
+                fleetMoves.add(move);
+            }
         }
     }
 
-    public void findNeighbors(final Cell currentCell, final boolean[][] map, final Field field, final int points) {
+    public void findNeighbors(final Cell currentCell, final boolean[][] map, final Field field, final int points, Move.MoveType moveType, List<Move> listMove) {
         int[][] directions = {
-                {-1, -1}, {-1, 1}, {1, -1}, {1, 1}, {-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+                {-1, 0}, {1, 0}, {0, -1}, {0, 1}, {-1, -1}, {-1, 1}, {1, -1}, {1, 1}};
 
         for (int[] direction : directions) {
             int newX = currentCell.x + direction[0];
@@ -188,10 +201,15 @@ public class Fleet extends GalaxyEntity {
             if (ValidationMove.isPositionValid(new Cell(newX, newY), field.getSize()) && getOwner().getTotalGamePoints() - points >= cost && !map[newX][newY]) {
                 Cell cell = field.getBoard()[newX][newY];
                 map[newX][newY] = true;
-                fleetMoves.add(new Move(fleetPosition, cell, Move.MoveType.ORDINARY, points + cost));
+                if (moveType == Move.MoveType.CAPTURE)
+                    listMove.add(new Move(fleetPosition, cell, Move.MoveType.CAPTURE, points + cost));
+                else if (getOwner().getTotalGamePoints() - points >= cost + PointsCalculator.costWeightFleet(fleetPower) && moveType == Move.MoveType.ORDINARY) {
+                    listMove.add(new Move(fleetPosition, cell, Move.MoveType.ORDINARY, points + cost + PointsCalculator.costWeightFleet(fleetPower)));
+                }
             }
         }
     }
+
     public Player getOwner() {
         return owner;
     }

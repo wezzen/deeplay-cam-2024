@@ -2,8 +2,6 @@ package io.deeplay.camp.game.entites;
 
 import io.deeplay.camp.game.utils.ValidationMove;
 
-import java.util.Objects;
-
 /**
  * Класс - ход, как record,
  * чтоб не закладывать, еще не продуманную, логику.
@@ -14,6 +12,7 @@ public record Move(Cell startPosition, Cell endPosition, MoveType moveType, int 
     public void makeMove(final Player player) {
         Fleet fleet = startPosition.getFleet();
         Fleet enemyFleet = endPosition.getFleet();
+
         if (enemyFleet != null) {
             handleEnemyFleetEncounter(player, fleet, enemyFleet);
         } else {
@@ -23,7 +22,7 @@ public record Move(Cell startPosition, Cell endPosition, MoveType moveType, int 
     }
 
     // на конечной позиции есть флот
-    private void handleEnemyFleetEncounter(final Player player,final Fleet fleet,final Fleet enemyFleet) {
+    private void handleEnemyFleetEncounter(final Player player, final Fleet fleet, final Fleet enemyFleet) {
         if (!enemyFleet.getOwner().equals(player)) { // флот оппонента
             handleOpponentFleet(player, fleet, enemyFleet);
         } else { // флот игрока
@@ -31,7 +30,7 @@ public record Move(Cell startPosition, Cell endPosition, MoveType moveType, int 
         }
     }
 
-    private void handleOpponentFleet(final Player player,final Fleet fleet,final Fleet enemyFleet) {
+    private void handleOpponentFleet(final Player player, final Fleet fleet, final Fleet enemyFleet) {
         if (endPosition.planet != null) {
             if (endPosition.planet.isCaptured()) {// планета есть и она принадлежит сопернику
                 fleet.fleetsClashWithPlanet(enemyFleet, player, enemyFleet.getOwner(), endPosition.planet.points);
@@ -47,7 +46,7 @@ public record Move(Cell startPosition, Cell endPosition, MoveType moveType, int 
         }
     }
 
-    private void mergeFleets(final Player player,final Fleet fleet1,final Fleet fleet2) {
+    private void mergeFleets(final Player player, final Fleet fleet1, final Fleet fleet2) {
         fleet2.addShipsIntoFleet(fleet1.getShipList());
         player.removeFleet(fleet1);
         clearFleetFromPosition(startPosition);
@@ -63,7 +62,7 @@ public record Move(Cell startPosition, Cell endPosition, MoveType moveType, int 
         }
     }
 
-    public void capturePlanet(final Player player,final Planet planet) {
+    public void capturePlanet(final Player player, final Planet planet) {
         player.controlledPlanet.add(planet);
         planet.setOwner(player);
         planet.isCaptured();
@@ -83,20 +82,20 @@ public record Move(Cell startPosition, Cell endPosition, MoveType moveType, int 
         }
     }
 
-    private void handlePlanetCaptureAttempt(final Player player,final Fleet fleet,final Fleet enemyFleet) {
-            int enemyFleetPower;
+    private void handlePlanetCaptureAttempt(final Player player, final Fleet fleet, final Fleet enemyFleet) {
+        int enemyFleetPower;
         if (enemyFleet != null && endPosition.planet.isCaptured()) { // выше проверяется на null
             enemyFleetPower = enemyFleet.getFleetPower();
         } else {
             enemyFleetPower = 0;
         }
         if (ValidationMove.isCapturePlanet(fleet.getFleetPower(), endPosition.planet.points + enemyFleetPower)) {
-                capturePlanet(player, endPosition.planet);
+            capturePlanet(player, endPosition.planet);
 
         }
     }
 
-    private void engageInCombat(final Player player,final Fleet fleet,final Fleet enemyFleet) {
+    private void engageInCombat(final Player player, final Fleet fleet, final Fleet enemyFleet) {
         fleet.fleetsClash(enemyFleet, player, enemyFleet.getOwner());
         if (player.getFleetList().contains(fleet)) {
             clearFleetFromPosition(endPosition);
@@ -105,7 +104,7 @@ public record Move(Cell startPosition, Cell endPosition, MoveType moveType, int 
         }
     }
 
-    private void moveFleetToPosition(final Fleet fleet,final Cell targetPosition) {
+    private void moveFleetToPosition(final Fleet fleet, final Cell targetPosition) {
         setFleetOnPosition(targetPosition, fleet);
         clearFleetFromPosition(startPosition);
     }
@@ -145,7 +144,7 @@ public record Move(Cell startPosition, Cell endPosition, MoveType moveType, int 
     @Override
     public String toString() {
         if (startPosition != null && endPosition != null) {
-            return "Start position = " + startPosition.toString() + " end position = " + endPosition.toString();
+            return "start position = [" + Character.toString(startPosition.x + 'A') + ", " + startPosition.y + "] end position = [" + Character.toString(endPosition.x + 'A') + ", " + endPosition.y + "] - " + moveType;
         } else {
             return "Empty Move";
         }

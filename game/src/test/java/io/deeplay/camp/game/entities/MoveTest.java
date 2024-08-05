@@ -29,7 +29,7 @@ class MoveTest {
 
     @Test
     public void testToString() {
-        String expectedString = "Start position = [1, 1] end position = [5, 5]";
+        String expectedString = "start position = [B, 1] end position = [F, 5] - ORDINARY";
         assertEquals(expectedString, move.toString());
     }
 
@@ -53,7 +53,7 @@ class MoveTest {
 
     @Test
     void testToString1() {
-        assertEquals("Start position = [0, 0] end position = [1, 1]", moveOrdinary.toString());
+        assertEquals("start position = [A, 0] end position = [B, 1] - ORDINARY", moveOrdinary.toString());
     }
 
     @Test
@@ -171,6 +171,7 @@ class MoveTest {
             assertTrue(player.controlledPlanet.contains(field.getBoard()[3][2].planet));
         }
     }
+
     @Test
     void testAttackPlanet() {
         Player player = new Player(0, "0");
