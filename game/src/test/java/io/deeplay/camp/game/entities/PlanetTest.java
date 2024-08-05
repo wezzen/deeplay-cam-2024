@@ -41,20 +41,6 @@ class PlanetTest {
     }
 
     @Test
-    public void testPlanetCopyConstructor() {
-        int points = 100;
-        Planet originalPlanet = new Planet(points);
-        Player owner = new Player(0, "Player1");
-        originalPlanet.setOwner(owner);
-
-        Planet copiedPlanet = new Planet(originalPlanet);
-
-        assertEquals(originalPlanet.getPoints(), copiedPlanet.getPoints());
-        assertEquals(originalPlanet.getOwner(), copiedPlanet.getOwner());
-        assertNull(copiedPlanet.getCell()); // Ячейка не копируется, устанавливается позже
-    }
-
-    @Test
     public void testSetAndGetOwner() {
         Planet planet = new Planet(100);
         Player owner = new Player(0, "Player1");

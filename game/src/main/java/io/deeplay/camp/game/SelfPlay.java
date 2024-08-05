@@ -35,8 +35,8 @@ public class SelfPlay implements GalaxyListener {
         List<Ship.ShipType> startShips = new ArrayList<>();
         startShips.add(Ship.ShipType.BASIC);
 
-        players[0] = factories[0].createBot(playerNames[0], game.getField());
-        players[1] = factories[1].createBot(playerNames[1], game.getField());
+        players[0] = factories[0].createBot(playerNames[0], new Game(new Field(field)).getField());
+        players[1] = factories[1].createBot(playerNames[1], new Game(new Field(field)).getField());
         playerNamesMap.put(playerNames[0], players[0]);
         playerNamesMap.put(playerNames[1], players[1]);
 
@@ -50,10 +50,8 @@ public class SelfPlay implements GalaxyListener {
         connectingPlayer(playerNames[1]);
         gameStarted(field);
 
-
         createShips(startShips, playerNames[0]);
         createShips(startShips, playerNames[1]);
-
 
         while (!game.isGameOver() && skipCounter < 4) {
             final String nextPlayerToAct = game.getNextPlayerToAct();
