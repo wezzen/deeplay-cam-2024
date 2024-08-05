@@ -3,6 +3,7 @@ package io.deeplay.camp.view.GUI;
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import io.deeplay.camp.game.domain.GameTypes;
 import io.deeplay.camp.game.entites.Field;
+import io.deeplay.camp.game.entites.Game;
 import io.deeplay.camp.game.entites.Move;
 import io.deeplay.camp.game.entites.Ship;
 import io.deeplay.camp.view.GameUI;
@@ -13,28 +14,26 @@ import java.util.List;
 public class GUI implements GameUI {
     private MainFrame mainFrame;
 
+    Game game;
+
     public GUI() {
-        try {
-            UIManager.setLookAndFeel(new FlatIntelliJLaf());
-        } catch (UnsupportedLookAndFeelException e) {
-            e.printStackTrace();
-        }
         mainFrame = new MainFrame();
         mainFrame.setVisible(true);
     }
 
     @Override
     public void startGameSession(String gameId, GameTypes gameType) {
-
+        game.startGameSession(gameId, gameType);
     }
 
     @Override
     public void connectingPlayer(String waitingPlayerName) {
-
+        game.connectingPlayer(waitingPlayerName);
     }
 
     @Override
     public void gameStarted(Field field) {
+        game.gameStarted(field);
         mainFrame.setField(field);
         mainFrame.getGamePanel().repaint();
         mainFrame.repaint();
@@ -42,22 +41,22 @@ public class GUI implements GameUI {
 
     @Override
     public void getPlayerAction(Move move, String playerName) {
-
+        game.getPlayerAction(move, playerName);
     }
 
     @Override
     public void createShips(List<Ship.ShipType> ships, String playerName) {
-
+        game.createShips(ships, playerName);
     }
 
     @Override
     public void gameEnded(String winner) {
-
+        game.gameEnded(winner);
     }
 
     @Override
     public void endGameSession() {
-
+        game.endGameSession();
     }
 
     @Override
