@@ -29,6 +29,7 @@ class MoveTest {
 
     @Test
     public void testToString() {
+
         String expectedString = "start position = [B, 1] end position = [F, 5] cost = 5 type = ORDINARY";
         assertEquals(expectedString, move.toString());
     }
