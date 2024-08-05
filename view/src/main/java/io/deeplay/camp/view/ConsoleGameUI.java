@@ -3,6 +3,7 @@ package io.deeplay.camp.view;
 import io.deeplay.camp.game.domain.GameTypes;
 import io.deeplay.camp.game.entites.Field;
 import io.deeplay.camp.game.entites.Move;
+import io.deeplay.camp.game.entites.Ship;
 import io.deeplay.camp.game.utils.ConvertorFieldToString;
 
 import java.util.List;
@@ -11,7 +12,8 @@ public class ConsoleGameUI implements GameUI {
     private static final String ANSI_RESET = "\u001B[0m";
     private static final String ANSI_BLUE = "\u001b[48;5;17m";
     public static final String ANSI_YELLOW = "\u001B[33m";
-
+    public static final int MIN_FIELD = 5;
+    public static final int MAX_FIELD = 20;
     public static final String STAR = ANSI_YELLOW + "★" + ANSI_RESET;
     private static final String border = "*".repeat(51);
 
@@ -28,7 +30,6 @@ public class ConsoleGameUI implements GameUI {
         System.out.println("Press Enter to start...");
     }
 
-    // Возможно надо будет переделывать
     public void showRulesGame() {
         System.out.println(border);
         System.out.println(" ".repeat(9) + "Это ваша инструкция по игре.\n");
@@ -47,6 +48,12 @@ public class ConsoleGameUI implements GameUI {
         System.out.println(border);
     }
 
+    public void showInfoForMove() {
+        System.out.println("Выберите вариант хода\n1 - атака, 2 - перемещение, 3 - разгруппировка и группировка флота, 4 - информация о флоте");
+        System.out.println("Введите число и нажмите Enter");
+    }
+
+    @Override
     public void registrationUser() {
         System.out.println("Для регистрации в игре введите свой логин и нажмите Enter");
     }
@@ -54,7 +61,6 @@ public class ConsoleGameUI implements GameUI {
     @Override
     public void createGameSession(String username) {
         System.out.println("Игровая сессия создана для пользователя: " + username);
-
     }
 
     @Override
@@ -62,16 +68,16 @@ public class ConsoleGameUI implements GameUI {
         System.out.println("Выберете цвет кораблей:\n");
         System.out.println(STAR + "Красный - 1");
         System.out.println(STAR + "Синий - 2");
-
+        System.out.println(STAR + "Случайный - 3");
+        System.out.println("Введите число и нажмите Enter");
     }
 
     @Override
     public void startGameSession(String gameId, GameTypes gameType) {
         System.out.println("Создана игровая комната №" + gameId);
         System.out.println("На галактической арене " + gameType);
-        System.out.println("Выбери размер игрового поля в диапазоне от  до "); // ограничить размер карты?
-
-
+        System.out.println("Выбери размер игрового поля в диапазоне от " + MIN_FIELD + " до " + MAX_FIELD);
+        System.out.println("Введите число и нажмите Enter");
     }
 
     @Override
@@ -83,17 +89,32 @@ public class ConsoleGameUI implements GameUI {
     public void gameStarted(Field field) {
         System.out.println(border);
         System.out.println("Запускается путешествие по галактике...");
+        System.out.println("Игровое поле");
         renderGameField(field);
         System.out.println(border);
     }
 
+    // переделать
     @Override
     public void getPlayerAction(Move move, String playerName) {
-        if (move.moveType() == Move.MoveType.ORDINARY)
-            System.out.println(playerName + " переместился " + move);
-        else
-            System.out.println(playerName + " атаковал " + move);
-        System.out.println(move);
+        System.out.println(border);
+        System.out.println("Выберите действие:");
+        System.out.println("Чтобы сделать ход введите - 1");
+        System.out.println("Чтобы пропустить ход введите - 2");
+        System.out.println(border);
+    }
+
+    @Override
+    public void addCredits() {
+        System.out.println("Игрокам начислены очки хода");
+    }
+
+    @Override
+    public void createShips(List<Ship.ShipType> ships, String playerName) {
+        System.out.println(playerName + " создал " + ships.size() + " кораблей");
+        for (Ship.ShipType ship : ships) {
+            System.out.println("Корабль: " + ship);
+        }
     }
 
     @Override
@@ -104,11 +125,9 @@ public class ConsoleGameUI implements GameUI {
 
     @Override
     public void suggestMoveOptions(List<Move> moves) {
-        // todo добавить метод, который будет показывать на игровом поле доступные варианты
-    }
-
-    @Override
-    public void gameStateUpdate() {
+        int count = 1;
+        moves.forEach(move -> System.out.println(count + ". " + move));
+        System.out.println("Введи номер подходящего хода");
     }
 
     @Override
