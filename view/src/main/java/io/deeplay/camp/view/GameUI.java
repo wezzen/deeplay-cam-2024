@@ -11,9 +11,13 @@ public interface GameUI extends GalaxyListener {
      */
     void createGameSession(String username);
     /**
+     *  Регистрация пользователя
+     */
+    void registrationUser();
+    /**
      * Метод для выбора цвета кораблей
      */
-    void selectShipColor(String color);
+    void selectShipColor();
     /**
      * Метод для отрисовки игрового поля
      */
@@ -22,8 +26,4 @@ public interface GameUI extends GalaxyListener {
      * Метод, который будет предлагать варианты хода
      */
     void suggestMoveOptions(List<Move> moves);
-    /**
-     * Метод для обновления состояния игры
-     */
-    void gameStateUpdate();
 }
