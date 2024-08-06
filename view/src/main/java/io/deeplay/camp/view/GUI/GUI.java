@@ -16,7 +16,8 @@ public class GUI implements GameUI {
 
     Game game;
 
-    public GUI() {
+    public GUI(Field field) {
+        game = new Game(field);
         mainFrame = new MainFrame();
         mainFrame.setVisible(true);
     }
@@ -33,6 +34,7 @@ public class GUI implements GameUI {
 
     @Override
     public void gameStarted(Field field) {
+//        game = new Game(field);
         game.gameStarted(field);
         mainFrame.setField(field);
         mainFrame.getGamePanel().repaint();
@@ -42,6 +44,14 @@ public class GUI implements GameUI {
     @Override
     public void getPlayerAction(Move move, String playerName) {
         game.getPlayerAction(move, playerName);
+        mainFrame.getGamePanel().setField(game.getField());
+        mainFrame.repaint();
+        
+    }
+
+    @Override
+    public void addCredits() {
+        game.addCredits();
     }
 
     @Override
