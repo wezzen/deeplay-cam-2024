@@ -144,7 +144,7 @@ public record Move(Cell startPosition, Cell endPosition, MoveType moveType, int 
     @Override
     public String toString() {
         if (startPosition != null && endPosition != null) {
-            return "start position = [" + Character.toString(startPosition.x + 'A') + ", " + startPosition.y + "] end position = [" + Character.toString(endPosition.x + 'A') + ", " + endPosition.y + "] - " + moveType;
+            return "start position = [" + Character.toString(startPosition.x + 'A') + ", " + startPosition.y + "] end position = [" + Character.toString(endPosition.x + 'A') + ", " + endPosition.y + "] " + "cost = " + cost + " type = " + moveType;
         } else {
             return "Empty Move";
         }
