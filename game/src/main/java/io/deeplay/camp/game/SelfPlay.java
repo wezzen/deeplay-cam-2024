@@ -1,13 +1,16 @@
 package io.deeplay.camp.game;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import io.deeplay.camp.game.bots.Bot;
 import io.deeplay.camp.game.domain.GalaxyListener;
 import io.deeplay.camp.game.domain.GameTypes;
 import io.deeplay.camp.game.entites.*;
 import io.deeplay.camp.game.interfaces.PlayerInterface;
 import io.deeplay.camp.game.utils.GameLogger;
-
-import java.util.*;
 
 public class SelfPlay implements GalaxyListener {
 
@@ -39,8 +42,8 @@ public class SelfPlay implements GalaxyListener {
         List<Ship.ShipType> startShips = new ArrayList<>();
         startShips.add(Ship.ShipType.BASIC);
 
-        players[0] = factories[0].createBot(playerNames[0], new Game(new Field(field)).getField());
-        players[1] = factories[1].createBot(playerNames[1], new Game(new Field(field)).getField());
+        players[0] = factories[0].createBot(playerNames[0], field);
+        players[1] = factories[1].createBot(playerNames[1], field);
         playerNamesMap.put(playerNames[0], players[0]);
         playerNamesMap.put(playerNames[1], players[1]);
 
@@ -59,9 +62,11 @@ public class SelfPlay implements GalaxyListener {
 
         while (!game.isGameOver() && skipCounter < 4) {
             final String nextPlayerToAct = game.getNextPlayerToAct();
+            currentInitiator = playerNamesMap.get(nextPlayerToAct);
             final PlayerInterface player = playerNamesMap.computeIfAbsent(nextPlayerToAct, (key) -> {
                 throw new IllegalStateException("There is no player with name " + key);
             });
+
             final Answer answer = player.getAnswer(game.getField());
 
             if (answer.getMove().moveType() == Move.MoveType.SKIP) {
@@ -97,9 +102,13 @@ public class SelfPlay implements GalaxyListener {
 
     @Override
     public void gameStarted(final Field field) {
+
         for (final GalaxyListener listener : listeners) {
-            listener.gameStarted(field);
-        }
+            //if (listener != currentInitiator) {
+                listener.gameStarted(new Field(field));
+            }
+        //}
+        //currentInitiator = null; // Сбрасываем инициатора после вызова
     }
 
     @Override

@@ -50,6 +50,22 @@ public class Fleet extends GalaxyEntity {
         fleetPosition.setFleet(this);
     }
 
+    // Конструктор копирования
+    public Fleet(final Fleet other) {
+        super();
+        this.shipList = new ArrayList<>();
+        for (Ship ship : other.shipList) {
+            Ship newShip = new Ship(ship); // Используем конструктор копирования для Ship
+            newShip.setFleetAffiliation(this);
+        }
+        this.fleetPosition = other.fleetPosition; // Предполагаем, что Cell является неизменяемым объектом или копируем его соответствующим образом
+        this.fleetPower = other.fleetPower;
+        this.owner = other.owner; // Предполагаем, что Player является неизменяемым объектом или копируем его соответствующим образом
+        this.fleetMoves = new ArrayList<>(other.fleetMoves); // Предполагаем, что Move является неизменяемым объектом или копируем его соответствующим образом
+        owner.addFleet(this);
+        fleetPosition.setFleet(this);
+    }
+
 
     public boolean checkShipExist(final Ship checkedShip) {
         for (Ship ship : shipList) {

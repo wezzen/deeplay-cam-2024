@@ -181,4 +181,61 @@ class ShipTest {
         assertTrue(fleet2.getShipList().contains(mediumShipFleet2), "Fleet2 should contain mediumShipFleet2.");
         assertTrue(fleet2.getShipList().contains(powerfulShipFleet2), "Fleet2 should contain powerfulShipFleet2.");
     }
+
+    @Test
+    void testCopyConstructor() {
+        // Arrange
+        Player test = new Player(0, "test");
+        Cell position = new Cell(0,0);
+        Fleet fleet = new Fleet(position, test);
+
+        Ship originalShip = new Ship(Ship.ShipType.BASIC, fleet);
+
+        // Act
+        Ship copiedShip = new Ship(originalShip);
+
+        // Assert
+        assertEquals(originalShip.getShipType(), copiedShip.getShipType());
+        assertNull(copiedShip.fleetAffiliation(), "Fleet affiliation should be null for copied ship");
+    }
+
+    @Test
+    void testConstructorWithShipTypeAndFleet() {
+        // Arrange
+        Ship.ShipType type = Ship.ShipType.MEDIUM;
+        Player test = new Player(0, "test");
+        Cell position = new Cell(0,0);
+        Fleet fleet = new Fleet(position, test);
+
+        // Act
+        Ship ship = new Ship(type, fleet);
+
+        // Assert
+        assertEquals(type, ship.getShipType());
+        assertNotNull(ship.fleetAffiliation(), "Fleet affiliation should not be null");
+        assertTrue(fleet.getShipList().contains(ship), "Fleet should contain the ship");
+    }
+
+    @Test
+    void testSetFleetAffiliation1() {
+        // Arrange
+        Player test = new Player(0, "test");
+        Cell position = new Cell(0,0);
+        Fleet initialFleet = new Fleet(position, test);
+        Fleet newFleetCopy = new Fleet(initialFleet);
+        Ship ship = new Ship(Ship.ShipType.POWERFUL, initialFleet);
+        Ship shipCopy = new Ship(ship);
+
+        shipCopy.setFleetAffiliation(newFleetCopy);
+
+        assertNotNull(ship.fleetAffiliation(), "Fleet affiliation should not be null");
+        assertNotNull(shipCopy.fleetAffiliation(), "Fleet affiliation should not be null");
+        assertTrue(newFleetCopy.getShipList().contains(shipCopy), "New fleet should contain the ship");
+        assertFalse(newFleetCopy.getShipList().contains(ship), "New fleet should not contain the ship");
+        assertTrue(initialFleet.getShipList().contains(ship), "Initial fleet should not contain the ship");
+        assertFalse(initialFleet.getShipList().contains(shipCopy), "Initial fleet should not contain the ship");
+        assertNotEquals(ship, shipCopy);
+        assertNotEquals(initialFleet, newFleetCopy);
+    }
+
 }
