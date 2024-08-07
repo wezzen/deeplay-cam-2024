@@ -16,7 +16,7 @@ import io.deeplay.camp.game.utils.ValidationMove;
  */
 public abstract class Bot implements PlayerInterface {
 
-    protected final String name;
+    public final String name;
     /**
      * В классе есть только экземпляр класса Game
      * aka контроллер
@@ -78,7 +78,16 @@ public abstract class Bot implements PlayerInterface {
      * @throws IllegalStateException    если ход выполняется не в очереди игрока или если ход недопустим.
      */
     @Override
-    public void getPlayerAction(final Move move, final String playerName) {
+    public void getPlayerAction(final Move move_, final String playerName) {
+
+        final Move move;
+        if (move_.moveType() != Move.MoveType.SKIP) {
+            Cell[][] b = game.getField().getBoard();
+            move = new Move(b[move_.startPosition().x][move_.startPosition().y], b[move_.endPosition().x][move_.endPosition().y], move_.moveType, move_.cost());
+        } else {
+            move = move_;
+        }
+
         // Проверка наличия игрока
         if (!game.getPlayerNames().containsKey(playerName)) {
             throw new IllegalArgumentException("Отсутствует игрок: " + playerName);
