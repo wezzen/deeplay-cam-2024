@@ -7,7 +7,11 @@ import io.deeplay.camp.game.entites.*;
 import io.deeplay.camp.game.interfaces.PlayerInterface;
 import io.deeplay.camp.game.utils.GameLogger;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.*;
 
 public class SelfPlay implements GalaxyListener {
 
@@ -17,6 +21,8 @@ public class SelfPlay implements GalaxyListener {
     private final PlayerInterface[] players = new PlayerInterface[2];
     private final Map<String, PlayerInterface> playerNamesMap;
     private final List<GalaxyListener> listeners;
+    private final ExecutorService executor;
+    private String winner;
 
     public SelfPlay(final int sizeField, final String[] playerNames, final Bot.BotFactory[] factories) {
         this.factories = factories;
@@ -24,6 +30,7 @@ public class SelfPlay implements GalaxyListener {
         this.playerNames = playerNames;
         listeners = new ArrayList<>();
         playerNamesMap = new HashMap<>();
+        executor = Executors.newCachedThreadPool();
     }
 
     public void playGame() {
@@ -76,7 +83,11 @@ public class SelfPlay implements GalaxyListener {
             moveCounter++;
             if (moveCounter % 6 == 0) addCredits();
         }
-        String winner = game.isWinner();
+
+        if (winner == null) {
+            winner = game.isWinner();
+        }
+
         gameEnded(winner);
         endGameSession();
     }
@@ -105,7 +116,21 @@ public class SelfPlay implements GalaxyListener {
     @Override
     public void getPlayerAction(final Move move, final String playerName) {
         for (final GalaxyListener listener : listeners) {
-            listener.getPlayerAction(move, playerName);
+            CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
+                listener.getPlayerAction(move, playerName);
+            }, executor);
+            try {
+                future.get(5, TimeUnit.SECONDS);
+            } catch (TimeoutException ex) {
+                if (playerName.equals(playerNames[0])) {
+                    winner = playerNames[1];
+                } else {
+                    winner = playerNames[0];
+                }
+                return;
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
         }
     }
 
