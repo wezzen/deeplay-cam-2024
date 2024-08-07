@@ -3,7 +3,6 @@ package io.deeplay.camp.game.bots;
 import io.deeplay.camp.game.domain.GameTypes;
 import io.deeplay.camp.game.entites.*;
 import io.deeplay.camp.game.interfaces.PlayerInterface;
-import io.deeplay.camp.game.utils.PointsCalculator;
 import io.deeplay.camp.game.utils.ValidationMove;
 
 import java.util.List;
@@ -16,7 +15,6 @@ import java.util.List;
  * совершать боту ходы.
  */
 public abstract class Bot implements PlayerInterface {
-    private static final int NUM_PLAYERS = 2;
 
     protected final String name;
     /**
@@ -26,7 +24,7 @@ public abstract class Bot implements PlayerInterface {
     protected final Game game;
 
     protected Bot(final String name, final Field field) {
-        this.game = new Game(field);
+        this.game = new Game(new Field(field));
         this.name = name;
     }
 
@@ -87,52 +85,26 @@ public abstract class Bot implements PlayerInterface {
         }
 
         // Проверка, что текущий ход принадлежит правильному игроку
-        /*if (!playerName.equals(game.getNextPlayerToAct())) {
+        if (!playerName.equals(game.getNextPlayerToAct())) {
             throw new IllegalStateException("Сейчас не ход игрока: " + playerName);
-        }*/
-
-        // Получаем игрока
-        Player player = game.getPlayerNames().get(playerName);
-
-        // Подсчет очков для хода
-        int cost = PointsCalculator.costMovement(move);
+        }
 
         //Проверка принятого хода на валидность
-        /*boolean isValidMove = false;
+        boolean isValidMove;
         if (move.moveType() == Move.MoveType.ORDINARY) {
-            isValidMove = ValidationMove.isValidOrdinaryMove(move, game.getField(), player);
+            isValidMove = ValidationMove.isValidOrdinaryMove(move, game.getField(), game.getPlayerByName(playerName));
         } else if (move.moveType() == Move.MoveType.CAPTURE) {
-            isValidMove = ValidationMove.isValidCaptureMove(move, player);
+            isValidMove = ValidationMove.isValidCaptureMove(move, game.getPlayerByName(playerName));
         } else if (move.moveType() == Move.MoveType.SKIP) {
             isValidMove = true;
         } else {
             throw new IllegalArgumentException("Нет такого типа хода!");
         }
 
-        if (!isValidMove) {
-            throw new IllegalStateException("Недопустимый ход: " + move);
-        }*/
-
-        // Исполнение хода
-       /* if (move.moveType() == Move.MoveType.ORDINARY) {
-            game.getPlayerAction(move, playerName);
-            //move.makeMove(player);
-        } else if (move.moveType() == Move.MoveType.CAPTURE) {
-            game.getPlayerAction(move, playerName);
-            //move.makeAttack(player);
-        }*/
-
+        if (!isValidMove) throw new IllegalArgumentException("Такой ход не валиден!!!");
         game.getPlayerAction(move, playerName);
-
-        // Добавляем ход в список всех ходов
-        game.getAllGameMoves().add(move);
-
-        // Обновляем очки игрока
-        player.decreaseTotalGamePoints(cost);
-
-        // Переход хода к следующему игроку
-        game.switchPlayerToAct();
     }
+
 
     @Override
     public void gameEnded(final String winner) {
@@ -158,3 +130,4 @@ public abstract class Bot implements PlayerInterface {
         public abstract Bot createBot(final String name, final Field field);
     }
 }
+

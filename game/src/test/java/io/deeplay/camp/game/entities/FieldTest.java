@@ -98,4 +98,40 @@ class FieldTest {
         // Изменение владельца планеты
         field.getPlanets().get(0).setOwner(player2);
     }
+
+    @Test
+    void testChangesField() {
+        Field originalField = new Field(4);
+        Field copiedField = new Field(originalField);
+
+
+        // Проверка, что размеры полей совпадают
+        assertEquals(originalField.getSize(), copiedField.getSize());
+
+        // Проверка, что клетки совпадают по значениям, но являются разными объектами
+        for (int i = 0; i < originalField.getSize(); i++) {
+            for (int j = 0; j < originalField.getSize(); j++) {
+                Cell originalCell = originalField.getBoard()[i][j];
+                Cell copiedCell = copiedField.getBoard()[i][j];
+
+                assertNotSame(originalCell, copiedCell);
+                assertEquals(originalCell.x, copiedCell.x);
+                assertEquals(originalCell.y, copiedCell.y);
+
+                Planet originalPlanet = originalCell.getPlanet();
+                Planet copiedPlanet = copiedCell.getPlanet();
+
+                if (originalPlanet != null) {
+                    assertNotSame(originalPlanet, copiedPlanet);
+                    assertEquals(originalPlanet.getPoints(), copiedPlanet.getPoints());
+                    assertEquals(originalPlanet.getOwner(), copiedPlanet.getOwner());
+                    assertNotSame(originalPlanet.getCell(), copiedPlanet.getCell());
+                } else {
+                    assertNull(copiedPlanet);
+                }
+            }
+        }
+
+
+    }
 }

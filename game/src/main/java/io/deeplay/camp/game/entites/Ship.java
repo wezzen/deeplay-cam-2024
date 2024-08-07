@@ -29,6 +29,22 @@ public class Ship extends GalaxyEntity {
         setFleetAffiliation(fleetAffiliation);
     }
 
+
+
+    // Конструктор копирования с использованием make-or-create pattern
+    // Для глубокого копирования класса Game всем gameListener сущностям
+    public Ship(final Ship other) {
+        this(other.shipType); // Используем другой конструктор для инициализации shipType
+        // Fleet affiliation не копируется автоматически, можно назначить потом
+    }
+
+    // Альтернативный конструктор, использующий default affiliation (null)
+    private Ship(final ShipType shipType) {
+        super();
+        this.shipType = shipType;
+        this.fleetAffiliation = null; // Позволяет установить флот потом
+    }
+
     public ShipType getShipType() {
         return shipType;
     }
