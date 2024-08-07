@@ -117,7 +117,15 @@ public class Game implements GalaxyListener {
      *                                  В конце, из очков текущего игрока вычитается стоимость хода.
      */
     @Override
-    public void getPlayerAction(Move move, String playerName) {
+    public void getPlayerAction(Move move_, String playerName) {
+        final Move move;
+        if (move_.moveType() != Move.MoveType.SKIP) {
+            Cell[][] b = field.getBoard();
+            move = new Move(b[move_.startPosition().x][move_.startPosition().y], b[move_.endPosition().x][move_.endPosition().y], move_.moveType, move_.cost());
+        } else {
+            move = move_;
+        }
+
         if (!playerNames.containsKey(playerName)) {
             throw new IllegalArgumentException("Отсутствует игрок:" + playerName);
         }
