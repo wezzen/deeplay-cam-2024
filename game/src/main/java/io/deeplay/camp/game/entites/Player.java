@@ -58,7 +58,7 @@ public class Player {
     }
 
     public void addTotalGamePoints() {
-        totalGamePoints += 30 + getCurrentGamePoints();
+        totalGamePoints += 50 + getCurrentGamePoints();
     }
 
     /**

@@ -48,7 +48,7 @@ public class RandomBot extends Bot {
         if (move.moveType() == Move.MoveType.ORDINARY) {
             move.makeMove(player);
         } else if (move.moveType() == Move.MoveType.CAPTURE) {
-            move.makeAttack(player);
+//            move.makeAttack(player);
         } else {
             throw new IllegalArgumentException("Нет такого типа хода!");
         }

@@ -21,11 +21,6 @@ class ValidationMoveTest {
         return new Move(start, end, Move.MoveType.ORDINARY, cost);
     }
 
-    private Move createAttack(Cell start, Cell end, int cost) {
-        return new Move(start, end, Move.MoveType.CAPTURE, cost);
-    }
-
-
     private void setFleetAt(Cell cell) {
         Fleet fleet = new Fleet(cell, player);
         cell.setFleet(fleet);
@@ -63,44 +58,6 @@ class ValidationMoveTest {
         Move move = createMove(field.getBoard()[0][0], field.getBoard()[2][2], 100);
         setFleetAt(field.getBoard()[0][0]);
         assertFalse(ValidationMove.isValidOrdinaryMove(move, field, player));
-    }
-
-    @Test
-    void testValidCaptureMove() {
-        Move move = createAttack(field.getBoard()[0][0], field.getBoard()[2][2], 10);
-        setFleetAt(field.getBoard()[0][0]);
-        Fleet fleet = new Fleet(field.getBoard()[2][2], new Player(1, "1"));
-        field.getBoard()[2][2].setFleet(fleet);
-        assertTrue(ValidationMove.isValidCaptureMove(move, player));
-    }
-
-    @Test
-    void testInvalidCaptureMove1() {
-        Move move = createAttack(field.getBoard()[0][0], field.getBoard()[2][2], 10);
-        setFleetAt(field.getBoard()[0][0]);
-        setFleetAt(field.getBoard()[2][2]);
-        if (field.getBoard()[2][2].planet == null)
-            assertFalse(ValidationMove.isValidCaptureMove(move, player)); // на конечной точке флот атакующего игрока
-        else assertTrue(ValidationMove.isValidCaptureMove(move, player));
-
-    }
-
-    @Test
-    void testInvalidCaptureMove2() {
-        Move move = createMove(field.getBoard()[0][0], field.getBoard()[2][2], 10); // неправильный тип хода
-        setFleetAt(field.getBoard()[0][0]);
-        Fleet fleet = new Fleet(field.getBoard()[2][2], new Player(1, "1"));
-        field.getBoard()[2][2].setFleet(fleet);
-        assertFalse(ValidationMove.isValidCaptureMove(move, player));
-    }
-
-    @Test
-    void testInvalidCaptureMove3() {
-        Move move = createAttack(field.getBoard()[0][0], field.getBoard()[0][0], 0);
-        setFleetAt(field.getBoard()[0][0]);
-        Fleet fleet = new Fleet(field.getBoard()[0][0], new Player(1, "1"));
-        field.getBoard()[0][0].setFleet(fleet);
-        assertFalse(ValidationMove.isValidCaptureMove(move, player)); // игрок атакует сам себя
     }
 
     @Test

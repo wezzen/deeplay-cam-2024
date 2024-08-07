@@ -36,19 +36,13 @@ public class RandomBotTest {
     @Test
     public void testGetMove() {
         Move move1 = new Move(field.getBoard()[0][0], field.getBoard()[0][1], Move.MoveType.ORDINARY, DIRECT_COST + 1);
-        Move move1_ = new Move(field.getBoard()[0][0], field.getBoard()[0][1], Move.MoveType.CAPTURE, DIRECT_COST);
         Move move2 = new Move(field.getBoard()[0][0], field.getBoard()[1][0], Move.MoveType.ORDINARY, DIRECT_COST + 1);
-        Move move2_ = new Move(field.getBoard()[0][0], field.getBoard()[1][0], Move.MoveType.CAPTURE, DIRECT_COST);
         Move move3 = new Move(field.getBoard()[0][0], field.getBoard()[1][1], Move.MoveType.ORDINARY, DIAGONAL_COST + 1);
-        Move move3_ = new Move(field.getBoard()[0][0], field.getBoard()[1][1], Move.MoveType.CAPTURE, DIAGONAL_COST);
 
         List<Move> moves = new ArrayList<>();
         moves.add(move1);
         moves.add(move2);
         moves.add(move3);
-        moves.add(move1_);
-        moves.add(move2_);
-        moves.add(move3_);
 
         Answer result = randomBot.getAnswer(field);
 

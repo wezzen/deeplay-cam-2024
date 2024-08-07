@@ -187,13 +187,13 @@ class FleetTest {
         // Проверяем, что победивший флот остался в списке флотов победившего игрока
         assertTrue(player.getFleetList().contains(fleet));
     }
-//    @Test
-//    void testAddFleetMoves() {
-//        Field field = new Field(5);
-//        Fleet currentFleet = new Fleet(field.getBoard()[2][2], player);
-//        currentFleet.addFleetMoves(field);
-//        assertEquals(field.getSize() * field.getSize()* 2 - 2, currentFleet.getFleetMoves().size());
-//    }
+    @Test
+    void testAddFleetMoves() {
+        Field field = new Field(5);
+        Fleet currentFleet = new Fleet(field.getBoard()[2][2], player);
+        currentFleet.addFleetMoves(field);
+        assertEquals(field.getSize() * field.getSize() - 1, currentFleet.getFleetMoves().size());
+    }
     @Test
     void testAddFleetMovesValidMoves() {
         Field field = new Field(5);

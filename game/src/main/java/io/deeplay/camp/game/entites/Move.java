@@ -68,42 +68,6 @@ public record Move(Cell startPosition, Cell endPosition, MoveType moveType, int 
         planet.isCaptured();
     }
 
-    // вход для атаки
-    public void makeAttack(final Player player) {
-        Fleet fleet = startPosition.getFleet();
-        Fleet enemyFleet = endPosition.getFleet();
-
-        if (endPosition.planet != null) {
-            handlePlanetCaptureAttempt(player, fleet, enemyFleet);
-        }
-
-        if (enemyFleet != null && !enemyFleet.getOwner().equals(player)) {
-            engageInCombat(player, fleet, enemyFleet);
-        }
-    }
-
-    private void handlePlanetCaptureAttempt(final Player player, final Fleet fleet, final Fleet enemyFleet) {
-        int enemyFleetPower;
-        if (enemyFleet != null && endPosition.planet.isCaptured()) { // выше проверяется на null
-            enemyFleetPower = enemyFleet.getFleetPower();
-        } else {
-            enemyFleetPower = 0;
-        }
-        if (ValidationMove.isCapturePlanet(fleet.getFleetPower(), endPosition.planet.points + enemyFleetPower)) {
-            capturePlanet(player, endPosition.planet);
-
-        }
-    }
-
-    private void engageInCombat(final Player player, final Fleet fleet, final Fleet enemyFleet) {
-        fleet.fleetsClash(enemyFleet, player, enemyFleet.getOwner());
-        if (player.getFleetList().contains(fleet)) {
-            clearFleetFromPosition(endPosition);
-        } else {
-            clearFleetFromPosition(startPosition);
-        }
-    }
-
     private void moveFleetToPosition(final Fleet fleet, final Cell targetPosition) {
         setFleetOnPosition(targetPosition, fleet);
         clearFleetFromPosition(startPosition);
@@ -144,7 +108,7 @@ public record Move(Cell startPosition, Cell endPosition, MoveType moveType, int 
     @Override
     public String toString() {
         if (startPosition != null && endPosition != null) {
-            return "start position = [" + Character.toString(startPosition.x + 'A') + ", " + startPosition.y + "] end position = [" + Character.toString(endPosition.x + 'A') + ", " + endPosition.y + "] " + "cost = " + cost + " type = " + moveType;
+            return "start position = [" + Character.toString(startPosition.x + 'A') + ", " + startPosition.y + "] end position = [" + Character.toString(endPosition.x + 'A') + ", " + endPosition.y + "] " + "cost = " + cost;
         } else {
             return "Empty Move";
         }

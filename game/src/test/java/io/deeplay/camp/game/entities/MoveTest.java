@@ -29,7 +29,7 @@ class MoveTest {
 
     @Test
     public void testToString() {
-        String expectedString = "start position = [B, 1] end position = [F, 5] cost = 5 type = ORDINARY";
+        String expectedString = "start position = [B, 1] end position = [F, 5] cost = 5";
         assertEquals(expectedString, move.toString());
     }
 
@@ -53,7 +53,7 @@ class MoveTest {
 
     @Test
     void testToString1() {
-        assertEquals("start position = [A, 0] end position = [B, 1] cost = 5 type = ORDINARY", moveOrdinary.toString());
+        assertEquals("start position = [A, 0] end position = [B, 1] cost = 5", moveOrdinary.toString());
     }
 
     @Test
@@ -131,25 +131,6 @@ class MoveTest {
         assertNotNull(field.getBoard()[2][2].getFleet());
         assertFalse(player.getFleetList().contains(fleet1)); // у плеера уже хранится новый флот, состоящий из двух флотов
     }
-
-    @Test
-    void testAttackFleet() {
-        Field field = new Field(10);
-        Move move = new Move(field.getBoard()[1][1], field.getBoard()[3][2], Move.MoveType.CAPTURE, 10);
-        Player player1 = new Player(0, "0");
-        Player player2 = new Player(1, "1");
-        Fleet fleet1 = new Fleet(field.getBoard()[1][1], player1);
-        Fleet fleet2 = new Fleet(field.getBoard()[3][2], player2);
-        field.getBoard()[1][1].setFleet(fleet1);
-        field.getBoard()[3][2].setFleet(fleet2);
-        new Ship(Ship.ShipType.MEDIUM, fleet1);
-        move.makeAttack(player1);
-        assertNull(field.getBoard()[3][2].getFleet()); // у оппонента флот слабее, поэтому он уничтожается
-        assertNotNull(field.getBoard()[1][1].getFleet()); // в отличие от ORDINARY ход CAPTURE флот остается на месте
-        assertFalse(player2.getFleetList().contains(fleet2));
-        assertTrue(player1.getFleetList().contains(fleet1));
-    }
-
     @Test
     void testCapturePlanet() {
         Player player = new Player(0, "0");
@@ -171,24 +152,4 @@ class MoveTest {
             assertTrue(player.controlledPlanet.contains(field.getBoard()[3][2].planet));
         }
     }
-
-    @Test
-    void testAttackPlanet() {
-        Player player = new Player(0, "0");
-        Field field = new Field(5);
-        new Ship(Ship.ShipType.POWERFUL, new Fleet(field.getBoard()[1][1], player));
-        Move move1 = new Move(field.getBoard()[1][1], field.getBoard()[3][2], Move.MoveType.CAPTURE, 10);
-        move1.makeAttack(player);
-        if (field.getBoard()[3][2].planet != null && field.getBoard()[3][2].planet.points <= 200) {
-            assertTrue(field.getBoard()[3][2].planet.isCaptured());
-            assertTrue(player.controlledPlanet.contains(field.getBoard()[3][2].planet));
-        }
-        Move move2 = new Move(field.getBoard()[1][1], field.getBoard()[4][4], Move.MoveType.CAPTURE, 10);
-        move2.makeAttack(player);
-        if (field.getBoard()[3][2].planet != null && field.getBoard()[3][2].planet.points <= 200) {
-            assertTrue(field.getBoard()[3][2].planet.isCaptured());
-            assertTrue(player.controlledPlanet.contains(field.getBoard()[3][2].planet));
-        }
-    }
-
 }
