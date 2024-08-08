@@ -14,33 +14,10 @@ public final class ValidationMove {
                 isOwnerFleet(move, currentPlayer) &&
                 isEnoughPoints(currentPlayer, move);
     }
-
-    public static boolean isValidCaptureMove(final Move move, final Player currentPlayer) {
-        return isFleetPresent(move) &&
-                isOwnerFleet(move, currentPlayer) &&
-                isEnoughPoints(currentPlayer, move) &&
-                isPositionChanged(move) &&
-                isCaptureMove(move) &&
-                (isEnemyFleet(move, currentPlayer) ||
-                        isPlanet(move.endPosition()));
-
-    }
-
-    public static boolean isCheckForList(final Move move, final Player player) {
-        if (move.endPosition().getFleet() != null) {
-            return isEnemyFleet(move, player);
-        } else return isPlanet(move.endPosition());
-    }
-
     // проверка - тип хода соответствует типу перемещения
     private static boolean isOrdinaryMove(final Move move) {
         return move.moveType() == Move.MoveType.ORDINARY;
     }
-
-    private static boolean isCaptureMove(final Move move) {
-        return move.moveType() == Move.MoveType.CAPTURE;
-    }
-
     private static boolean isSkipMove(final Move move) {
         return move.moveType() == Move.MoveType.SKIP;
     }
@@ -57,30 +34,17 @@ public final class ValidationMove {
 
     // проверка - на начальной позиции стоит флот
     public static boolean isFleetPresent(final Move move) {
-        boolean flag = move.startPosition().getFleet() != null;
-        return flag;
-        //return move.startPosition().getFleet() != null;
+        return move.startPosition().getFleet() != null;
     }
 
     // проверка - флот принадлежит игроку, который ходит
     private static boolean isOwnerFleet(final Move move, final Player currentPlayer) {
-        boolean flag = move.startPosition().getFleet().getOwner().getName().equals(currentPlayer.getName());
-        return flag;
-        //return move.startPosition().getFleet().getOwner().getName().equals(currentPlayer.getName());
+        return move.startPosition().getFleet().getOwner().getName().equals(currentPlayer.getName());
     }
 
     // проверка - игроку хватает очков, чтобы совершить ход
     public static boolean isEnoughPoints(Player player, Move move) {
         return player.getTotalGamePoints() - move.cost() >= 0;
-    }
-
-    // проверка - на конечной точке есть флот оппонента
-    private static boolean isEnemyFleet(final Move move, final Player currentPlayer) {
-        return true; //!move.endPosition().getFleet().getOwner().equals(currentPlayer) && move.endPosition().getFleet() != null;
-    }
-
-    private static boolean isPlanet(Cell planetCell) {
-        return planetCell.planet != null;
     }
 
     // проверка - флоту хватает очков для захвата планеты
