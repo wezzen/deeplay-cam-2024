@@ -80,6 +80,9 @@ public class Field {
             return false;
         }
         for (Planet planet : planets) {
+            if (planet.getOwner() == null) {
+                return false;
+            }
             if (!(planet.getOwner().equals(owner))) {
                 return false;
             }

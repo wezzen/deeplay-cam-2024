@@ -1,8 +1,5 @@
 package io.deeplay.camp.game.entites;
 
-import io.deeplay.camp.game.utils.PointsCalculator;
-import io.deeplay.camp.game.utils.ValidationMove;
-
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -60,17 +57,19 @@ public class Player {
         this.totalGamePoints = this.totalGamePoints - totalGamePoints;
     }
 
+    public void addTotalGamePoints() {
+        totalGamePoints += 30 + getCurrentGamePoints();
+    }
+
     /**
      * Метод актуализирует количество очков игрока, пересчитывая их за захваченные планеты
      *
      * @return totalPoints
      */
     public int getCurrentGamePoints() {
-        int totalPoints = 0;
-        for (Planet planet : controlledPlanet) {
-            totalPoints += planet.getPoints();
-        }
-        return totalPoints;
+        return controlledPlanet.stream()
+                .mapToInt(planet -> (int) Math.ceil(planet.getPoints() / 100.0))
+                .sum();
     }
 
     /**

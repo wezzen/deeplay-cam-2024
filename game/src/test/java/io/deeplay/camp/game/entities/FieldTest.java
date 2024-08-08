@@ -41,7 +41,11 @@ class FieldTest {
         assertTrue(field.isGameOver(), "All planets should belong to player1, so the game should be over");
 
         // Change the owner of one planet
-        field.getPlanets().get(0).setOwner(player2);
+        field.getPlanets().get(2).setOwner(player2);
+
+        assertFalse(field.isGameOver(), "Not all planets belong to the same player, so the game should not be over");
+
+        field.getPlanets().get(2).setOwner(null);
 
         assertFalse(field.isGameOver(), "Not all planets belong to the same player, so the game should not be over");
     }
@@ -51,7 +55,7 @@ class FieldTest {
         assertEquals(player1.getName(), field.isWinner());
 
         // Change the owner of one planet
-        field.getPlanets().get(0).setOwner(player2);
+        field.getPlanets().getFirst().setOwner(player2);
 
     }
 }
