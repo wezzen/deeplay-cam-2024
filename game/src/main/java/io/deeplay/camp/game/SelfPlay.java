@@ -17,7 +17,6 @@ public class SelfPlay implements GalaxyListener {
     private final PlayerInterface[] players = new PlayerInterface[2];
     private final Map<String, PlayerInterface> playerNamesMap;
     private final List<GalaxyListener> listeners;
-    private PlayerInterface currentInitiator;
 
     public SelfPlay(final int sizeField, final String[] playerNames, final Bot.BotFactory[] factories) {
         this.factories = factories;
@@ -54,9 +53,10 @@ public class SelfPlay implements GalaxyListener {
         createShips(startShips, playerNames[0]);
         createShips(startShips, playerNames[1]);
 
+
         while (!game.isGameOver() && skipCounter < 4) {
             final String nextPlayerToAct = game.getNextPlayerToAct();
-            currentInitiator = playerNamesMap.get(nextPlayerToAct);
+
             final PlayerInterface player = playerNamesMap.computeIfAbsent(nextPlayerToAct, (key) -> {
                 throw new IllegalStateException("There is no player with name " + key);
             });
@@ -94,13 +94,10 @@ public class SelfPlay implements GalaxyListener {
 
     @Override
     public void gameStarted(final Field field) {
-
         for (final GalaxyListener listener : listeners) {
-            //if (listener != currentInitiator) {
-                listener.gameStarted(new Field(field));
-            }
-        //}
-        //currentInitiator = null; // Сбрасываем инициатора после вызова
+
+            listener.gameStarted(new Field(field));
+        }
     }
 
     @Override
