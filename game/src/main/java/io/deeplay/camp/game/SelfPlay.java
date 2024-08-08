@@ -11,12 +11,12 @@ import java.util.*;
 
 public class SelfPlay implements GalaxyListener {
 
-    private  int sizeField;
-    private  String[] playerNames;
-    private  Bot.BotFactory[] factories;
-    private  PlayerInterface[] players = new PlayerInterface[2];
-    private  Map<String, PlayerInterface> playerNamesMap;
-    private  List<GalaxyListener> listeners;
+    private int sizeField;
+    private String[] playerNames;
+    private Bot.BotFactory[] factories;
+    private PlayerInterface[] players = new PlayerInterface[2];
+    private Map<String, PlayerInterface> playerNamesMap;
+    private List<GalaxyListener> listeners;
 
     public SelfPlay(final int sizeField, final String[] playerNames, final Bot.BotFactory[] factories) {
         this.factories = factories;
@@ -26,10 +26,7 @@ public class SelfPlay implements GalaxyListener {
         playerNamesMap = new HashMap<>();
     }
 
-    public void playGame( final int sizeField, final String[] playerNames, final Bot.BotFactory[] factories ) {
-        this.factories = factories;
-        this.sizeField = sizeField;
-        this.playerNames = playerNames;
+    public void playGame() {
         listeners = new ArrayList<>();
         playerNamesMap = new HashMap<>();
         final Field field = new Field(sizeField);
