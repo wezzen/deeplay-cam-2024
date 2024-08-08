@@ -2,10 +2,11 @@ package io.deeplay.camp.game.bots;
 
 import io.deeplay.camp.game.domain.GameTypes;
 import io.deeplay.camp.game.entites.*;
+import io.deeplay.camp.game.utils.PointsCalculator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -28,8 +29,35 @@ class BotTest {
 
         @Override
         protected Move getMove() {
+            Random random = new Random();
+            List<Move> availableMoves;
             // Возвращаем тестовый ход
-            return new Move(new Cell(0, 0), new Cell(1, 1), Move.MoveType.ORDINARY, 7);
+            final Field field = game.getField();  // Получаем копию поля
+            final Cell[][] board = field.getBoard();
+            final Player player = game.getPlayerByName(name);
+
+            long fleetCount = Arrays.stream(board)
+                    .flatMap(Arrays::stream)
+                    .filter(cell -> cell.getFleet() != null && Objects.equals(cell.getFleet().getOwner().getName(), player.getName())).count();
+            if (fleetCount == 0) {
+                return new Move(null, null, Move.MoveType.SKIP, 0);
+            }
+
+            Cell startCell = Arrays.stream(board)
+                    .flatMap(Arrays::stream)
+                    .filter(cell -> cell.getFleet() != null && Objects.equals(cell.getFleet().getOwner().getName(), player.getName()))
+                    .findFirst()
+                    .orElseThrow(() -> new RuntimeException("Нет клеток с флотом"));
+            startCell.getFleet().addFleetMoves(field);
+
+            availableMoves = startCell.getFleet().getFleetMoves();
+            availableMoves.removeIf(move -> PointsCalculator.costMovement(move) > player.getTotalGamePoints());
+
+            if (availableMoves.isEmpty()) {
+                return new Move(null, null, Move.MoveType.SKIP, 0);
+            }
+
+            return availableMoves.get(random.nextInt(availableMoves.size()));
         }
     }
 
@@ -56,12 +84,11 @@ class BotTest {
 
     @Test
     void testGetPlayerAction_ValidOrdinaryMove() {
+        player = new Player(0, "player1");
         Player player2 = new Player(1, "player2");
-        Fleet fleet = new Fleet(field.getBoard()[0][0], player);
-        Fleet fleet2 = new Fleet(field.getBoard()[0][1], player2);
-        Ship ship = new Ship(Ship.ShipType.BASIC, fleet);
-        Ship ship2 = new Ship(Ship.ShipType.BASIC, fleet2);
-        Move move = new Move(field.getBoard()[0][0], field.getBoard()[1][1], Move.MoveType.ORDINARY, 7);
+
+        List<Ship.ShipType> startShips = new ArrayList<>();
+        startShips.add(Ship.ShipType.BASIC);
 
         game.connectingPlayer(player.getName());
         game.connectingPlayer(player2.getName());
@@ -69,7 +96,16 @@ class BotTest {
         game.getPlayerNames().put(player.getName(), player);
         game.getPlayerNames().put(player2.getName(), player2);
 
-        assertDoesNotThrow(() -> bot.getPlayerAction(move, player.getName()));
+        game.createShips(startShips, player.getName());
+        game.createShips(startShips, player2.getName());
+
+        final Answer answer = bot.getAnswer(game.getField());
+
+        if (answer.getShipList() != null) {
+            game.createShips(answer.getShipList(), game.getNextPlayerToAct());
+        }
+
+        assertDoesNotThrow(() -> bot.getPlayerAction(answer.getMove(), player.getName()));
     }
 
     @Test
@@ -103,13 +139,6 @@ class BotTest {
     @Test
     void testEndGameSession() {
         assertDoesNotThrow(() -> bot.endGameSession());
-    }
-
-    @Test
-    void testGetAnswer() {
-        Answer answer = bot.getAnswer(field);
-        assertNotNull(answer);
-        assertEquals(new Move(new Cell(0, 0), new Cell(1, 1), Move.MoveType.ORDINARY, 7), answer.getMove());
     }
     /*private static class TestBot extends Bot {
         protected TestBot(final String name, final Field field) {
