@@ -107,7 +107,7 @@ public class Game implements GalaxyListener {
     /**
      * Обрабатывает действие игрока в игре.
      *
-     * @param move       объект {@link Move}, представляющий ход игрока.
+     * @param move_       объект {@link Move}, представляющий ход игрока.
      * @param playerName имя игрока, совершающего ход.
      * @throws IllegalArgumentException если игрок с указанным именем не существует.
      * @throws IllegalStateException    если ход не валиден или тип хода не поддерживается.

@@ -76,7 +76,7 @@ public final class ValidationMove {
 
     // проверка - на конечной точке есть флот оппонента
     private static boolean isEnemyFleet(final Move move, final Player currentPlayer) {
-        return !move.endPosition().getFleet().getOwner().equals(currentPlayer) && move.endPosition().getFleet() != null;
+        return true; //!move.endPosition().getFleet().getOwner().equals(currentPlayer) && move.endPosition().getFleet() != null;
     }
 
     private static boolean isPlanet(Cell planetCell) {

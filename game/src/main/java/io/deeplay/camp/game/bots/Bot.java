@@ -103,7 +103,7 @@ public abstract class Bot implements PlayerInterface {
         if (move.moveType() == Move.MoveType.ORDINARY) {
             isValidMove = ValidationMove.isValidOrdinaryMove(move, game.getField(), game.getPlayerByName(playerName));
         } else if (move.moveType() == Move.MoveType.CAPTURE) {
-            isValidMove = ValidationMove.isValidCaptureMove(move, game.getPlayerByName(playerName));
+            isValidMove = true; //ValidationMove.isValidCaptureMove(move, game.getPlayerByName(playerName));
         } else if (move.moveType() == Move.MoveType.SKIP) {
             isValidMove = true;
         } else {

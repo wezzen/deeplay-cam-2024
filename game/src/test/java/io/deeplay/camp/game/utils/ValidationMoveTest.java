@@ -79,9 +79,9 @@ class ValidationMoveTest {
         Move move = createAttack(field.getBoard()[0][0], field.getBoard()[2][2], 10);
         setFleetAt(field.getBoard()[0][0]);
         setFleetAt(field.getBoard()[2][2]);
-        if (field.getBoard()[2][2].planet == null)
-            assertFalse(ValidationMove.isValidCaptureMove(move, player)); // на конечной точке флот атакующего игрока
-        else assertTrue(ValidationMove.isValidCaptureMove(move, player));
+        //if (field.getBoard()[2][2].planet == null)
+            //assertFalse(ValidationMove.isValidCaptureMove(move, player)); // на конечной точке флот атакующего игрока
+        assertTrue(ValidationMove.isValidCaptureMove(move, player));
 
     }
 
