@@ -31,6 +31,25 @@ public class Game implements GalaxyListener {
         this.playerStartPosition = new HashMap<>();
     }
 
+    // Конструктор копирования
+    public Game(Game other) {
+        // Глубокое копирование поля
+        this.field = new Field(other.field);
+
+        // GameTypes — это enum
+        this.gameType = other.gameType;
+        this.id = other.id;
+
+        // Копируем заранее определенные ходы (если они допустимы в новой сессии)
+        this.allGameMoves = new ArrayList<>(other.allGameMoves.size());
+
+        // Копируем информацию об именах игроков и начальных позициях
+        this.playerNames = new HashMap<>(other.playerNames.size());
+        this.playerStartPosition = new HashMap<>(other.playerStartPosition.size());
+
+        // Устанавливаем, какой игрок ходит следующим (начальное состояние)
+        this.nextPlayerToAct = other.nextPlayerToAct;
+    }
 
     public GameTypes getGameType() {
         return gameType;
@@ -78,32 +97,55 @@ public class Game implements GalaxyListener {
 
     @Override
     public void gameStarted(Field field) {
-        this.field.setBoard(field.getBoard());
-        playerStartPosition.put(players[0].getName(), field.getBoard()[0][field.getSize() - 1]);
-        playerStartPosition.put(players[1].getName(), field.getBoard()[field.getSize() - 1][0]);
+        //this.field.setBoard(field.getBoard());
+
+        playerStartPosition.put(players[0].getName(), this.field.getBoard()[0][this.field.getSize() - 1]);
+        playerStartPosition.put(players[1].getName(), this.field.getBoard()[this.field.getSize() - 1][0]);
     }
 
+
+    /**
+     * Обрабатывает действие игрока в игре.
+     *
+     * @param move_       объект {@link Move}, представляющий ход игрока.
+     * @param playerName имя игрока, совершающего ход.
+     * @throws IllegalArgumentException если игрок с указанным именем не существует.
+     * @throws IllegalStateException    если ход не валиден или тип хода не поддерживается.
+     *                                  <p>
+     *                                  Метод проверяет валидность игрока, переключает ход на следующего игрока и обрабатывает ход в зависимости от его типа (ORDINARY, CAPTURE, SKIP).
+     *                                  Если ход валиден, он добавляется в список всех ходов игры и применяется к текущему игроку.
+     *                                  В конце, из очков текущего игрока вычитается стоимость хода.
+     */
     @Override
-    public void getPlayerAction(Move move, String playerName) {
+    public void getPlayerAction(Move move_, String playerName) {
+        final Move move;
+        if (move_.moveType() != Move.MoveType.SKIP) {
+            Cell[][] b = field.getBoard();
+            move = new Move(b[move_.startPosition().x][move_.startPosition().y], b[move_.endPosition().x][move_.endPosition().y], move_.moveType(), move_.cost());
+        } else {
+            move = move_;
+        }
+
         if (!playerNames.containsKey(playerName)) {
             throw new IllegalArgumentException("Отсутствует игрок:" + playerName);
         }
-//        nextPlayerToAct = (nextPlayerToAct + 1) % NUM_PLAYERS;
-        switchPlayerToAct();
-        // подсчет очков для хода возможно надо будет убрать, потому что мув содержит стоимость
-        // int cost = PointsCalculator.costMovement(move);
+
         if (move.moveType() == Move.MoveType.ORDINARY) {
             if (ValidationMove.isValidOrdinaryMove(move, field, players[nextPlayerToAct])) {
                 allGameMoves.add(move);
                 move.makeMove(players[nextPlayerToAct]);
-            }
-        } else if ((move.moveType() == Move.MoveType.CAPTURE)) {
+            } else throw new IllegalStateException("Такой ORDINARY move не валиден!");
+        } else if (move.moveType() == Move.MoveType.CAPTURE) {
             if (ValidationMove.isValidCaptureMove(move, players[nextPlayerToAct])) {
                 allGameMoves.add(move);
                 move.makeAttack(players[nextPlayerToAct]);
-            }
-        }
+            } else throw new IllegalStateException("Такой CAPTURE move не валиден!");
+        } else if (move.moveType() == Move.MoveType.SKIP) {
+            getAllGameMoves().add(move);
+        } else throw new IllegalStateException("Не существует такого типа хода!");
+
         players[nextPlayerToAct].decreaseTotalGamePoints(move.cost());
+        switchPlayerToAct();
     }
 
     @Override
@@ -147,12 +189,12 @@ public class Game implements GalaxyListener {
         return playerNames;
     }
 
-    public void setNextPlayerToAct(int nextPlayerToAct) {
-        this.nextPlayerToAct = nextPlayerToAct;
-    }
-
     public void switchPlayerToAct() {
         nextPlayerToAct = (nextPlayerToAct + 1) % NUM_PLAYERS;
     }
 
+
+    public Map<String, Cell> getPlayerStartPosition() {
+        return playerStartPosition;
+    }
 }
