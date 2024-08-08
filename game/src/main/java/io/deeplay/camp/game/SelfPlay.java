@@ -69,7 +69,23 @@ public class SelfPlay implements GalaxyListener {
             final PlayerInterface player = playerNamesMap.computeIfAbsent(nextPlayerToAct, (key) -> {
                 throw new IllegalStateException("There is no player with name " + key);
             });
-            final Answer answer = player.getAnswer(game.getField());
+
+            Answer answer = null;
+            CompletableFuture<Answer> future = CompletableFuture.supplyAsync(() -> {
+                return player.getAnswer(game.getField());
+            }, executor);
+            try {
+                answer = future.get(5, TimeUnit.SECONDS);
+            } catch (TimeoutException ex) {
+                if (nextPlayerToAct.equals(playerNames[0])) {
+                    winner = playerNames[1];
+                } else {
+                    winner = playerNames[0];
+                }
+                break;
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
 
             if (answer.getMove().moveType() == Move.MoveType.SKIP) {
                 skipCounter++;
@@ -116,21 +132,7 @@ public class SelfPlay implements GalaxyListener {
     @Override
     public void getPlayerAction(final Move move, final String playerName) {
         for (final GalaxyListener listener : listeners) {
-            CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
-                listener.getPlayerAction(move, playerName);
-            }, executor);
-            try {
-                future.get(5, TimeUnit.SECONDS);
-            } catch (TimeoutException ex) {
-                if (playerName.equals(playerNames[0])) {
-                    winner = playerNames[1];
-                } else {
-                    winner = playerNames[0];
-                }
-                return;
-            } catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace();
-            }
+            listener.getPlayerAction(move, playerName);
         }
     }
 
