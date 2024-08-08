@@ -1,18 +1,15 @@
 package io.deeplay.camp.game.utils;
 
 import io.deeplay.camp.game.entites.Cell;
-import io.deeplay.camp.game.entites.Move;
 
 public final class PointsCalculator {
     public static final int DIRECT_COST = 5;
     public static final int DIAGONAL_COST = 7;
 
-    public static int costMovement(Move move) {
-        if (move.startPosition() == null && move.endPosition() == null) {
+    public static int costMovement(Cell start, Cell end) {
+        if (start == null || end == null) {
             return 0;
         }
-        Cell start = move.startPosition();
-        Cell end = move.endPosition();
         // Здесь можно добавить логику для использования totalCost
         return calculateCostMovement(start, end);
     }
@@ -22,18 +19,14 @@ public final class PointsCalculator {
         int deltaY = Math.abs(end.y - start.y);
         int directMoves = Math.abs(deltaX - deltaY);
         int diagonalMoves = Math.max(deltaX, deltaY) - directMoves;
-        return calculateTotalCost(directMoves, diagonalMoves);
+        return calculateTotalCost(directMoves, diagonalMoves) + costWeightFleet(start.getFleet().getFleetPower()) * (diagonalMoves + directMoves);
     }
 
     private static int calculateTotalCost(int direct, int diagonal) {
         return direct * DIRECT_COST + diagonal * DIAGONAL_COST;
     }
 
-    public static int costForList(Cell currentCell, int newX, int newY) {
-        return currentCell.y != newY && currentCell.x != newX ? DIAGONAL_COST : DIRECT_COST;
-    }
-
-    public static int costWeightFleet(int fleetPower) {
+    private static int costWeightFleet(int fleetPower) {
         return (int) Math.ceil(fleetPower / 100.0);
     }
 

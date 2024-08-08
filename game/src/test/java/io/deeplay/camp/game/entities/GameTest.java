@@ -36,7 +36,7 @@ class GameTest {
     }
 
 
-    private final List<GalaxyListener> listeners =new ArrayList<>();
+    private final List<GalaxyListener> listeners = new ArrayList<>();
     private Game originalGame;
     private Game copiedGame;
     private Field field;
@@ -72,8 +72,6 @@ class GameTest {
         // Добавляем ходы
         originalGame.getAllGameMoves().add(new Move(field.getBoard()[0][0], field.getBoard()[1][1], Move.MoveType.ORDINARY, 10));
         copiedGame.getAllGameMoves().add(new Move(field.getBoard()[0][0], field.getBoard()[1][1], Move.MoveType.ORDINARY, 10));
-        originalGame.getAllGameMoves().add(new Move(field.getBoard()[1][1], field.getBoard()[2][2], Move.MoveType.CAPTURE, 20));
-        copiedGame.getAllGameMoves().add(new Move(field.getBoard()[1][1], field.getBoard()[2][2], Move.MoveType.CAPTURE, 20));
 
         // Создаем флоты
         for (final GalaxyListener listener : listeners) {
