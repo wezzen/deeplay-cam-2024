@@ -3,9 +3,7 @@ package io.deeplay.camp.game.utils;
 
 import io.deeplay.camp.game.domain.GalaxyListener;
 import io.deeplay.camp.game.domain.GameTypes;
-import io.deeplay.camp.game.entites.Field;
-import io.deeplay.camp.game.entites.Move;
-import io.deeplay.camp.game.entites.Ship;
+import io.deeplay.camp.game.entites.*;
 import org.slf4j.LoggerFactory;
 
 
@@ -16,26 +14,33 @@ import java.util.List;
 
 public class GameLogger implements GalaxyListener {
     static Logger LOGGER;
-    private Field field = null;
+    private Game game;
 
     private static final Logger logger = LoggerFactory.getLogger(
             GalaxyListener.class);
 
+    public GameLogger(Field field) {
+        Field field1 = new Field(field);
+        game = new Game(field1);
+    }
+
     @Override
     public void startGameSession(String gameId, GameTypes gameType) {
+        game.startGameSession(gameId, gameType);
         logger.info("Начало игровой сессии {}", gameId);
         logger.info("Игра в формате {}", gameType.toString());
-
     }
 
     @Override
     public void connectingPlayer(String waitingPlayerName) {
+        game.connectingPlayer(waitingPlayerName);
         logger.info("Подключился игрок {}", waitingPlayerName);
     }
 
     @Override
     public void gameStarted(Field field) {
-        this.field = field;
+        game.gameStarted(field);
+//        this.field = field;
         logger.info("Начало игры ");
         String fieldString = ConvertorFieldToString.convertFieldToString(field);
         logger.info("\n{}", fieldString);
@@ -43,11 +48,11 @@ public class GameLogger implements GalaxyListener {
 
     @Override
     public void getPlayerAction(Move move, String playerName) {
+        game.getPlayerAction(move, playerName);
         logger.info("Сходил игрок {}", playerName);
         logger.info(move.toString());
-        if (field != null) {
-            field.updateField();//todo: жду пока дпопишется логика ходов
-            String fieldString = ConvertorFieldToString.convertFieldToString(field);
+        if (game.getField() != null) {
+            String fieldString = ConvertorFieldToString.convertFieldToString(game.getField());
             logger.info("\n{}", fieldString);
         } else {
             logger.error("ПУСТОЕ ПОЛЕ");
@@ -56,22 +61,26 @@ public class GameLogger implements GalaxyListener {
 
     @Override
     public void addCredits() {
+        game.addCredits();
         logger.info("Начисление очков игры игрокам");
     }
 
     @Override
     public void createShips(List<Ship.ShipType> ships, String playerName) {
+        game.createShips(ships, playerName);
         logger.info(playerName + " создал " + ships.size() + " кораблей");
     }
 
     @Override
     public void gameEnded(String winner) {
+        game.gameEnded(winner);
         logger.info("Игра закончилась. Выиграл игрок:{}", winner);
     }
 
 
     @Override
     public void endGameSession() {
+        game.endGameSession();
         logger.info("Конец игровой сессии");
     }
 

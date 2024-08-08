@@ -55,7 +55,7 @@ public class SelfPlay implements GalaxyListener {
         playerNamesMap = new HashMap<>();
         final Field field = new Field(sizeField);
         final Game game = new Game(field);
-        final GameLogger logger = new GameLogger();
+        final GameLogger logger = new GameLogger(field);
         long skipCounter = 0;
         long moveCounter = 0;
 
