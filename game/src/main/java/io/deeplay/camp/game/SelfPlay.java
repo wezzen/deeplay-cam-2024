@@ -60,9 +60,10 @@ public class SelfPlay implements GalaxyListener {
         createShips(startShips, playerNames[0]);
         createShips(startShips, playerNames[1]);
 
+
         while (!game.isGameOver() && skipCounter < 4) {
             final String nextPlayerToAct = game.getNextPlayerToAct();
-            currentInitiator = playerNamesMap.get(nextPlayerToAct);
+
             final PlayerInterface player = playerNamesMap.computeIfAbsent(nextPlayerToAct, (key) -> {
                 throw new IllegalStateException("There is no player with name " + key);
             });
@@ -102,13 +103,10 @@ public class SelfPlay implements GalaxyListener {
 
     @Override
     public void gameStarted(final Field field) {
-
         for (final GalaxyListener listener : listeners) {
-            //if (listener != currentInitiator) {
-                listener.gameStarted(new Field(field));
-            }
-        //}
-        //currentInitiator = null; // Сбрасываем инициатора после вызова
+
+            listener.gameStarted(new Field(field));
+        }
     }
 
     @Override

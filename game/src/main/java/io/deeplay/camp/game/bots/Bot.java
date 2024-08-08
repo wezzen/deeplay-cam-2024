@@ -72,7 +72,7 @@ public abstract class Bot implements PlayerInterface {
      *     <li>Передает ход следующему игроку.</li>
      * </ul>
      *
-     * @param move       Объект хода {@link Move}, содержащий информацию о типе хода и его параметрах.
+     * @param move_       Объект хода {@link Move}, содержащий информацию о типе хода и его параметрах.
      * @param playerName Имя игрока, выполняющего ход.
      * @throws IllegalArgumentException если игрок с данным именем не найден или тип хода не существует.
      * @throws IllegalStateException    если ход выполняется не в очереди игрока или если ход недопустим.
