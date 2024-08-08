@@ -12,7 +12,6 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-//todo переделать тесты
 class FleetTest {
     private Player player = new Player(0, "test");
     private Player enemy = new Player(1, "enemy");
@@ -187,13 +186,7 @@ class FleetTest {
         // Проверяем, что победивший флот остался в списке флотов победившего игрока
         assertTrue(player.getFleetList().contains(fleet));
     }
-//    @Test
-//    void testAddFleetMoves() {
-//        Field field = new Field(5);
-//        Fleet currentFleet = new Fleet(field.getBoard()[2][2], player);
-//        currentFleet.addFleetMoves(field);
-//        assertEquals(field.getSize() * field.getSize()* 2 - 2, currentFleet.getFleetMoves().size());
-//    }
+
     @Test
     void testAddFleetMovesValidMoves() {
         Field field = new Field(5);
@@ -216,4 +209,47 @@ class FleetTest {
         assertFalse(currentFleet.getFleetMoves().contains(move1));
         assertTrue(currentFleet.getFleetMoves().contains(move2));
     }
+
+    @Test
+    void testCopyConstructor() {
+        // Создаем оригинальные объекты для теста
+        Player player = new Player(1, "TestPlayer");
+        Cell cell = new Cell(2, 3);
+        Fleet originalFleet = new Fleet(cell, player);
+
+        // Добавляем корабли в оригинальный флот
+        Ship ship1 = new Ship(Ship.ShipType.BASIC, originalFleet);
+        Ship ship2 = new Ship(Ship.ShipType.MEDIUM, originalFleet);
+
+        // Создаем копию флота
+        Fleet copiedFleet = new Fleet(originalFleet);
+
+        // Проверяем, что размеры флота совпадают
+        assertEquals(originalFleet.getFleetPower(), copiedFleet.getFleetPower());
+
+        // Проверяем, что список кораблей в копии и оригинале не совпадает по ссылкам, но имеет одинаковые данные
+        List<Ship> originalShips = originalFleet.getShipList();
+        List<Ship> copiedShips = copiedFleet.getShipList();
+        assertEquals(originalShips.size(), copiedShips.size());
+        for (int i = 0; i < originalShips.size(); i++) {
+            Ship originalShip = originalShips.get(i);
+            Ship copiedShip = copiedShips.get(i);
+            assertNotSame(originalShip, copiedShip);
+            assertEquals(originalShip.getShipType(), copiedShip.getShipType());
+        }
+
+        // Проверяем, что позиция флота и игрок (владелец) тоже корректны
+        assertEquals(originalFleet.getFleetPosition(), copiedFleet.getFleetPosition());
+        assertSame(originalFleet.getOwner(), copiedFleet.getOwner());
+
+        // Проверяем, что список движений флота корректно скопирован
+        List<Move> originalMoves = originalFleet.getFleetMoves();
+        List<Move> copiedMoves = copiedFleet.getFleetMoves();
+        assertEquals(originalMoves.size(), copiedMoves.size());
+
+        // Проверяем, что изменения в копии не влияют на оригинал
+        Ship ship3 = new Ship(Ship.ShipType.BASIC, copiedFleet);
+        assertNotEquals(originalFleet.getShipList().size(), copiedFleet.getShipList().size());
+    }
+
 }

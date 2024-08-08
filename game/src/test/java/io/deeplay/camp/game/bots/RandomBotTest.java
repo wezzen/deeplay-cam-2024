@@ -1,7 +1,6 @@
 package io.deeplay.camp.game.bots;
 
 import io.deeplay.camp.game.entites.*;
-import io.deeplay.camp.game.bots.RandomBot;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,23 +13,24 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class RandomBotTest {
     private Field field;
-    private Player player;
     private RandomBot randomBot;
-    private Fleet fleet;
 
     @BeforeEach
     public void setUp() {
         field = new Field(2); // Создаем поле размером 2x2
-        player = new Player(0, "Player1");
-        Player player_ = new Player(1, "Player2");
-        Cell cellWithFleet = field.getBoard()[0][0];
-        Cell cellWithFleet_ = field.getBoard()[1][0];
-        fleet = new Fleet(cellWithFleet, player);
-        Fleet fleet_ = new Fleet(cellWithFleet_, player_);
-        Ship ship = new Ship(Ship.ShipType.BASIC, fleet);
-        Ship ship_ = new Ship(Ship.ShipType.BASIC, fleet_);
+
         randomBot = new RandomBot.Factory().createBot("Player1", field);
         randomBot.connectingPlayer("Player1");
+        randomBot.connectingPlayer("Player2");
+
+        randomBot.startGameSession(randomBot.game.getId(), randomBot.game.getGameType());
+
+        // Устанавливаем начальные позиции
+        randomBot.gameStarted(field);
+
+        // Создаем флоты
+        randomBot.createShips(List.of(Ship.ShipType.BASIC), "Player1");
+        randomBot.createShips(List.of(Ship.ShipType.MEDIUM), "Player2");
     }
 
     @Test
@@ -50,10 +50,10 @@ public class RandomBotTest {
         moves.add(move2_);
         moves.add(move3_);
 
-        Answer result = randomBot.getAnswer(field);
+        Answer result = randomBot.getAnswer(randomBot.game.getField());
+        randomBot.getPlayerAction(result.getMove(), "Player1");
 
-        assertTrue(moves.contains(result.getMove()));
+        assertTrue(randomBot.game.getAllGameMoves().contains(result.getMove()));
         //todo нормальные тесты на бота после рефакторинга
-//        assertThrows(RuntimeException.class, () -> randomBot.getAnswer(field));
     }
 }

@@ -1,9 +1,13 @@
 package io.deeplay.camp.game.entites;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 import io.deeplay.camp.game.utils.PointsCalculator;
 import io.deeplay.camp.game.utils.ValidationMove;
-
-import java.util.*;
 
 /**
  * Класс-представление сущности Флот
@@ -40,6 +44,22 @@ public class Fleet extends GalaxyEntity {
         this.fleetPosition = fleetPosition;
         updateFleetPower();
         owner = player;
+        owner.addFleet(this);
+        fleetPosition.setFleet(this);
+    }
+
+    // Конструктор копирования
+    public Fleet(final Fleet other) {
+        super();
+        this.shipList = new ArrayList<>();
+        for (Ship ship : other.shipList) {
+            Ship newShip = new Ship(ship); // Используем конструктор копирования для Ship
+            newShip.setFleetAffiliation(this);
+        }
+        this.fleetPosition = other.fleetPosition; // Предполагаем, что Cell является неизменяемым объектом или копируем его соответствующим образом
+        this.fleetPower = other.fleetPower;
+        this.owner = other.owner; // Предполагаем, что Player является неизменяемым объектом или копируем его соответствующим образом
+        this.fleetMoves = new ArrayList<>(other.fleetMoves); // Предполагаем, что Move является неизменяемым объектом или копируем его соответствующим образом
         owner.addFleet(this);
         fleetPosition.setFleet(this);
     }
