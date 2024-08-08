@@ -35,7 +35,7 @@ public class RandomBot extends Bot {
         startCell.getFleet().addFleetMoves(field);
 
         availableMoves = startCell.getFleet().getFleetMoves();
-        availableMoves.removeIf(move -> PointsCalculator.costMovement(move) > player.getTotalGamePoints());
+        availableMoves.removeIf(move -> PointsCalculator.costMovement(move.startPosition(), move.endPosition()) > player.getTotalGamePoints());
 
         if (availableMoves.isEmpty()) {
             return new Move(null, null, Move.MoveType.SKIP, 0);

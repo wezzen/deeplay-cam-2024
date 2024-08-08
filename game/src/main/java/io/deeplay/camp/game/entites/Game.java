@@ -107,7 +107,7 @@ public class Game implements GalaxyListener {
     /**
      * Обрабатывает действие игрока в игре.
      *
-     * @param move_       объект {@link Move}, представляющий ход игрока.
+     * @param move_      объект {@link Move}, представляющий ход игрока.
      * @param playerName имя игрока, совершающего ход.
      * @throws IllegalArgumentException если игрок с указанным именем не существует.
      * @throws IllegalStateException    если ход не валиден или тип хода не поддерживается.
@@ -135,11 +135,6 @@ public class Game implements GalaxyListener {
                 allGameMoves.add(move);
                 move.makeMove(players[nextPlayerToAct]);
             } else throw new IllegalStateException("Такой ORDINARY move не валиден!");
-        } else if (move.moveType() == Move.MoveType.CAPTURE) {
-            if (ValidationMove.isValidCaptureMove(move, players[nextPlayerToAct])) {
-                allGameMoves.add(move);
-                move.makeAttack(players[nextPlayerToAct]);
-            } else throw new IllegalStateException("Такой CAPTURE move не валиден!");
         } else if (move.moveType() == Move.MoveType.SKIP) {
             getAllGameMoves().add(move);
         } else throw new IllegalStateException("Не существует такого типа хода!");

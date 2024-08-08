@@ -35,6 +35,8 @@ public abstract class Bot implements PlayerInterface {
 
     protected abstract Move getMove();
 
+
+
     @Override
     public void startGameSession(final String gameId, final GameTypes gameType) {
         game.startGameSession(gameId, gameType);
@@ -102,8 +104,6 @@ public abstract class Bot implements PlayerInterface {
         boolean isValidMove;
         if (move.moveType() == Move.MoveType.ORDINARY) {
             isValidMove = ValidationMove.isValidOrdinaryMove(move, game.getField(), game.getPlayerByName(playerName));
-        } else if (move.moveType() == Move.MoveType.CAPTURE) {
-            isValidMove = true; //ValidationMove.isValidCaptureMove(move, game.getPlayerByName(playerName));
         } else if (move.moveType() == Move.MoveType.SKIP) {
             isValidMove = true;
         } else {
