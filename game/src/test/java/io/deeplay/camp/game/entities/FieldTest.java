@@ -2,6 +2,7 @@ package io.deeplay.camp.game.entities;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import io.deeplay.camp.game.entites.Field;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
