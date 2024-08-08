@@ -12,6 +12,12 @@ import io.deeplay.camp.game.entites.*;
 import io.deeplay.camp.game.interfaces.PlayerInterface;
 import io.deeplay.camp.game.utils.GameLogger;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.*;
+
 public class SelfPlay implements GalaxyListener {
 
     private int sizeField;
@@ -20,6 +26,8 @@ public class SelfPlay implements GalaxyListener {
     private PlayerInterface[] players = new PlayerInterface[2];
     private Map<String, PlayerInterface> playerNamesMap;
     private List<GalaxyListener> listeners;
+    private int totalGames;
+    private Map<String, Integer> wins = new HashMap<>();
 
     public SelfPlay(final int sizeField, final String[] playerNames, final Bot.BotFactory[] factories) {
         this.factories = factories;
@@ -27,6 +35,15 @@ public class SelfPlay implements GalaxyListener {
         this.playerNames = playerNames;
         listeners = new ArrayList<>();
         playerNamesMap = new HashMap<>();
+    }
+
+    public void playGames(int numGames) {
+        for (int i = 1; i < numGames + 1; i++) {
+            playGame();
+            if (i % 10 == 0) {
+                dumpStatisticsToFile();
+            }
+        }
     }
 
     public void playGame() {
@@ -83,8 +100,44 @@ public class SelfPlay implements GalaxyListener {
             if (moveCounter % 6 == 0) addCredits();
         }
         String winner = game.isWinner();
+        updateStatistics(winner);
         gameEnded(winner);
         endGameSession();
+    }
+
+    private void updateStatistics(String winner) {
+        totalGames++;
+        wins.put(winner, wins.getOrDefault(winner, 0) + 1);
+    }
+
+    private void dumpStatisticsToFile() {
+        final String FOLDER_PATH = "statistics";
+        final String FILE_NAME = "statistics.csv";
+        final String FILE_PATH = FOLDER_PATH + File.separator + FILE_NAME;
+
+        File folder = new File(FOLDER_PATH);
+        if (!folder.exists()) {
+            folder.mkdir();
+        }
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH, true))) {
+            File file = new File(FILE_PATH);
+
+            if (file.length() == 0) {
+                writer.write(String.format("| %-30s | %-10s | %-15s | %-10s |\n", "Player", "Wins", "Win Percentage", "Total Games"));
+                writer.write("-".repeat(80) + "\n");
+            }
+
+            for (Map.Entry<String, Integer> entry : wins.entrySet()) {
+                String player = entry.getKey();
+                int playerWins = entry.getValue();
+                double winPercentage = totalGames > 0 ? ((double) playerWins / totalGames) * 100 : 0;
+
+                writer.write(String.format("| %-30s | %-10d | %-15.4f | %-10d  |\n", player, playerWins, winPercentage, totalGames));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
