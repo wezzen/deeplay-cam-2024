@@ -29,7 +29,6 @@ public class SelfPlay implements GalaxyListener {
     private List<GalaxyListener> listeners;
     private int totalGames;
     private Map<String, Integer> wins = new HashMap<>();
-    private final ExecutorService executor;
     private String winner = null;
 
     public SelfPlay(final int sizeField, final String[] playerNames, final Bot.BotFactory[] factories) {
@@ -38,19 +37,20 @@ public class SelfPlay implements GalaxyListener {
         this.playerNames = playerNames;
         listeners = new ArrayList<>();
         playerNamesMap = new HashMap<>();
-        executor = Executors.newCachedThreadPool();
     }
 
     public void playGames(int numGames) {
+        ExecutorService executor = Executors.newCachedThreadPool();
         for (int i = 1; i < numGames + 1; i++) {
-            playGame();
+            playGame(executor);
             if (i % 10 == 0) {
                 dumpStatisticsToFile();
             }
         }
+        executor.shutdown();
     }
 
-    public void playGame() {
+    public void playGame(ExecutorService executor) {
         listeners = new ArrayList<>();
         playerNamesMap = new HashMap<>();
         final Field field = new Field(sizeField);
@@ -91,9 +91,7 @@ public class SelfPlay implements GalaxyListener {
 
             Answer answer = null;
 
-            CompletableFuture<Answer> future = CompletableFuture.supplyAsync(() -> {
-                return player.getAnswer(game.getField());
-            }, executor);
+            CompletableFuture<Answer> future = CompletableFuture.supplyAsync(() -> player.getAnswer(game.getField()), executor);
 
             try {
                 answer = future.get(5, TimeUnit.SECONDS);
