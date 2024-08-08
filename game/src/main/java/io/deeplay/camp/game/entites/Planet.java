@@ -26,10 +26,20 @@ public class Planet extends GalaxyEntity {
         this.owner = null;
     }
 
+    /**
+     * Конструктор копирования
+     *
+     * @param otherPlanet планета для копирования
+     */
+    public Planet(final Planet otherPlanet) {
+        super();
+        this.points = otherPlanet.points;
+        this.owner = null;
+    }
+
     public void setCell(final Cell cell) throws RuntimeException {
         if (this.cell != null) {
-            throw
-                    new IllegalArgumentException("Поле уже присвоено");
+            throw new IllegalArgumentException("Поле уже присвоено");
         }
         this.cell = cell;
     }
@@ -56,5 +66,9 @@ public class Planet extends GalaxyEntity {
      */
     public void setOwner(final Player player) {
         this.owner = player;
+    }
+
+    public Cell getCell() {
+        return cell;
     }
 }

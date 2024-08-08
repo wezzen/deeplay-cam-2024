@@ -57,12 +57,16 @@ public final class ValidationMove {
 
     // проверка - на начальной позиции стоит флот
     public static boolean isFleetPresent(final Move move) {
-        return move.startPosition().getFleet() != null;
+        boolean flag = move.startPosition().getFleet() != null;
+        return flag;
+        //return move.startPosition().getFleet() != null;
     }
 
     // проверка - флот принадлежит игроку, который ходит
     private static boolean isOwnerFleet(final Move move, final Player currentPlayer) {
-        return move.startPosition().getFleet().getOwner().equals(currentPlayer);
+        boolean flag = move.startPosition().getFleet().getOwner().getName().equals(currentPlayer.getName());
+        return flag;
+        //return move.startPosition().getFleet().getOwner().getName().equals(currentPlayer.getName());
     }
 
     // проверка - игроку хватает очков, чтобы совершить ход
@@ -72,7 +76,7 @@ public final class ValidationMove {
 
     // проверка - на конечной точке есть флот оппонента
     private static boolean isEnemyFleet(final Move move, final Player currentPlayer) {
-        return !move.endPosition().getFleet().getOwner().equals(currentPlayer) && move.endPosition().getFleet() != null;
+        return true; //!move.endPosition().getFleet().getOwner().equals(currentPlayer) && move.endPosition().getFleet() != null;
     }
 
     private static boolean isPlanet(Cell planetCell) {

@@ -25,6 +25,17 @@ public class Cell {
         this.fleet = null;
     }
 
+    // Конструктор копирования
+    public Cell(Cell cell) {
+        if (cell == null) { // Проверка на null
+            throw new IllegalArgumentException("Cell не может быть null"); // Исключение, если переданная клетка null
+        }
+        this.x = cell.x; // Копирование координаты X
+        this.y = cell.y; // Копирование координаты Y
+        this.planet = new Planet(cell.planet);
+        this.fleet = cell.fleet;
+    }
+
     @Override
     public String toString() {
         return "[" + x + ", " + y + "]";
@@ -48,5 +59,9 @@ public class Cell {
 
     public void setFleet(final Fleet fleet) {
         this.fleet = fleet;
+    }
+
+    public Planet getPlanet() {
+        return planet;
     }
 }
