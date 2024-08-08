@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.*;
 
 import io.deeplay.camp.game.bots.Bot;
 import io.deeplay.camp.game.domain.GalaxyListener;
@@ -28,6 +29,8 @@ public class SelfPlay implements GalaxyListener {
     private List<GalaxyListener> listeners;
     private int totalGames;
     private Map<String, Integer> wins = new HashMap<>();
+    private final ExecutorService executor;
+    private String winner = null;
 
     public SelfPlay(final int sizeField, final String[] playerNames, final Bot.BotFactory[] factories) {
         this.factories = factories;
@@ -35,6 +38,7 @@ public class SelfPlay implements GalaxyListener {
         this.playerNames = playerNames;
         listeners = new ArrayList<>();
         playerNamesMap = new HashMap<>();
+        executor = Executors.newCachedThreadPool();
     }
 
     public void playGames(int numGames) {
@@ -85,7 +89,25 @@ public class SelfPlay implements GalaxyListener {
                 throw new IllegalStateException("There is no player with name " + key);
             });
 
-            final Answer answer = player.getAnswer(game.getField());
+            Answer answer = null;
+
+            CompletableFuture<Answer> future = CompletableFuture.supplyAsync(() -> {
+                return player.getAnswer(game.getField());
+            }, executor);
+
+            try {
+                answer = future.get(5, TimeUnit.SECONDS);
+            } catch (TimeoutException ex) {
+                if (nextPlayerToAct.equals(playerNames[0])) {
+                    winner = playerNames[1];
+                } else {
+                    winner = playerNames[0];
+                }
+                break;
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
+
 
             if (answer.getMove().moveType() == Move.MoveType.SKIP) {
                 skipCounter++;
@@ -99,7 +121,10 @@ public class SelfPlay implements GalaxyListener {
             moveCounter++;
             if (moveCounter % 6 == 0) addCredits();
         }
-        String winner = game.isWinner();
+        if (winner == null) {
+            winner = game.isWinner();
+        }
+
         updateStatistics(winner);
         gameEnded(winner);
         endGameSession();
