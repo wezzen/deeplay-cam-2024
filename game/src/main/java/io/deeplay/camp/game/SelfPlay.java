@@ -40,7 +40,7 @@ public class SelfPlay implements GalaxyListener {
     }
 
     public void playGames(int numGames) {
-        ExecutorService executor = Executors.newCachedThreadPool();
+        final ExecutorService executor = Executors.newCachedThreadPool();
         for (int i = 1; i < numGames + 1; i++) {
             playGame(executor);
             if (i % 10 == 0) {
